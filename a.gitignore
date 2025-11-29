@@ -1,0 +1,18 @@
+# Các file tạm của LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+
+# Giữ lại file PDF (bỏ dòng này nếu muốn ignore PDF)
+# *.pdf

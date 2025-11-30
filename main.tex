@@ -128,208 +128,665 @@ Khóa luận cũng đề xuất các hướng phát triển mở rộng như đi
 
 \section{Đặt vấn đề và lý do chọn đề tài}
 
-Robot di động ngày càng được ứng dụng rộng rãi trong nhiều lĩnh vực như công nghiệp, y tế, dịch vụ và nghiên cứu khoa học. Một trong những thách thức quan trọng khi thiết kế robot di động là đảm bảo sự ổn định và cân bằng của robot, đặc biệt khi robot mang theo các tải trọng thay đổi hoặc có cánh tay robot gắn trên thân.
+Trong những năm gần đây, robot di động (Mobile Robot) đã trở thành một trong những lĩnh vực nghiên cứu và ứng dụng phát triển mạnh mẽ nhất trong ngành tự động hóa. Từ các robot vận chuyển hàng hóa trong nhà máy, robot phục vụ trong nhà hàng, đến các robot thám hiểm địa hình phức tạp -- tất cả đều đòi hỏi khả năng di chuyển ổn định và thích ứng với các điều kiện tải trọng thay đổi.
 
-Khi tải trọng trên robot thay đổi hoặc phân bố không đều, trọng tâm của hệ thống sẽ bị lệch. Điều này gây ra nhiều vấn đề như: robot dễ bị lật, chuyển động không ổn định, giảm khả năng vượt địa hình, và tăng tiêu hao năng lượng. Đặc biệt với các robot có gắn cánh tay thao tác (manipulator), khi cánh tay vươn ra xa hoặc nâng vật nặng, trọng tâm sẽ thay đổi đáng kể.
+Một thách thức kỹ thuật quan trọng trong thiết kế robot di động là vấn đề \textbf{cân bằng trọng tâm}. Khi robot mang theo tải trọng hoặc được trang bị cánh tay thao tác (manipulator), trọng tâm của hệ thống sẽ thay đổi theo vị trí và khối lượng của tải. Sự dịch chuyển trọng tâm này gây ra nhiều hệ quả tiêu cực:
 
-Để giải quyết vấn đề này, một giải pháp hiệu quả là thiết kế hệ thống cân bằng trọng tâm tự động. Hệ thống này sử dụng cảm biến để phát hiện độ lệch trọng tâm và điều khiển cơ cấu chấp hành để di chuyển khối đối trọng, từ đó bù đắp sự mất cân bằng.
+\begin{itemize}
+    \item \textbf{Giảm ổn định động học:} Robot dễ bị lật hoặc mất cân bằng khi di chuyển trên địa hình không bằng phẳng, đặc biệt khi tải lệch về một phía.
+    \item \textbf{Tăng tải không đều lên các bánh xe:} Dẫn đến mài mòn không đồng đều, giảm tuổi thọ cơ cấu truyền động và ảnh hưởng đến độ chính xác điều khiển quỹ đạo.
+    \item \textbf{Tăng tiêu hao năng lượng:} Các động cơ dẫn động phải bù đắp momen do tải lệch gây ra, làm giảm hiệu suất và thời gian hoạt động của robot.
+    \item \textbf{Ảnh hưởng đến độ chính xác thao tác:} Với robot có cánh tay, sự mất cân bằng của đế ảnh hưởng trực tiếp đến độ chính xác định vị của end-effector.
+\end{itemize}
 
-Xuất phát từ nhu cầu thực tiễn trên, đề tài ``Xây dựng khung đế robot có khả năng cân bằng trọng tâm'' được lựa chọn nhằm nghiên cứu và chế tạo một khung đế có khả năng tự động điều chỉnh trọng tâm, phù hợp để tích hợp vào các robot di động.
+Giải pháp truyền thống cho vấn đề này thường là thiết kế đế robot với trọng tâm thấp và phân bố tải đối xứng. Tuy nhiên, cách tiếp cận này không linh hoạt khi tải trọng thay đổi trong quá trình vận hành. Một giải pháp tiên tiến hơn là sử dụng \textbf{hệ thống cân bằng trọng tâm chủ động} (Active Center of Gravity Balancing System), trong đó một cơ cấu chấp hành sẽ tự động di chuyển khối đối trọng để bù đắp sự thay đổi trọng tâm.
+
+Hệ thống cân bằng trọng tâm chủ động đòi hỏi sự kết hợp của nhiều thành phần: cảm biến đo lường độ lệch, cơ cấu chấp hành di chuyển đối trọng, và thuật toán điều khiển để xác định vị trí đối trọng tối ưu. Đây là một bài toán điều khiển vòng kín điển hình, phù hợp để áp dụng các kiến thức về \textbf{lý thuyết điều khiển tự động}, \textbf{cảm biến và đo lường}, cũng như \textbf{hệ thống nhúng thời gian thực}.
+
+Xuất phát từ nhu cầu thực tiễn và tính ứng dụng cao của vấn đề, đề tài \textit{``Xây dựng khung đế robot có khả năng cân bằng trọng tâm''} được lựa chọn làm khóa luận tốt nghiệp. Đề tài hướng đến việc nghiên cứu, thiết kế và chế tạo một khung đế có khả năng tự động phát hiện và bù đắp độ lệch trọng tâm, tạo nền tảng cho việc phát triển các robot di động ổn định hơn trong tương lai.
 
 \section{Mục tiêu nghiên cứu}
 
-Mục tiêu chính của khóa luận là thiết kế và chế tạo một khung đế robot có khả năng tự động cân bằng trọng tâm. Cụ thể, các mục tiêu bao gồm:
+Mục tiêu tổng quát của khóa luận là thiết kế và chế tạo một khung đế robot di động có khả năng tự động cân bằng trọng tâm khi tải trọng thay đổi. Để đạt được mục tiêu này, các mục tiêu cụ thể được xác định như sau:
 
-Nghiên cứu nguyên lý cân bằng trọng tâm và phương pháp đo lường độ lệch trọng tâm sử dụng cảm biến lực.
+\subsection{Mục tiêu về nghiên cứu lý thuyết}
 
-Thiết kế và chế tạo khung cơ khí phù hợp với kích thước robot di động, tích hợp cơ cấu di chuyển đối trọng bằng vitme và động cơ bước.
+Nghiên cứu nguyên lý cân bằng trọng tâm dựa trên lý thuyết momen lực và điều kiện cân bằng tĩnh. Tìm hiểu các phương pháp đo lường độ lệch trọng tâm, trong đó tập trung vào việc sử dụng cảm biến lực (Loadcell) để xác định sự chênh lệch tải trọng giữa các điểm tựa.
 
-Thiết kế mạch điện tử điều khiển, bao gồm module đọc cảm biến lực và driver điều khiển động cơ bước.
+Nghiên cứu thuật toán điều khiển PID (Proportional-Integral-Derivative) và phương pháp tinh chỉnh tham số phù hợp với đặc tính của hệ thống cơ điện tử. Đặc biệt, nghiên cứu các kỹ thuật xử lý vùng chết (Deadzone), độ trễ (Hysteresis) để tránh hiện tượng dao động quanh điểm cân bằng.
 
-Xây dựng chương trình điều khiển sử dụng thuật toán PID để tự động điều chỉnh vị trí đối trọng.
+Nghiên cứu kiến trúc lập trình thời gian thực cho hệ thống nhúng, đảm bảo khả năng đáp ứng nhanh và ổn định của hệ thống điều khiển.
 
-Thử nghiệm và đánh giá hiệu quả hoạt động của hệ thống.
+\subsection{Mục tiêu về thiết kế và chế tạo}
+
+Thiết kế khung cơ khí có kích thước phù hợp với robot di động cỡ nhỏ và vừa (khoảng 35$\times$35cm), đảm bảo độ cứng vững và khả năng tích hợp các thành phần điện tử.
+
+Thiết kế cơ cấu di chuyển đối trọng sử dụng động cơ bước kết hợp truyền động vitme, đảm bảo độ chính xác vị trí và khả năng chịu tải.
+
+Thiết kế mạch điện tử điều khiển bao gồm: mạch đọc tín hiệu từ cảm biến lực, mạch điều khiển động cơ bước, và giao tiếp với vi điều khiển.
+
+Chế tạo và lắp ráp hoàn chỉnh mô hình khung đế cân bằng.
+
+\subsection{Mục tiêu về phần mềm điều khiển}
+
+Xây dựng chương trình điều khiển trên nền tảng vi điều khiển Arduino, tích hợp thuật toán PID để tự động điều chỉnh vị trí đối trọng.
+
+Đảm bảo chương trình hoạt động theo kiến trúc Non-blocking (không chặn), cho phép động cơ bước vận hành mượt mà ở tốc độ cao mà không bị ảnh hưởng bởi các tác vụ đọc cảm biến hay giao tiếp.
+
+Phát triển giao diện giám sát thông qua Serial Monitor để theo dõi các thông số hoạt động và hỗ trợ quá trình tinh chỉnh hệ thống.
+
+\subsection{Mục tiêu về thử nghiệm và đánh giá}
+
+Tiến hành thử nghiệm hệ thống với các kịch bản tải trọng khác nhau. Đánh giá các chỉ tiêu: thời gian đáp ứng, độ chính xác cân bằng, độ ổn định, và phạm vi tải trọng có thể bù đắp.
+
+So sánh kết quả thực nghiệm với mục tiêu thiết kế, phân tích các hạn chế và đề xuất hướng cải tiến.
 
 \section{Đối tượng và phạm vi nghiên cứu}
 
 \subsection{Đối tượng nghiên cứu}
 
-Đối tượng nghiên cứu của khóa luận bao gồm: cảm biến lực Loadcell và module chuyển đổi HX711, động cơ bước và driver điều khiển TB6600, vi điều khiển Arduino, thuật toán điều khiển PID, và kỹ thuật lập trình thời gian thực cho hệ thống nhúng.
+Đối tượng nghiên cứu của khóa luận bao gồm các thành phần chính của hệ thống cân bằng trọng tâm:
+
+\textbf{Cảm biến lực Loadcell và module HX711:} Loadcell là cảm biến đo lực dựa trên nguyên lý điện trở biến dạng. Module HX711 là bộ chuyển đổi ADC 24-bit chuyên dụng cho loadcell, có khả năng đọc tín hiệu với độ phân giải cao. Trong dự án này, thư viện HX711\_ADC được sử dụng với ưu điểm hỗ trợ chế độ đọc Non-blocking, cho phép vi điều khiển thực hiện các tác vụ khác trong khi chờ dữ liệu từ cảm biến.
+
+\textbf{Động cơ bước và driver TB6600:} Động cơ bước Nema 17 được sử dụng làm cơ cấu chấp hành, với đặc điểm điều khiển vị trí chính xác theo vòng hở. Driver TB6600 hỗ trợ điều khiển vi bước (microstepping) với các mức 1/2, 1/4, 1/8, 1/16, cho phép tăng độ phân giải và giảm rung động.
+
+\textbf{Vi điều khiển Arduino:} Nền tảng Arduino (chip ATmega328P, tần số 16MHz) được chọn làm bộ xử lý trung tâm do tính phổ biến, dễ lập trình, và có nhiều thư viện hỗ trợ. Thư viện AccelStepper được sử dụng để điều khiển động cơ bước với khả năng điều chỉnh tốc độ và gia tốc mượt mà.
+
+\textbf{Thuật toán điều khiển PID:} Bộ điều khiển PID là thuật toán điều khiển vòng kín phổ biến trong công nghiệp, phù hợp cho các hệ thống yêu cầu độ chính xác và ổn định cao. Thư viện PID\_v1 cho Arduino được sử dụng để triển khai thuật toán.
+
+\textbf{Kỹ thuật lập trình thời gian thực:} Nghiên cứu các vấn đề về độ trễ (latency), blocking I/O, và các giải pháp Non-blocking để đảm bảo hệ thống đáp ứng các ràng buộc thời gian thực.
 
 \subsection{Phạm vi nghiên cứu}
 
-Khóa luận tập trung vào việc cân bằng trọng tâm theo một trục (trái-phải). Khung đế có kích thước 35$\times$35cm, phù hợp với các robot di động cỡ nhỏ và vừa. Hệ thống điều khiển vòng hở cho động cơ bước, sử dụng thuật toán PID để điều chỉnh vị trí đối trọng. Phạm vi cân bằng trong khoảng $\pm$500g độ lệch.
+Khóa luận tập trung vào các giới hạn sau:
+
+\textbf{Về không gian:} Hệ thống cân bằng trọng tâm theo \textbf{một trục} (trái-phải). Việc mở rộng sang hai trục được đề cập như hướng phát triển.
+
+\textbf{Về kích thước:} Khung đế có kích thước 35$\times$35cm, phù hợp với các robot di động cỡ nhỏ và vừa. Hành trình di chuyển đối trọng: 120mm về bên trái, 110mm về bên phải (tính từ vị trí tâm).
+
+\textbf{Về tải trọng:} Cảm biến loadcell có tải trọng định mức 50kg mỗi cụm. Khối lượng đối trọng ban đầu là 200g, có thể điều chỉnh tùy theo yêu cầu cân bằng.
+
+\textbf{Về điều khiển:} Sử dụng điều khiển vòng hở cho động cơ bước (không có encoder phản hồi vị trí). Thuật toán PID với vùng chết $\pm$50g -- tức là hệ thống chấp nhận độ lệch trong phạm vi này mà không cần điều chỉnh.
+
+\textbf{Về hiệu năng:} Tốc độ tối đa của động cơ bước bị giới hạn bởi khả năng xử lý của vi điều khiển và đặc tính của thư viện AccelStepper (khoảng 4000 bước/giây trong điều kiện tối ưu).
 
 \section{Phương pháp nghiên cứu}
 
 Khóa luận sử dụng kết hợp các phương pháp nghiên cứu sau:
 
-Phương pháp nghiên cứu lý thuyết: Nghiên cứu các tài liệu về cơ học, lý thuyết điều khiển, cảm biến và vi điều khiển để xây dựng cơ sở lý thuyết cho đề tài.
+\subsection{Phương pháp nghiên cứu lý thuyết}
 
-Phương pháp thiết kế: Thiết kế cơ khí sử dụng phần mềm CAD, thiết kế mạch điện tử, và thiết kế phần mềm điều khiển.
+Thu thập và phân tích các tài liệu về: cơ học lý thuyết (momen lực, điều kiện cân bằng), lý thuyết điều khiển tự động (bộ điều khiển PID, ổn định hệ thống), kỹ thuật cảm biến (nguyên lý loadcell, xử lý tín hiệu), và lập trình hệ thống nhúng (kiến trúc real-time, xử lý ngắt).
 
-Phương pháp thực nghiệm: Chế tạo mô hình thực tế, tiến hành thử nghiệm và đo đạc để đánh giá hiệu quả hoạt động của hệ thống.
+Tổng hợp kiến thức từ các nghiên cứu trước đó về điều khiển động cơ bước, đặc biệt là các vấn đề về hiệu năng thời gian thực khi kết hợp nhiều tác vụ (đọc cảm biến, điều khiển động cơ, giao tiếp Serial).
 
-Phương pháp phân tích: Phân tích kết quả thực nghiệm, so sánh với mục tiêu đề ra và đề xuất các cải tiến.
+\subsection{Phương pháp mô hình hóa và thiết kế}
+
+Xây dựng mô hình toán học của hệ thống cân bằng dựa trên nguyên lý momen lực. Từ đó xác định mối quan hệ giữa độ lệch tải trọng và vị trí đối trọng cần thiết để cân bằng.
+
+Thiết kế cơ khí sử dụng phương pháp thiết kế mô-đun, cho phép dễ dàng điều chỉnh và thay thế các thành phần. Thiết kế mạch điện theo sơ đồ khối, xác định rõ chức năng và giao tiếp của từng module.
+
+Thiết kế phần mềm theo kiến trúc phân tầng: tầng phần cứng (Hardware Abstraction Layer), tầng điều khiển (Control Layer), và tầng ứng dụng (Application Layer).
+
+\subsection{Phương pháp thực nghiệm}
+
+Chế tạo mô hình thực tế dựa trên thiết kế đã xây dựng. Tiến hành hiệu chuẩn (calibration) các cảm biến loadcell để đảm bảo độ chính xác đo lường.
+
+Thực hiện các bài test với nhiều kịch bản tải trọng khác nhau: tải tĩnh (đặt vật nặng cố định), tải động (di chuyển vật nặng trong quá trình hoạt động), và tải biến thiên (thay đổi khối lượng tải).
+
+Thu thập dữ liệu thông qua Serial Monitor, bao gồm: giá trị đọc từ loadcell, sai số (Input), tín hiệu điều khiển (Output), và tốc độ động cơ. Phân tích dữ liệu để đánh giá hiệu quả của thuật toán điều khiển.
+
+\subsection{Phương pháp phân tích và đánh giá}
+
+So sánh kết quả thực nghiệm với các chỉ tiêu thiết kế ban đầu. Phân tích nguyên nhân của các sai lệch (nếu có) và đề xuất giải pháp khắc phục.
+
+Đánh giá định lượng các thông số: thời gian đáp ứng (từ khi có tải lệch đến khi đạt cân bằng), độ chính xác cân bằng (sai số còn lại sau khi ổn định), và phạm vi hoạt động (độ lệch tối đa có thể bù đắp).
+
+Phân tích các yếu tố ảnh hưởng đến hiệu năng hệ thống, bao gồm: tham số PID, tốc độ lấy mẫu, độ phân giải microstep, và các vấn đề về lập trình thời gian thực.
+
+\section{Ý nghĩa khoa học và thực tiễn}
+
+\subsection{Ý nghĩa khoa học}
+
+Khóa luận đóng góp vào việc nghiên cứu ứng dụng lý thuyết điều khiển tự động trong bài toán cân bằng trọng tâm cho robot di động. Các kết quả nghiên cứu về ảnh hưởng của kiến trúc phần mềm (blocking vs non-blocking) đến hiệu năng điều khiển động cơ bước có giá trị tham khảo cho các nghiên cứu liên quan.
+
+Việc phân tích chi tiết các vấn đề thời gian thực trong hệ thống nhúng -- từ độ trễ của giao tiếp Serial đến ảnh hưởng của tần số lấy mẫu -- cung cấp cơ sở lý thuyết và thực nghiệm cho việc thiết kế các hệ thống điều khiển tương tự.
+
+\subsection{Ý nghĩa thực tiễn}
+
+Sản phẩm của khóa luận là một khung đế robot có khả năng tự cân bằng, có thể được tích hợp vào các robot di động thực tế để cải thiện độ ổn định khi vận hành.
+
+Các kinh nghiệm thiết kế và chế tạo (lựa chọn linh kiện, giải quyết các vấn đề kỹ thuật, tinh chỉnh hệ thống) được tài liệu hóa trong khóa luận, có thể làm tài liệu tham khảo cho các dự án tương tự.
+
+Mã nguồn chương trình điều khiển được cung cấp đầy đủ trong phụ lục, có thể được sử dụng lại hoặc phát triển thêm cho các ứng dụng khác.
 
 \section{Bố cục khóa luận}
 
 Khóa luận được trình bày trong 5 chương với nội dung như sau:
 
-\textbf{Chương 1: Tổng quan} -- Trình bày lý do chọn đề tài, mục tiêu, đối tượng, phạm vi và phương pháp nghiên cứu.
+\textbf{Chương 1: Tổng quan} -- Trình bày bối cảnh và lý do chọn đề tài, xác định mục tiêu nghiên cứu, đối tượng và phạm vi nghiên cứu, các phương pháp nghiên cứu được sử dụng, cũng như ý nghĩa khoa học và thực tiễn của đề tài.
 
-\textbf{Chương 2: Cơ sở lý thuyết} -- Trình bày các kiến thức nền tảng về cân bằng trọng tâm, cảm biến lực, động cơ bước, vi điều khiển và thuật toán PID.
+\textbf{Chương 2: Cơ sở lý thuyết} -- Trình bày các kiến thức nền tảng về nguyên lý cân bằng trọng tâm và momen lực, cảm biến lực Loadcell và module HX711, động cơ bước và kỹ thuật vi bước, vi điều khiển Arduino, thuật toán điều khiển PID, và các vấn đề lập trình thời gian thực cho hệ thống nhúng.
 
-\textbf{Chương 3: Thiết kế hệ thống} -- Mô tả chi tiết quá trình thiết kế cơ khí, mạch điện và phần mềm điều khiển.
+\textbf{Chương 3: Thiết kế hệ thống} -- Mô tả chi tiết quá trình thiết kế gồm: phân tích yêu cầu, thiết kế cơ khí (khung, cơ cấu vitme-thanh trượt, bố trí loadcell), thiết kế mạch điện (sơ đồ khối, kết nối phần cứng), và thiết kế phần mềm (cấu trúc chương trình, quy trình Homing, logic điều khiển PID với Deadzone và Hysteresis).
 
-\textbf{Chương 4: Thực nghiệm và đánh giá} -- Trình bày quá trình thử nghiệm, kết quả đo đạc và phân tích đánh giá.
+\textbf{Chương 4: Thực nghiệm và đánh giá} -- Trình bày môi trường và điều kiện thử nghiệm, quá trình tinh chỉnh tham số PID, kết quả thực nghiệm với các kịch bản tải trọng khác nhau, phân tích hiệu năng hệ thống, và đánh giá so với mục tiêu đề ra.
 
-\textbf{Chương 5: Kết luận và hướng phát triển} -- Tổng kết kết quả đạt được, nêu hạn chế và đề xuất hướng phát triển.
+\textbf{Chương 5: Kết luận và hướng phát triển} -- Tổng kết các kết quả đạt được của khóa luận, nêu rõ các hạn chế còn tồn tại, và đề xuất các hướng phát triển tiếp theo bao gồm: tăng tốc độ phản hồi, mở rộng cân bằng hai trục, và tích hợp điều khiển vị trí/tốc độ.
 
 %======================================================================
 % CHƯƠNG 2: CƠ SỞ LÝ THUYẾT
 %======================================================================
 \chapter{Cơ sở lý thuyết}
 
+Chương này trình bày các kiến thức nền tảng cần thiết cho việc thiết kế và xây dựng hệ thống cân bằng trọng tâm tự động. Các nội dung được trình bày bao gồm: lý thuyết cơ học về cân bằng và momen lực, nguyên lý hoạt động của cảm biến lực và module chuyển đổi tín hiệu, đặc tính của động cơ bước và kỹ thuật điều khiển vi bước, nền tảng vi điều khiển Arduino, thuật toán điều khiển PID, và đặc biệt là các vấn đề về lập trình thời gian thực trong hệ thống nhúng.
+
 \section{Lý thuyết cân bằng trọng tâm và momen lực}
 
 \subsection{Khái niệm trọng tâm}
 
-Trọng tâm của một vật thể là điểm mà tại đó toàn bộ trọng lượng của vật có thể được coi như tập trung. Đối với một hệ thống gồm nhiều vật thể, vị trí trọng tâm được xác định bởi công thức:
+Trọng tâm (Center of Gravity - CoG) của một vật thể hoặc hệ vật là điểm mà tại đó toàn bộ trọng lượng của hệ có thể được coi như tập trung. Đối với một hệ thống gồm $n$ vật thể rời rạc, vị trí trọng tâm theo trục $x$ được xác định bởi công thức:
 
 \begin{equation}
-x_G = \frac{\sum_{i=1}^{n} m_i \cdot x_i}{\sum_{i=1}^{n} m_i}
+x_G = \frac{\sum_{i=1}^{n} m_i \cdot x_i}{\sum_{i=1}^{n} m_i} = \frac{\sum_{i=1}^{n} m_i \cdot x_i}{M}
+\label{eq:center_of_gravity}
 \end{equation}
 
-trong đó $x_G$ là tọa độ trọng tâm, $m_i$ là khối lượng của vật thể thứ $i$, và $x_i$ là tọa độ của vật thể thứ $i$.
+trong đó $x_G$ là tọa độ trọng tâm của hệ, $m_i$ là khối lượng của vật thể thứ $i$, $x_i$ là tọa độ của vật thể thứ $i$ theo trục $x$, và $M = \sum m_i$ là tổng khối lượng của hệ.
 
-\subsection{Momen lực và điều kiện cân bằng}
+Công thức tương tự được áp dụng cho các trục $y$ và $z$ trong không gian ba chiều. Trong phạm vi khóa luận này, bài toán được đơn giản hóa thành cân bằng theo một trục (trái-phải), tương ứng với việc xét trọng tâm trên trục $x$.
 
-Momen lực (hay torque) là đại lượng đặc trưng cho tác dụng làm quay của lực đối với một trục quay. Momen lực được tính theo công thức:
+\subsection{Momen lực và điều kiện cân bằng tĩnh}
+
+Momen lực (Torque) là đại lượng vật lý đặc trưng cho tác dụng làm quay của một lực đối với một trục quay. Độ lớn của momen lực được tính theo công thức:
 
 \begin{equation}
 M = F \times d
+\label{eq:torque}
 \end{equation}
 
-trong đó $M$ là momen lực (N.m), $F$ là lực tác dụng (N), và $d$ là cánh tay đòn -- khoảng cách từ điểm đặt lực đến trục quay (m).
+trong đó $M$ là momen lực (đơn vị N.m hoặc N.mm), $F$ là lực tác dụng (N), và $d$ là cánh tay đòn -- khoảng cách vuông góc từ đường tác dụng của lực đến trục quay (m hoặc mm).
 
-Điều kiện để một hệ thống cân bằng là tổng các momen lực tác dụng lên hệ bằng không:
+Quy ước dấu: Momen làm vật quay theo chiều kim đồng hồ thường được quy ước là âm, ngược chiều kim đồng hồ là dương (hoặc ngược lại, tùy theo hệ quy chiếu được chọn).
+
+Điều kiện cân bằng tĩnh của một vật rắn yêu cầu tổng các momen lực tác dụng lên vật đối với một trục quay bất kỳ phải bằng không:
 
 \begin{equation}
 \sum M = 0
+\label{eq:equilibrium}
 \end{equation}
 
-\subsection{Nguyên lý cân bằng trọng tâm cho robot}
+Điều kiện này có nghĩa là tổng các momen theo chiều dương phải cân bằng với tổng các momen theo chiều âm.
 
-Áp dụng vào hệ thống khung đế robot, để cân bằng trọng tâm khi có tải lệch, cần di chuyển một khối đối trọng sao cho momen do đối trọng tạo ra bù đắp momen do tải gây ra:
+\subsection{Áp dụng nguyên lý momen vào bài toán cân bằng khung robot}
+
+Xét mô hình khung đế robot như một thanh cứng được đỡ tại điểm tựa ở giữa (tâm khung). Khi có tải trọng đặt lệch về một phía, momen do tải gây ra sẽ làm khung mất cân bằng. Để khôi phục cân bằng, cần di chuyển một khối đối trọng về phía đối diện sao cho momen do đối trọng tạo ra bù đắp momen do tải.
+
+Điều kiện cân bằng được viết như sau:
 
 \begin{equation}
 m_{slider} \times d_{slider} = m_{load} \times d_{load}
+\label{eq:balance_condition}
 \end{equation}
 
-trong đó $m_{slider}$ là khối lượng đối trọng, $d_{slider}$ là khoảng cách từ đối trọng đến tâm, $m_{load}$ là khối lượng tải lệch, và $d_{load}$ là khoảng cách từ tải đến tâm.
+trong đó $m_{slider}$ là khối lượng của khối đối trọng (kg hoặc g), $d_{slider}$ là khoảng cách từ đối trọng đến tâm khung (mm), $m_{load}$ là độ chênh lệch khối lượng tải giữa hai bên (kg hoặc g), và $d_{load}$ là khoảng cách từ điểm đặt tải đến tâm khung (mm).
+
+Từ phương trình \eqref{eq:balance_condition}, có thể suy ra vị trí cần thiết của đối trọng:
+
+\begin{equation}
+d_{slider} = \frac{m_{load} \times d_{load}}{m_{slider}}
+\label{eq:slider_position}
+\end{equation}
+
+Phương trình này cho thấy một hạn chế quan trọng: với khối lượng đối trọng cố định $m_{slider}$ và hành trình giới hạn $d_{slider,max}$, độ lệch tải tối đa có thể bù đắp là:
+
+\begin{equation}
+m_{load,max} = \frac{m_{slider} \times d_{slider,max}}{d_{load}}
+\label{eq:max_load}
+\end{equation}
+
+Ví dụ cụ thể từ hệ thống được thiết kế: với $m_{slider} = 200$g, $d_{slider,max} = 120$mm, và $d_{load} = 175$mm (một nửa chiều rộng khung 35cm), độ lệch tải tối đa có thể bù đắp là:
+
+\begin{equation}
+m_{load,max} = \frac{200 \times 120}{175} \approx 137 \text{ g}
+\end{equation}
+
+Kết quả này cho thấy để tăng khả năng cân bằng, có thể: (1) tăng khối lượng đối trọng, (2) tăng hành trình di chuyển, hoặc (3) bố trí tải gần tâm hơn.
 
 \section{Cảm biến lực Loadcell và module HX711}
 
-\subsection{Nguyên lý hoạt động của Loadcell}
+\subsection{Cấu tạo và nguyên lý hoạt động của Loadcell}
 
-Loadcell là cảm biến lực hoạt động dựa trên hiệu ứng điện trở biến dạng (strain gauge). Khi có lực tác dụng, thanh đàn hồi bên trong loadcell bị biến dạng, làm thay đổi điện trở của các strain gauge được dán trên bề mặt.
+Loadcell là cảm biến chuyển đổi lực cơ học thành tín hiệu điện, hoạt động dựa trên hiệu ứng điện trở biến dạng (Piezoresistive effect). Cấu tạo cơ bản của loadcell gồm:
 
-Các strain gauge được mắc theo cấu hình cầu Wheatstone để chuyển đổi sự thay đổi điện trở thành sự thay đổi điện áp. Điện áp đầu ra rất nhỏ (cỡ mV) và tỷ lệ thuận với lực tác dụng.
+\textbf{Thân đàn hồi (Elastic element):} Thường làm từ thép hợp kim hoặc nhôm, được gia công với hình dạng đặc biệt để biến dạng theo hướng xác định khi chịu lực.
 
-\subsection{Module HX711}
+\textbf{Điện trở biến dạng (Strain gauge):} Là các dải điện trở mỏng được dán trực tiếp lên bề mặt thân đàn hồi. Khi thân đàn hồi biến dạng, điện trở của strain gauge thay đổi theo quan hệ:
 
-HX711 là IC chuyển đổi tương tự sang số (ADC) 24-bit chuyên dụng cho loadcell. Các đặc điểm chính của HX711 bao gồm: độ phân giải 24-bit, tốc độ lấy mẫu 10Hz hoặc 80Hz (tùy cấu hình chân RATE), có bộ khuếch đại tích hợp với độ lợi 32, 64 hoặc 128, và giao tiếp với vi điều khiển qua 2 dây (DOUT và SCK).
+\begin{equation}
+\frac{\Delta R}{R} = GF \times \varepsilon
+\label{eq:strain_gauge}
+\end{equation}
 
-\subsection{Thư viện HX711\_ADC}
+trong đó $\Delta R/R$ là tỷ lệ thay đổi điện trở, $GF$ là hệ số gauge (Gauge Factor, thường từ 2 đến 4 cho strain gauge kim loại), và $\varepsilon$ là biến dạng tương đối của vật liệu.
 
-Trong dự án này, thư viện HX711\_ADC của tác giả Olav Kallhovd được sử dụng thay vì thư viện HX711 chuẩn. Ưu điểm chính của thư viện này là hỗ trợ chế độ Non-blocking:
+\textbf{Cầu Wheatstone:} Bốn strain gauge được mắc theo cấu hình cầu Wheatstone để chuyển đổi sự thay đổi điện trở thành sự thay đổi điện áp. Cấu hình cầu đầy đủ (Full-bridge) cho độ nhạy cao nhất và khả năng bù nhiệt tốt.
 
-Hàm \texttt{update()} kiểm tra dữ liệu mới mà không chặn chương trình. Nếu chưa có dữ liệu, hàm trả về ngay lập tức (tốn 0ms). Nếu có dữ liệu mới, hàm lưu vào biến tạm.
+Điện áp đầu ra của cầu Wheatstone:
 
-Hàm \texttt{getData()} lấy giá trị từ biến tạm ra một cách tức thì.
+\begin{equation}
+V_{out} = V_{exc} \times \frac{\Delta R}{R}
+\label{eq:wheatstone}
+\end{equation}
 
-Cơ chế này cho phép vi điều khiển thực hiện các tác vụ khác (như điều khiển động cơ) trong khi chờ dữ liệu từ loadcell, đảm bảo hệ thống hoạt động thời gian thực.
+trong đó $V_{exc}$ là điện áp kích thích (thường 5V hoặc 10V).
+
+\subsection{Loadcell 3 dây và cách ghép thành cầu đầy đủ}
+
+Trong dự án này, loadcell 3 dây (half-bridge) được sử dụng. Loại loadcell này chỉ chứa hai strain gauge, cần ghép hai loadcell lại để tạo thành cầu Wheatstone đầy đủ.
+
+Cách đấu nối hai loadcell 3 dây thành một cầu cho module HX711:
+\begin{itemize}
+    \item Loadcell 1: Dây trắng vào E-, dây đen vào E+
+    \item Loadcell 2: Dây trắng vào A-, dây đen vào E+
+    \item Kết nối chung: Nối hai dây đỏ của cả hai loadcell lại với nhau và đưa vào chân A+
+\end{itemize}
+
+Với cách ghép này, hệ thống sử dụng 4 loadcell 50kg (2 cặp), tạo thành 2 cụm cảm biến độc lập cho bên trái và bên phải, mỗi cụm có khả năng chịu tải tổng cộng 100kg.
+
+\subsection{Module HX711 và giao thức truyền thông}
+
+HX711 là IC chuyển đổi tương tự sang số (ADC) 24-bit được thiết kế chuyên dụng cho các ứng dụng cân điện tử. Các đặc tính kỹ thuật chính:
+
+\begin{itemize}
+    \item Độ phân giải: 24-bit (tương đương khoảng 16.7 triệu mức lượng tử hóa)
+    \item Tốc độ lấy mẫu: 10 SPS (Samples Per Second) hoặc 80 SPS, tùy thuộc vào mức logic của chân RATE
+    \item Bộ khuếch đại tích hợp: Độ lợi (Gain) có thể chọn 32, 64, hoặc 128
+    \item Giao tiếp: Giao thức nối tiếp đồng bộ 2 dây (DOUT và SCK)
+    \item Nguồn cấp: 2.6V đến 5.5V
+\end{itemize}
+
+Giao thức truyền thông của HX711 hoạt động như sau: Vi điều khiển tạo xung clock trên chân SCK và đọc dữ liệu từ chân DOUT. Mỗi lần đọc, HX711 truyền 24 bit dữ liệu ADC, sau đó 1-3 xung clock bổ sung để chọn kênh và độ lợi cho lần đọc tiếp theo.
+
+\subsection{Thư viện HX711\_ADC và cơ chế Non-blocking}
+
+Một trong những quyết định kỹ thuật quan trọng của dự án là sử dụng thư viện \texttt{HX711\_ADC} của tác giả Olav Kallhovd thay vì thư viện \texttt{HX711} chuẩn (của Bogde). Sự khác biệt cốt lõi nằm ở cơ chế đọc dữ liệu:
+
+\textbf{Thư viện HX711 chuẩn (Blocking):}
+\begin{itemize}
+    \item Hàm chính: \texttt{scale.get\_units(n)}
+    \item Cơ chế: Khi gọi hàm, vi điều khiển \textbf{dừng lại và chờ} cho đến khi HX711 hoàn thành chuyển đổi
+    \item Thời gian chờ: Ở tốc độ 10Hz, mỗi lần đọc mất 100ms. Nếu lấy trung bình 5 mẫu (\texttt{get\_units(5)}), thời gian chờ lên đến 500ms
+    \item Hậu quả: Trong thời gian chờ, các lệnh điều khiển động cơ không được thực thi, gây hiện tượng động cơ chạy giật cục hoặc dừng hẳn
+\end{itemize}
+
+\textbf{Thư viện HX711\_ADC (Non-blocking):}
+\begin{itemize}
+    \item Hàm chính: \texttt{LoadCell.update()} và \texttt{LoadCell.getData()}
+    \item Cơ chế: Hàm \texttt{update()} chỉ kiểm tra xem có dữ liệu mới hay không. Nếu chưa có, hàm trả về ngay lập tức (tốn vài micro-giây). Nếu có dữ liệu mới, hàm đọc và lưu vào biến nội bộ
+    \item Hàm \texttt{getData()} lấy giá trị từ biến nội bộ ra một cách tức thì, không cần chờ đợi
+    \item Lợi ích: Vi điều khiển có thể thực hiện các tác vụ khác (như điều khiển động cơ) trong khi chờ dữ liệu từ cảm biến
+\end{itemize}
+
+Sự khác biệt này có ý nghĩa quyết định đối với hiệu năng hệ thống. Với kiến trúc Non-blocking, hàm \texttt{stepper.runSpeed()} có thể được gọi liên tục trong vòng lặp chính mà không bị gián đoạn bởi việc đọc cảm biến, đảm bảo động cơ bước hoạt động mượt mà ở tốc độ cao.
 
 \section{Động cơ bước và driver TB6600}
 
-\subsection{Nguyên lý động cơ bước}
+\subsection{Nguyên lý hoạt động của động cơ bước}
 
-Động cơ bước (stepper motor) là loại động cơ điện chuyển đổi các xung điện rời rạc thành chuyển động quay theo từng bước cố định. Mỗi xung điều khiển làm rotor quay một góc xác định (thường là 1.8° cho động cơ 200 bước/vòng).
+Động cơ bước (Stepper Motor) là loại động cơ điện chuyển đổi các xung điện rời rạc thành chuyển động quay theo từng bước góc cố định. Khác với động cơ DC thông thường (có tốc độ phụ thuộc vào điện áp), vị trí và tốc độ của động cơ bước được xác định hoàn toàn bởi số lượng và tần số của các xung điều khiển.
 
-Ưu điểm của động cơ bước trong ứng dụng điều khiển vị trí: điều khiển vị trí chính xác mà không cần encoder phản hồi, momen giữ lớn khi đứng yên, dễ dàng điều khiển bằng xung số, và phù hợp với ứng dụng yêu cầu dừng chính xác.
+Động cơ bước lai (Hybrid Stepper Motor) -- loại phổ biến nhất trong các ứng dụng công nghiệp và được sử dụng trong dự án này (Nema 17) -- kết hợp ưu điểm của động cơ bước nam châm vĩnh cửu và động cơ bước biến từ trở. Cấu tạo gồm:
 
-\subsection{Chế độ vi bước (Microstepping)}
+\textbf{Stator:} Chứa các cuộn dây được quấn theo cặp (Phase A và Phase B cho động cơ lưỡng cực). Khi có dòng điện chạy qua, các cuộn dây tạo ra từ trường.
 
-Vi bước là kỹ thuật chia nhỏ mỗi bước đầy đủ thành nhiều bước nhỏ hơn bằng cách điều khiển dòng điện qua các cuộn dây theo dạng sóng sin. Ví dụ, chế độ 1/16 microstep chia mỗi bước 1.8° thành 16 bước nhỏ, mỗi bước 0.1125°.
+\textbf{Rotor:} Gồm lõi nam châm vĩnh cửu được bọc bởi hai đĩa răng lệch pha nhau. Kết hợp với răng trên stator, cấu trúc này cho phép góc bước nhỏ (thường 1.8°, tương đương 200 bước/vòng).
 
-Số bước trên mỗi vòng quay khi sử dụng microstep:
+Nguyên lý hoạt động: Khi dòng điện trong các cuộn dây thay đổi theo trình tự xác định, từ trường stator quay theo, kéo rotor quay theo từng bước. Mỗi bước tương ứng với một góc cố định:
+
+\begin{equation}
+\theta_{step} = \frac{360°}{N_{steps}}
+\label{eq:step_angle}
+\end{equation}
+
+trong đó $N_{steps}$ là số bước trên một vòng quay (200 cho động cơ 1.8°).
+
+\subsection{Chế độ vi bước (Microstepping) và ảnh hưởng đến hiệu năng}
+
+Vi bước là kỹ thuật điều khiển dòng điện trong các cuộn dây theo dạng sóng sin/cosin thay vì dạng bước vuông. Điều này cho phép chia nhỏ mỗi bước đầy đủ thành nhiều bước nhỏ hơn.
+
+Số bước trên mỗi vòng quay khi sử dụng vi bước:
+
 \begin{equation}
 N_{micro} = N_{full} \times k
+\label{eq:microstep}
 \end{equation}
-trong đó $N_{full} = 200$ bước/vòng và $k$ là hệ số microstep (1, 2, 4, 8, 16...).
 
-\subsection{Driver TB6600}
+trong đó $N_{full} = 200$ bước/vòng (cho động cơ 1.8°) và $k$ là hệ số vi bước (1, 2, 4, 8, 16, 32...).
 
-TB6600 là driver công suất cao cho động cơ bước với các thông số: điện áp làm việc 9-42V DC, dòng điện tối đa 4A/pha, hỗ trợ microstep từ full-step đến 1/32, và có tín hiệu điều khiển: PUL (xung), DIR (chiều), ENA (kích hoạt).
+Với chế độ 1/16 microstep được sử dụng trong dự án:
+\begin{equation}
+N_{micro} = 200 \times 16 = 3200 \text{ bước/vòng}
+\end{equation}
+
+\textbf{Ưu điểm của vi bước:}
+\begin{itemize}
+    \item Chuyển động mượt mà hơn, giảm rung động và tiếng ồn
+    \item Độ phân giải vị trí cao hơn
+    \item Giảm hiện tượng cộng hưởng ở một số dải tốc độ
+\end{itemize}
+
+\textbf{Nhược điểm và thách thức:}
+\begin{itemize}
+    \item Yêu cầu tần số xung điều khiển cao hơn để đạt cùng tốc độ quay
+    \item Tăng tải xử lý cho vi điều khiển
+    \item Momen xoắn giảm nhẹ so với chế độ full-step
+\end{itemize}
+
+\textbf{Phân tích ràng buộc thời gian thực:}
+
+Xét yêu cầu tốc độ 300 RPM (5 vòng/giây):
+\begin{itemize}
+    \item Ở chế độ Full-step: Tần số xung = $200 \times 5 = 1000$ Hz. Khoảng cách giữa các bước = 1000 $\mu$s
+    \item Ở chế độ 1/16 Microstep: Tần số xung = $3200 \times 5 = 16000$ Hz. Khoảng cách giữa các bước = 62.5 $\mu$s
+\end{itemize}
+
+Con số 62.5 $\mu$s là ``ngân sách thời gian'' (time budget) tối đa mà vi điều khiển có để hoàn thành mọi tác vụ giữa hai lần tạo xung. Nếu bất kỳ tác vụ nào (đọc cảm biến, tính toán PID, giao tiếp Serial) chiếm thời gian lớn hơn ngưỡng này, hệ thống sẽ vi phạm ràng buộc thời gian thực và động cơ sẽ mất bước.
+
+\subsection{Driver TB6600 và cấu hình điều khiển}
+
+TB6600 là driver công suất cao cho động cơ bước, được thiết kế để điều khiển các động cơ Nema 17 và Nema 23. Thông số kỹ thuật:
+
+\begin{itemize}
+    \item Điện áp làm việc: 9-42V DC
+    \item Dòng điện tối đa: 4A/pha (có thể điều chỉnh bằng DIP switch)
+    \item Hỗ trợ vi bước: Full, 1/2, 1/4, 1/8, 1/16, 1/32
+    \item Tín hiệu điều khiển: PUL+ (xung bước), DIR+ (chiều quay), ENA+ (kích hoạt)
+    \item Cách ly quang học giữa tín hiệu điều khiển và mạch công suất
+\end{itemize}
+
+Giao thức điều khiển đơn giản: Mỗi xung trên chân PUL làm động cơ quay một vi bước. Mức logic trên chân DIR quyết định chiều quay (HIGH = thuận, LOW = nghịch). Chân ENA thường được bỏ trống hoặc nối với mức logic phù hợp để luôn kích hoạt driver.
+
+\subsection{Thư viện AccelStepper và cơ chế Polling}
+
+Thư viện AccelStepper của Mike McCauley là thư viện phổ biến nhất cho điều khiển động cơ bước trên Arduino. Thư viện hoạt động theo cơ chế \textbf{Polling} (hỏi vòng), không phải Interrupt-driven (ngắt).
+
+Hàm cốt lõi \texttt{runSpeed()} hoạt động như sau (mã giả):
+
+\begin{lstlisting}[style=arduino]
+boolean AccelStepper::runSpeed() {
+    unsigned long time = micros();
+    if (time >= _nextStepTime) {
+        step(_direction);  // Thuc hien buoc
+        _nextStepTime = time + _stepInterval;
+        return true;
+    }
+    return false;  // Chua den luc, khong lam gi
+}
+\end{lstlisting}
+
+Thiết kế này đặt ra yêu cầu quan trọng: \textbf{Hàm \texttt{runSpeed()} phải được gọi với tần số cao hơn nhiều so với tần số bước của động cơ}. Nếu động cơ cần bước mỗi 62.5 $\mu$s (ở 1/16 microstep, 300 RPM), thì \texttt{runSpeed()} cần được gọi ít nhất mỗi 30 $\mu$s để đảm bảo độ chính xác thời gian.
+
+Thư viện cũng cung cấp các hàm khác như \texttt{run()} (có gia tốc), \texttt{runToPosition()} và \texttt{runToNewPosition()} (chạy đến vị trí đích). Tuy nhiên, hai hàm sau là \textbf{blocking} -- chúng chứa vòng lặp nội bộ và không trả về cho đến khi động cơ đạt vị trí đích. Trong dự án này, \texttt{runSpeed()} được sử dụng trong vòng lặp chính để đảm bảo tính non-blocking.
 
 \section{Vi điều khiển Arduino}
 
-Arduino là nền tảng vi điều khiển mã nguồn mở phổ biến trong các dự án điện tử. Trong khóa luận này, Arduino Uno/Nano (chip ATmega328P) được sử dụng với các thông số: tần số xung nhịp 16MHz, bộ nhớ Flash 32KB, bộ nhớ SRAM 2KB, 14 chân I/O số và 6 chân analog.
+\subsection{Kiến trúc phần cứng ATmega328P}
 
-Giới hạn quan trọng cần lưu ý khi sử dụng Arduino trong điều khiển thời gian thực: với tần số 16MHz, mỗi chu kỳ lệnh mất khoảng 62.5ns. Tuy nhiên, các thao tác phức tạp như đọc ADC, giao tiếp Serial có thể tiêu tốn hàng nghìn chu kỳ.
+Arduino Uno/Nano sử dụng vi điều khiển ATmega328P của Atmel (nay thuộc Microchip). Đây là vi điều khiển 8-bit kiến trúc AVR với các thông số:
+
+\begin{itemize}
+    \item Tần số xung nhịp: 16 MHz (chu kỳ lệnh 62.5 ns)
+    \item Bộ nhớ Flash (chương trình): 32 KB
+    \item Bộ nhớ SRAM (dữ liệu): 2 KB
+    \item Bộ nhớ EEPROM: 1 KB
+    \item Chân I/O số: 14 (trong đó 6 chân hỗ trợ PWM)
+    \item Chân đầu vào analog: 6 (ADC 10-bit)
+    \item Giao tiếp: UART, SPI, I2C
+    \item Timer: 2 timer 8-bit, 1 timer 16-bit
+\end{itemize}
+
+Với tần số 16 MHz, vi điều khiển có thể thực thi khoảng 16 triệu lệnh đơn giản mỗi giây. Tuy nhiên, các thao tác phức tạp như phép tính dấu phẩy động, giao tiếp Serial, hay đọc ADC tiêu tốn nhiều chu kỳ xung nhịp hơn.
+
+\subsection{Mô hình lập trình Arduino}
+
+Arduino sử dụng mô hình lập trình đơn giản với hai hàm chính:
+
+\texttt{setup()}: Được gọi một lần khi khởi động, dùng để khởi tạo các thành phần phần cứng và phần mềm.
+
+\texttt{loop()}: Được gọi lặp đi lặp lại vô hạn sau khi \texttt{setup()} hoàn thành. Đây là nơi chứa logic chính của chương trình.
+
+Mô hình này tương đương với kiến trúc \textbf{Superloop} trong lập trình hệ thống nhúng -- một vòng lặp vô hạn thực thi tuần tự các tác vụ. Ưu điểm là đơn giản, dễ hiểu. Nhược điểm là khó đảm bảo thời gian đáp ứng cho các tác vụ quan trọng nếu có tác vụ blocking trong vòng lặp.
+
+\subsection{Vấn đề Blocking I/O trong giao tiếp Serial}
+
+Giao tiếp Serial (UART) là nguồn gây blocking phổ biến nhất trong các chương trình Arduino. Phân tích chi tiết cơ chế hoạt động:
+
+\textbf{Bộ đệm truyền (TX Buffer):}
+
+Arduino sử dụng bộ đệm vòng (ring buffer) với kích thước mặc định 64 byte để chứa dữ liệu chờ gửi. Khi gọi \texttt{Serial.print()}, dữ liệu được sao chép vào buffer. Nếu buffer còn trống, hàm trả về ngay lập tức (non-blocking). Một trình phục vụ ngắt (ISR) chạy ngầm sẽ lấy từng byte từ buffer và gửi ra chân TX.
+
+\textbf{Hiện tượng Buffer Overflow:}
+
+Vấn đề xảy ra khi tốc độ ghi dữ liệu vào buffer cao hơn tốc độ gửi ra ngoài. Tốc độ gửi bị giới hạn bởi Baud Rate. Ở 9600 baud, thời gian gửi 1 byte:
+
+\begin{equation}
+t_{byte} = \frac{10 \text{ bits}}{9600 \text{ bps}} \approx 1.04 \text{ ms}
+\label{eq:uart_time}
+\end{equation}
+
+(10 bits = 1 start bit + 8 data bits + 1 stop bit)
+
+Khi buffer đầy (64 byte), hàm \texttt{Serial.write()} chuyển sang chế độ blocking -- chờ đợi cho đến khi có chỗ trống trong buffer. Trong thời gian chờ, CPU không thể thực hiện các tác vụ khác.
+
+\textbf{Tính toán thiệt hại thời gian:}
+
+Giả sử chương trình in dòng lệnh 25 ký tự mỗi vòng lặp, và buffer đã đầy. Thời gian blocking:
+
+\begin{equation}
+T_{delay} \approx 25 \times 1.04 \text{ ms} = 26 \text{ ms}
+\end{equation}
+
+Trong 26 ms này:
+\begin{itemize}
+    \item Hàm \texttt{runSpeed()} không được gọi
+    \item Động cơ (yêu cầu xung mỗi 62.5 $\mu$s) bỏ lỡ: $\frac{26000}{62.5} \approx 416$ xung
+    \item Tốc độ thực tế giảm từ 16000 bước/s xuống còn khoảng 38 bước/s
+\end{itemize}
+
+Đây là lý do tại sao việc in Serial không kiểm soát có thể làm động cơ bước ``chậm như bị mắc kẹt'' -- hiện tượng được ghi nhận trong quá trình phát triển hệ thống.
 
 \section{Thuật toán điều khiển PID}
 
-\subsection{Nguyên lý PID}
+\subsection{Mô hình toán học của bộ điều khiển PID}
 
-PID (Proportional-Integral-Derivative) là thuật toán điều khiển vòng kín phổ biến nhất trong công nghiệp. Bộ điều khiển PID tính toán tín hiệu điều khiển dựa trên sai số giữa giá trị mong muốn (setpoint) và giá trị thực tế (process variable):
+PID (Proportional-Integral-Derivative) là thuật toán điều khiển vòng kín phổ biến nhất trong công nghiệp. Bộ điều khiển PID tính toán tín hiệu điều khiển $u(t)$ dựa trên sai số $e(t)$ giữa giá trị đặt (Setpoint) và giá trị thực tế (Process Variable):
 
 \begin{equation}
-u(t) = K_p \cdot e(t) + K_i \cdot \int_0^t e(\tau) d\tau + K_d \cdot \frac{de(t)}{dt}
+u(t) = K_p \cdot e(t) + K_i \cdot \int_0^t e(\tau) \, d\tau + K_d \cdot \frac{de(t)}{dt}
+\label{eq:pid_continuous}
 \end{equation}
 
-trong đó $u(t)$ là tín hiệu điều khiển, $e(t)$ là sai số, $K_p$ là hệ số tỷ lệ, $K_i$ là hệ số tích phân, và $K_d$ là hệ số vi phân.
+trong đó:
+\begin{itemize}
+    \item $u(t)$: Tín hiệu điều khiển (output)
+    \item $e(t) = SP - PV$: Sai số (error)
+    \item $K_p$: Hệ số khuếch đại tỷ lệ (Proportional gain)
+    \item $K_i$: Hệ số khuếch đại tích phân (Integral gain)
+    \item $K_d$: Hệ số khuếch đại vi phân (Derivative gain)
+\end{itemize}
 
 \subsection{Vai trò của từng thành phần}
 
-Thành phần tỷ lệ (P) tạo ra tín hiệu điều khiển tỷ lệ thuận với sai số hiện tại. Kp càng lớn, hệ thống phản ứng càng nhanh nhưng có thể gây dao động.
+\textbf{Thành phần tỷ lệ (P):}
 
-Thành phần tích phân (I) tích lũy sai số theo thời gian, giúp triệt tiêu sai số xác lập (steady-state error). Tuy nhiên, Ki quá lớn có thể gây hiện tượng vọt lố (overshoot).
+Tạo ra tín hiệu điều khiển tỷ lệ thuận với sai số hiện tại:
+\begin{equation}
+u_P = K_p \cdot e(t)
+\end{equation}
 
-Thành phần vi phân (D) dự đoán xu hướng thay đổi của sai số, giúp giảm dao động và tăng tốc độ đáp ứng.
+$K_p$ càng lớn, hệ thống phản ứng càng nhanh với sai số. Tuy nhiên, nếu $K_p$ quá lớn, hệ thống có thể dao động hoặc mất ổn định. Thành phần P đơn thuần không thể triệt tiêu hoàn toàn sai số xác lập (steady-state error).
 
-\subsection{Điều chỉnh tham số PID}
+\textbf{Thành phần tích phân (I):}
 
-Phương pháp thử-sai (Trial and Error) thường được sử dụng để tinh chỉnh PID:
+Tích lũy sai số theo thời gian:
+\begin{equation}
+u_I = K_i \cdot \int_0^t e(\tau) \, d\tau
+\end{equation}
 
-Bước 1: Đặt Ki = Kd = 0, tăng Kp cho đến khi hệ thống bắt đầu dao động.
+Thành phần này giúp triệt tiêu sai số xác lập bằng cách tích lũy các sai số nhỏ theo thời gian. Tuy nhiên, $K_i$ quá lớn có thể gây hiện tượng vọt lố (overshoot) và làm chậm đáp ứng của hệ thống. Ngoài ra, cần chú ý hiện tượng ``windup'' khi tích phân tích lũy quá lớn trong các tình huống bão hòa.
 
-Bước 2: Giảm Kp xuống khoảng 60-70\% giá trị gây dao động.
+\textbf{Thành phần vi phân (D):}
 
-Bước 3: Tăng Kd để giảm dao động và vọt lố.
+Dự đoán xu hướng thay đổi của sai số:
+\begin{equation}
+u_D = K_d \cdot \frac{de(t)}{dt}
+\end{equation}
 
-Bước 4: Thêm Ki nhỏ để triệt tiêu sai số xác lập (nếu cần).
+Thành phần này phản ứng với tốc độ thay đổi của sai số, giúp ``phanh'' hệ thống khi sai số đang giảm nhanh, từ đó giảm vọt lố và dao động. Nhược điểm là nhạy cảm với nhiễu tần số cao trong tín hiệu đo lường.
+
+\subsection{Dạng rời rạc của PID cho hệ thống số}
+
+Trong thực tế, vi điều khiển làm việc với tín hiệu rời rạc. Thuật toán PID được rời rạc hóa với chu kỳ lấy mẫu $T_s$:
+
+\begin{equation}
+u[k] = K_p \cdot e[k] + K_i \cdot T_s \sum_{j=0}^{k} e[j] + K_d \cdot \frac{e[k] - e[k-1]}{T_s}
+\label{eq:pid_discrete}
+\end{equation}
+
+Thư viện PID\_v1 cho Arduino triển khai dạng rời rạc này với các tối ưu như: anti-windup (chống tích lũy tích phân khi bão hòa), derivative kick prevention (tránh đột biến vi phân khi thay đổi setpoint), và on-the-fly tuning (cho phép thay đổi tham số trong khi chạy).
+
+\subsection{Phương pháp tinh chỉnh tham số PID}
+
+Có nhiều phương pháp tinh chỉnh (tuning) tham số PID, từ các phương pháp giải tích (Ziegler-Nichols, Cohen-Coon) đến các phương pháp thử nghiệm. Trong dự án này, phương pháp thử-sai (Trial and Error) được áp dụng:
+
+\textbf{Bước 1:} Đặt $K_i = K_d = 0$. Tăng dần $K_p$ cho đến khi hệ thống bắt đầu dao động liên tục quanh điểm cân bằng.
+
+\textbf{Bước 2:} Giảm $K_p$ xuống khoảng 60-70\% giá trị gây dao động.
+
+\textbf{Bước 3:} Tăng dần $K_d$ để giảm dao động và vọt lố. Thành phần D đặc biệt hiệu quả cho hệ thống có quán tính (như khối lượng đối trọng).
+
+\textbf{Bước 4:} Nếu còn sai số xác lập (hệ thống không về đúng điểm cân bằng), thêm $K_i$ với giá trị nhỏ.
+
+\textbf{Bước 5:} Lặp lại các bước trên để tinh chỉnh.
 
 \section{Lập trình thời gian thực cho hệ thống nhúng}
 
-\subsection{Vấn đề Blocking trong điều khiển động cơ bước}
+\subsection{Khái niệm hệ thống thời gian thực}
 
-Khi sử dụng thư viện AccelStepper để điều khiển động cơ bước, hàm \texttt{runSpeed()} cần được gọi liên tục với tần số cao. Ở chế độ 1/16 microstep với tốc độ 300 RPM, khoảng cách giữa các xung chỉ khoảng 62.5$\mu$s.
+Hệ thống thời gian thực (Real-time System) là hệ thống mà tính đúng đắn của kết quả không chỉ phụ thuộc vào giá trị logic của phép tính, mà còn phụ thuộc vào thời điểm kết quả được tạo ra. Trong ngữ cảnh điều khiển động cơ bước:
 
-Nếu trong vòng lặp có các hàm blocking như \texttt{delay()}, \texttt{Serial.print()} (khi buffer đầy), hoặc \texttt{scale.get\_units()} (đọc loadcell blocking), vi điều khiển sẽ bị ``đứng hình'' trong thời gian đó, khiến động cơ bị mất xung và chạy giật cục.
+\begin{itemize}
+    \item \textbf{Deadline:} Mỗi xung điều khiển phải được tạo ra đúng thời điểm (trong phạm vi jitter cho phép)
+    \item \textbf{Hậu quả vi phạm deadline:} Động cơ mất bước, chạy giật cục, hoặc dừng hẳn
+    \item \textbf{Loại hệ thống:} Soft real-time (vi phạm deadline gây suy giảm chất lượng, không gây hỏng hóc nghiêm trọng)
+\end{itemize}
 
-\subsection{Giải pháp Non-blocking}
+\subsection{Blocking vs Non-blocking I/O}
 
-Giải pháp là sử dụng cơ chế Time-Slicing với hàm \texttt{millis()}:
+\textbf{Blocking I/O:} Khi thực hiện một thao tác I/O (đọc cảm biến, gửi dữ liệu Serial), CPU chờ đợi cho đến khi thao tác hoàn thành. Trong thời gian chờ, không có tác vụ nào khác được thực hiện.
 
-Nhiệm vụ nền (chạy mỗi vòng lặp): Gọi \texttt{LoadCell.update()} và \texttt{stepper.runSpeed()}.
+\textbf{Non-blocking I/O:} Thao tác I/O được khởi tạo và trả về ngay lập tức. CPU có thể thực hiện các tác vụ khác trong khi chờ I/O hoàn thành. Khi I/O sẵn sàng, CPU được thông báo (qua polling hoặc interrupt).
 
-Nhiệm vụ điều khiển (20ms/lần): Đọc dữ liệu loadcell, tính toán PID, cập nhật tốc độ động cơ.
+Trong dự án này, các giải pháp non-blocking được áp dụng:
+\begin{itemize}
+    \item Thư viện HX711\_ADC với hàm \texttt{update()} non-blocking
+    \item Giới hạn tần suất in Serial (mỗi 100ms thay vì mỗi vòng lặp)
+    \item Sử dụng Baud Rate cao (115200) để giảm thời gian blocking khi buffer đầy
+    \item Kiểm tra \texttt{Serial.availableForWrite()} trước khi gửi dữ liệu lớn
+\end{itemize}
 
-Nhiệm vụ giám sát (100ms/lần): In thông tin ra Serial để debug.
+\subsection{Cơ chế Time-Slicing với millis()}
 
-Cấu trúc này đảm bảo hàm \texttt{runSpeed()} được gọi đủ thường xuyên để duy trì chuyển động mượt mà của động cơ.
+Time-Slicing là kỹ thuật phân chia thời gian CPU cho các tác vụ khác nhau dựa trên đồng hồ hệ thống. Trong Arduino, hàm \texttt{millis()} trả về số mili-giây kể từ khi khởi động.
+
+Cấu trúc Time-Slicing điển hình:
+
+\begin{lstlisting}[style=arduino]
+unsigned long t_task1 = 0;
+unsigned long t_task2 = 0;
+
+void loop() {
+    // Tac vu nen - chay moi vong lap
+    stepper.runSpeed();
+    LoadCell.update();
+
+    // Tac vu 1 - chay moi 20ms
+    if (millis() - t_task1 >= 20) {
+        // Doc cam bien, tinh PID
+        t_task1 = millis();
+    }
+
+    // Tac vu 2 - chay moi 100ms
+    if (millis() - t_task2 >= 100) {
+        // In thong tin Serial
+        t_task2 = millis();
+    }
+}
+\end{lstlisting}
+
+Cơ chế này cho phép:
+\begin{itemize}
+    \item Tác vụ ưu tiên cao (\texttt{runSpeed()}) được gọi liên tục
+    \item Tác vụ điều khiển (PID) chạy với tần số cố định (50Hz)
+    \item Tác vụ giám sát (Serial) chạy với tần số thấp hơn (10Hz) để không ảnh hưởng đến các tác vụ quan trọng
+\end{itemize}
+
+\subsection{Vấn đề Pulse Starvation trong điều khiển động cơ bước}
+
+Pulse Starvation (đói xung) là hiện tượng động cơ bước không nhận đủ xung điều khiển do CPU bận thực hiện các tác vụ khác. Hậu quả:
+
+\begin{itemize}
+    \item \textbf{Giảm tốc độ thực tế:} Thay vì 16000 bước/s, động cơ có thể chỉ đạt vài trăm bước/s
+    \item \textbf{Mất đồng bộ từ trường:} Rotor không theo kịp từ trường stator, gây mất momen hoặc quay ngược
+    \item \textbf{Rung lắc và tiếng ồn:} Xung không đều gây kích thích cộng hưởng cơ học
+\end{itemize}
+
+Để tránh Pulse Starvation:
+\begin{itemize}
+    \item Loại bỏ hoặc giảm thiểu các hàm blocking trong vòng lặp chính
+    \item Đảm bảo thời gian thực thi của mỗi vòng lặp nhỏ hơn khoảng cách giữa các xung yêu cầu
+    \item Sử dụng thư viện điều khiển động cơ dựa trên ngắt Timer (như FastAccelStepper) nếu cần tốc độ rất cao
+\end{itemize}
+
+\subsection{Kỹ thuật Deadzone và Hysteresis trong điều khiển}
+
+\textbf{Deadzone (Vùng chết):}
+
+Là vùng giá trị sai số mà hệ thống không phản ứng. Trong dự án này, Deadzone được đặt $\pm$50g:
+\begin{itemize}
+    \item Nếu $|e| \leq 50$g: Động cơ dừng, PID tắt
+    \item Nếu $|e| > 50$g: PID hoạt động, động cơ di chuyển
+\end{itemize}
+
+Mục đích: Tránh động cơ chạy liên tục để bù các sai số nhỏ do nhiễu cảm biến hoặc rung động cơ học.
+
+\textbf{Hysteresis (Độ trễ):}
+
+Là kỹ thuật sử dụng hai ngưỡng khác nhau cho việc bật và tắt một chế độ:
+\begin{itemize}
+    \item Ngưỡng bật (Start threshold): 60g (= 50g + 10g hysteresis)
+    \item Ngưỡng tắt (Stop threshold): 40g (= 50g - 10g hysteresis)
+\end{itemize}
+
+Logic hoạt động:
+\begin{itemize}
+    \item Nếu đang dừng và $|e| > 60$g: Bật chế độ cân bằng
+    \item Nếu đang chạy và $|e| < 40$g: Tắt chế độ cân bằng
+\end{itemize}
+
+Mục đích: Tránh hiện tượng bật/tắt liên tục (chattering) khi sai số dao động quanh ngưỡng Deadzone.
+
+\textbf{Minimum Speed Threshold (Ngưỡng tốc độ tối thiểu):}
+
+Động cơ bước có vùng tốc độ thấp gây cộng hưởng và rung lắc. Giải pháp:
+\begin{itemize}
+    \item Nếu PID tính ra tốc độ $> 0$ nhưng $< 2000$ bước/s: Ép tốc độ lên 2000 bước/s
+    \item Nếu PID tính ra tốc độ $= 0$ hoặc $\geq 2000$: Giữ nguyên
+\end{itemize}
+
+Điều này đảm bảo khi động cơ cần chạy, nó chạy ở tốc độ đủ cao để vượt qua vùng cộng hưởng.
 
 %======================================================================
 % CHƯƠNG 3: THIẾT KẾ HỆ THỐNG

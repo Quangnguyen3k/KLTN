@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  30 NOV 2025 01:06
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  30 NOV 2025 20:55
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/DATN/KLTN/uet-graduation-latex-main/main
@@ -1168,30 +1168,27 @@ Package mathfont Info: Adjusting font Times New Roman-6. [6
 
 ]
 Package mathfont Info: Adjusting font Times New Roman.
-Package mathfont Info: Adjusting font Times New Roman Bold. [1
+Package mathfont Info: Adjusting font Times New Roman Bold.
+Package mathfont Info: Adjusting font Times New Roman Italic. [1
 
 
-
-]
-Package mathfont Info: Adjusting font Times New Roman.
-Package mathfont Info: Adjusting font Times New Roman Bold. [2] [3] [4
-
-]
-Package mathfont Info: Adjusting font LMMono12-Regular. [5]
-[6] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 326--327
-[]\TU/TimesNewRoman(0)/m/n/13.00003 Nhiệm vụ nền (chạy mỗi vòng l
-ặp): Gọi \TU/lmtt/m/n/13.00003 LoadCell.update() \TU/TimesNewRoman(0)/m/n/1
-3.00003 và
- []
-
-[8]
-Package mathfont Info: Adjusting font Times New Roman.
-Package mathfont Info: Adjusting font Times New Roman. [9
 
 ]
 Package mathfont Info: Adjusting font Times New Roman.
 Package mathfont Info: Adjusting font Times New Roman Bold.
+Underfull \hbox (badness 1596) in paragraph at lines 156--157
+[]\TU/TimesNewRoman(0)/m/n/13.00003 Nghiên cứu thuật toán điều khiển PID (Proportional-Integral-Derivative) v
+à
+ []
+
+[2] [3] [4] [5] [6] [7
+
+]
+Package mathfont Info: Adjusting font Times New Roman.
+Package mathfont Info: Adjusting font Times New Roman. [8] [9]
+Package mathfont Info: Adjusting font LMMono12-Regular. [10]
+Missing character: There is no ° (U+00B0) in font cmr12!
+[11] [12]
 (C:/Users/Admin/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
@@ -1201,42 +1198,49 @@ File: lstlang1.sty 2023/02/27 1.9 listings language file
 (C:/Users/Admin/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-[10]
 Package mathfont Info: Adjusting font LMMono10-Regular.
 Package mathfont Info: Adjusting font Times New Roman.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.40002> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 413.
-Package mathfont Info: Adjusting font LMMonoLt10-Bold. [11] [12] [13
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 518.
+Package mathfont Info: Adjusting font LMMonoLt10-Bold.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <13.00003> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 529.
+Package mathfont Info: Adjusting font LMMonoLt10-Bold.
+[13] [14] [15] [16] [17] [18] [19] [20] [21
 
-] [14] [15
+]
+Package mathfont Info: Adjusting font Times New Roman.
+Package mathfont Info: Adjusting font Times New Roman Bold. [22] [23] [24] [25
 
-] [16]
-Package mathfont Info: Adjusting font Times New Roman Italic.
-Underfull \hbox (badness 10000) in paragraph at lines 588--592
+] [26] [27
+
+]
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1045--1049
 []\TU/TimesNewRoman(0)/m/n/13.00003 Mike McCauley, ``AccelStepper Library for Ar
 duino'', \TU/TimesNewRoman(0)/m/it/13.00003 AirSpayce\TU/TimesNewRoman(0)/m/n/1
 3.00003 , 2023,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 594--598
+Underfull \hbox (badness 10000) in paragraph at lines 1051--1055
 []\TU/TimesNewRoman(0)/m/n/13.00003 Olav Kallhovd, ``HX711_ADC Library'', \TU/T
 imesNewRoman(0)/m/it/13.00003 GitHub Repository\TU/TimesNewRoman(0)/m/n/13.0000
 3 , 2023,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 600--604
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1061
 []\TU/TimesNewRoman(0)/m/n/13.00003 Arduino, ``Arduino Reference'', \TU/TimesNe
 wRoman(0)/m/it/13.00003 Arduino Documentation\TU/TimesNewRoman(0)/m/n/13.00003 
 , 2023,
  []
 
-[17
+[29
 
-] [18
+] [30
 
-] [19] [20] [21] (./main.aux)
+] [31] [32] [33] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -1249,15 +1253,15 @@ LaTeX Font Warning: Size substitutions with differences
 )
 
 Here is how much of LuaTeX's memory you used:
- 22813 strings out of 476497
- 597184,1977958 words of node,token memory allocated
- 559 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 24 attribute, 52 glue_spec
-, 24 attribute_list, 2 write nodes
-   avail lists: 2:6659,3:101,4:9738,5:9354,6:102,7:16469,8:35,9:28127,10:34,11:1
-467
- 44356 multiletter control sequences out of 65536+600000
- 102 fonts using 49135627 bytes
+ 22849 strings out of 476497
+ 597190,1977958 words of node,token memory allocated
+ 663 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 50 attribute, 52 glue_spec
+, 50 attribute_list, 2 write nodes
+   avail lists: 1:1,2:6659,3:144,4:9738,5:9354,6:103,7:16469,8:42,9:28127,10:34,
+11:1467
+ 44392 multiletter control sequences out of 65536+600000
+ 103 fonts using 49400463 bytes
  99i,8n,116p,968b,747s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmon
 o10-regular.otf><//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype
@@ -1272,9 +1276,9 @@ pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr9.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (32 pages, 323457 bytes).
+Output written on main.pdf (44 pages, 375283 bytes).
 
-PDF statistics: 194 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 231 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 100000000)
 

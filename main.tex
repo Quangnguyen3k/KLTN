@@ -793,123 +793,320 @@ Mục đích: Tránh hiện tượng bật/tắt liên tục (chattering) khi sa
 %======================================================================
 \chapter{Thiết kế hệ thống}
 
-\section{Yêu cầu thiết kế}
+Chương này trình bày chi tiết quá trình thiết kế hệ thống khung đế cân bằng trọng tâm, bao gồm: phân tích yêu cầu thiết kế, thiết kế cơ khí, thiết kế mạch điện, và thiết kế phần mềm điều khiển. Mỗi phần thiết kế đều dựa trên cơ sở lý thuyết đã trình bày ở Chương 2 và các ràng buộc thực tế của dự án.
 
-Dựa trên mục tiêu đề tài và điều kiện thực tế, hệ thống cần đáp ứng các yêu cầu sau:
+\section{Phân tích yêu cầu thiết kế}
 
-Về cơ khí: Khung đế có kích thước phù hợp để gắn lên robot di động (khoảng 35$\times$35cm). Cơ cấu di chuyển đối trọng mượt mà, độ chính xác cao. Hành trình di chuyển đủ lớn để bù đắp độ lệch trọng tâm trong phạm vi yêu cầu.
+\subsection{Yêu cầu chức năng}
 
-Về điện tử: Đo được chênh lệch trọng lượng giữa hai bên với độ phân giải cao. Điều khiển động cơ bước chính xác về vị trí và tốc độ. Xử lý tín hiệu và tính toán PID trong thời gian thực.
+Dựa trên mục tiêu đề tài và phân tích ứng dụng thực tế, hệ thống cần đáp ứng các yêu cầu chức năng sau:
 
-Về phần mềm: Chương trình điều khiển ổn định, không bị giật lag. Có khả năng tinh chỉnh tham số PID. Hiển thị thông tin giám sát qua Serial.
+\textbf{Yêu cầu F1 - Phát hiện độ lệch trọng tâm:} Hệ thống phải có khả năng đo lường sự chênh lệch trọng lượng giữa hai bên khung (trái và phải) với độ phân giải đủ cao để phát hiện các thay đổi nhỏ. Yêu cầu độ phân giải tối thiểu: 10g.
+
+\textbf{Yêu cầu F2 - Bù đắp độ lệch tự động:} Khi phát hiện độ lệch vượt ngưỡng cho phép, hệ thống phải tự động di chuyển khối đối trọng để bù đắp, đưa trọng tâm về vị trí cân bằng.
+
+\textbf{Yêu cầu F3 - Xác định điểm gốc (Homing):} Khi khởi động, hệ thống phải có khả năng tự động xác định vị trí tham chiếu của khối đối trọng thông qua công tắc hành trình.
+
+\textbf{Yêu cầu F4 - Bảo vệ hành trình:} Hệ thống phải ngăn chặn khối đối trọng di chuyển vượt quá giới hạn cơ khí, tránh va chạm và hư hỏng.
+
+\textbf{Yêu cầu F5 - Giám sát hoạt động:} Cung cấp khả năng theo dõi các thông số hoạt động (giá trị cảm biến, sai số, tốc độ động cơ) thông qua giao diện Serial để hỗ trợ tinh chỉnh và gỡ lỗi.
+
+\subsection{Yêu cầu phi chức năng}
+
+\textbf{Yêu cầu NF1 - Kích thước:} Khung đế có kích thước phù hợp để gắn lên robot di động cỡ nhỏ và vừa. Kích thước mục tiêu: 35$\times$35cm.
+
+\textbf{Yêu cầu NF2 - Thời gian đáp ứng:} Hệ thống phải phản ứng với thay đổi tải trong thời gian hợp lý. Mục tiêu: bắt đầu di chuyển đối trọng trong vòng 100ms sau khi phát hiện độ lệch.
+
+\textbf{Yêu cầu NF3 - Độ ổn định:} Động cơ bước phải hoạt động mượt mà, không bị giật cục hay mất bước trong quá trình cân bằng.
+
+\textbf{Yêu cầu NF4 - Độ chính xác cân bằng:} Sau khi cân bằng, độ lệch còn lại phải nằm trong vùng chấp nhận được. Mục tiêu: $\pm$50g.
+
+\textbf{Yêu cầu NF5 - Khả năng mở rộng:} Thiết kế cho phép điều chỉnh các tham số (khối lượng đối trọng, hành trình, tham số PID) để thích ứng với các yêu cầu khác nhau.
+
+\subsection{Ràng buộc thiết kế}
+
+Quá trình thiết kế phải tuân thủ các ràng buộc sau:
+
+\textbf{Ràng buộc về linh kiện:} Sử dụng các linh kiện phổ biến, dễ tìm mua tại thị trường Việt Nam: động cơ bước Nema 17, driver TB6600, loadcell 50kg, module HX711, vi điều khiển Arduino.
+
+\textbf{Ràng buộc về gia công:} Khung cơ khí sử dụng nhôm định hình 20$\times$20mm -- vật liệu tiêu chuẩn, dễ gia công và lắp ráp bằng các dụng cụ cơ bản.
+
+\textbf{Ràng buộc về phần mềm:} Chương trình điều khiển chạy trên nền tảng Arduino với các thư viện mã nguồn mở: AccelStepper, HX711\_ADC, PID\_v1.
+
+\textbf{Ràng buộc về hiệu năng:} Do giới hạn của vi điều khiển Arduino (16MHz) và thư viện AccelStepper, tốc độ tối đa của động cơ bước bị giới hạn ở khoảng 4000 bước/giây trong điều kiện thực tế.
 
 \section{Thiết kế cơ khí}
 
+\subsection{Tổng quan cấu trúc cơ khí}
+
+Hệ thống cơ khí bao gồm các thành phần chính: khung đế hình vuông làm từ nhôm định hình, cơ cấu di chuyển đối trọng gồm vitme và thanh trượt, động cơ bước gắn ở một đầu vitme, các cụm loadcell gắn ở bốn góc khung, và công tắc hành trình để xác định điểm gốc.
+
 \subsection{Khung nhôm định hình}
 
-Khung đế được xây dựng từ nhôm định hình 20$\times$20mm với kích thước tổng thể 35$\times$35cm. Nhôm định hình được chọn vì: dễ gia công và lắp ráp, độ cứng vững cao, có rãnh để gắn các linh kiện, và nhẹ nhưng chịu lực tốt.
+Khung đế được xây dựng từ thanh nhôm định hình tiết diện 20$\times$20mm với các thông số được trình bày trong Bảng 3.1.
+
+\begin{table}{Thông số khung nhôm định hình}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Thông số} & \textbf{Giá trị} \\
+\hline
+Kích thước tổng thể & 350 $\times$ 350 mm \\
+Tiết diện thanh nhôm & 20 $\times$ 20 mm \\
+Vật liệu & Hợp kim nhôm 6063-T5 \\
+Phương pháp liên kết & Ke góc vuông + bu-lông M5 \\
+Khối lượng khung (ước tính) & 1.2 kg \\
+\hline
+\end{tabular}
+\end{table}
+
+Lý do lựa chọn nhôm định hình: độ cứng vững cao nhờ tiết diện rỗng với các gân tăng cứng bên trong; dễ gia công bằng cưa tay hoặc máy cắt đĩa thông thường; linh hoạt lắp ráp nhờ rãnh chữ T trên các mặt cho phép gắn linh kiện ở bất kỳ vị trí nào; nhẹ với tỷ trọng 2.7 g/cm³; và khả năng tái sử dụng cao, dễ dàng tháo lắp và điều chỉnh cấu hình.
 
 \subsection{Cơ cấu vitme - thanh trượt}
 
-Vitme bi (ball screw) với bước ren 2mm được sử dụng để chuyển đổi chuyển động quay của động cơ thành chuyển động tịnh tiến của khối đối trọng. Tính toán tốc độ di chuyển: với 1/16 microstep (3200 bước/vòng) và tốc độ tối đa 4000 bước/giây:
+Cơ cấu di chuyển đối trọng sử dụng truyền động vitme-đai ốc kết hợp với thanh trượt tròn dẫn hướng.
+
+\begin{table}{Thông số vitme}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Thông số} & \textbf{Giá trị} \\
+\hline
+Đường kính danh nghĩa & 8 mm \\
+Bước ren (Lead/Pitch) & 2 mm \\
+Chiều dài làm việc & 250 mm \\
+Loại & Vitme bi hoặc vitme thang \\
+\hline
+\end{tabular}
+\end{table}
+
+Bước ren 2mm có nghĩa mỗi vòng quay của động cơ, khối trượt di chuyển 2mm. Đây là bước ren nhỏ, cho độ phân giải vị trí cao nhưng tốc độ di chuyển thấp.
+
+Tính toán tốc độ di chuyển tối đa với chế độ 1/16 microstep (3200 bước/vòng) và tốc độ xung tối đa 4000 bước/giây:
 
 \begin{equation}
-v_{max} = \frac{4000}{3200} \times 2 = 2.5 \text{ mm/s}
+n_{max} = \frac{4000}{3200} \times 60 = 75 \text{ RPM}
 \end{equation}
 
-Thanh trượt tròn đường kính 8mm được lắp song song với vitme để đảm bảo chuyển động thẳng và chịu tải trọng.
+\begin{equation}
+v_{max} = \frac{75 \times 2}{60} = 2.5 \text{ mm/s}
+\end{equation}
 
-\subsection{Bố trí Loadcell}
+Tốc độ 2.5 mm/s là khá chậm. Để di chuyển hết hành trình 120mm cần khoảng 48 giây. Đây là một hạn chế cần lưu ý khi đánh giá hiệu năng hệ thống.
 
-Hệ thống sử dụng 2 cụm loadcell 50kg (mỗi cụm 2 loadcell ghép thành cầu Wheatstone hoàn chỉnh) đặt ở hai bên trái và phải của khung. Độ chênh lệch giữa giá trị đọc từ hai cụm loadcell phản ánh độ lệch trọng tâm.
+Thanh trượt tròn đường kính 8mm, chiều dài 280mm, vật liệu thép mạ cứng, số lượng 2 thanh song song với vitme. Thanh trượt có chức năng dẫn hướng cho khối trượt di chuyển thẳng, chịu tải trọng ngang, và chống xoay cho khối trượt.
+
+\subsection{Bố trí cảm biến Loadcell}
+
+Hệ thống sử dụng 4 loadcell 50kg được bố trí ở bốn góc khung, ghép thành 2 cụm (trái và phải). Cụm trái gồm 2 loadcell ở góc trái-trước và trái-sau, ghép thành cầu Wheatstone đầy đủ. Cụm phải gồm 2 loadcell ở góc phải-trước và phải-sau, ghép thành cầu Wheatstone đầy đủ.
+
+Mỗi cụm kết nối với một module HX711 riêng biệt. Độ chênh lệch giữa giá trị đọc từ hai cụm ($f_R - f_L$) phản ánh độ lệch trọng tâm theo trục trái-phải.
 
 \subsection{Giới hạn hành trình}
 
-Hành trình di chuyển của đối trọng: 120mm về bên trái và 110mm về bên phải (tính từ vị trí tâm). Công tắc hành trình được lắp ở vị trí biên phải để xác định điểm gốc (Home) khi khởi động.
+Hành trình di chuyển của khối đối trọng được xác định từ vị trí tâm (0): giới hạn trái là -120 mm tương ứng -192000 bước, giới hạn phải là +110 mm tương ứng +176000 bước. Sự bất đối xứng là do cấu trúc cơ khí thực tế, nơi động cơ chiếm một phần không gian ở phía phải.
+
+Công tắc hành trình được lắp đặt ở vị trí giới hạn phải (+110mm) để xác định điểm gốc khi thực hiện Homing. Công tắc sử dụng loại micro switch với cần gạt, kết nối theo chế độ thường mở (Normally Open).
 
 \section{Thiết kế mạch điện}
 
 \subsection{Sơ đồ khối hệ thống}
 
-Hệ thống gồm các khối chức năng: Khối cảm biến (2 cụm Loadcell + 2 module HX711), Khối xử lý trung tâm (Arduino), Khối điều khiển động cơ (Driver TB6600 + Động cơ bước Nema 17), Khối nguồn (12V cho động cơ, 5V cho mạch điều khiển), và Khối giới hạn hành trình (Công tắc hành trình).
+Hệ thống điện tử bao gồm các khối chức năng chính được thể hiện trong Hình 3.1: Khối cảm biến (2 cụm Loadcell kết nối với 2 module HX711), Khối xử lý trung tâm (Arduino Uno), Khối điều khiển động cơ (Driver TB6600 và động cơ bước Nema 17), Khối nguồn (12V cho động cơ, 5V cho mạch điều khiển), và Khối giới hạn hành trình (công tắc hành trình).
 
-\subsection{Kết nối phần cứng}
-
-Bảng kết nối các chân Arduino:
-
-\begin{table}{Bảng kết nối phần cứng}
+\begin{figure}{Sơ đồ khối hệ thống điện tử}
 \centering
-\begin{tabular}{|l|l|l|}
+%\includegraphics[width=0.9\textwidth]{hinh/so-do-khoi.png}
+% Neu chua co anh, thay bang dong duoi:
+% \fbox{\parbox{0.8\textwidth}{\centering\vspace{4cm}[Sơ đồ khối hệ thống điện tử]\vspace{4cm}}}
+\end{figure}
+
+\subsection{Danh sách linh kiện điện tử}
+
+\begin{table}{Danh sách linh kiện điện tử}
+\centering
+\begin{tabular}{|c|l|l|c|}
 \hline
-\textbf{Thiết bị} & \textbf{Chân thiết bị} & \textbf{Chân Arduino} \\
+\textbf{STT} & \textbf{Linh kiện} & \textbf{Thông số} & \textbf{SL} \\
 \hline
-HX711 Trái & DT & Pin 4 \\
-           & SCK & Pin 5 \\
-\hline
-HX711 Phải & DT & Pin 6 \\
-           & SCK & Pin 7 \\
-\hline
-Driver TB6600 & PUL+ (STEP) & Pin 8 \\
-              & DIR+ & Pin 9 \\
-              & ENA+ & Không kết nối \\
-              & Các chân (-) & GND \\
-\hline
-Công tắc hành trình & NO & Pin 10 \\
-                    & COM & GND \\
+1 & Vi điều khiển Arduino & Uno hoặc Nano (ATmega328P) & 1 \\
+2 & Module HX711 & ADC 24-bit cho loadcell & 2 \\
+3 & Loadcell & 50kg, 3 dây (half-bridge) & 4 \\
+4 & Driver TB6600 & 9-42V, 4A max & 1 \\
+5 & Động cơ bước & Nema 17, 1.8°/bước, 1.5A & 1 \\
+6 & Công tắc hành trình & Micro switch với cần gạt & 1 \\
+7 & Nguồn xung & 12V 5A & 1 \\
 \hline
 \end{tabular}
 \end{table}
 
+\subsection{Sơ đồ kết nối chi tiết}
+
+Kết nối giữa Arduino và các module HX711 được thể hiện trong Bảng 3.4.
+
+\begin{table}{Kết nối Arduino với các module HX711}
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Module} & \textbf{Chân HX711} & \textbf{Chân Arduino} & \textbf{Ghi chú} \\
+\hline
+HX711 Trái & VCC & 5V & Nguồn cấp \\
+HX711 Trái & GND & GND & Mass chung \\
+HX711 Trái & DT (DOUT) & Pin 4 & Dữ liệu \\
+HX711 Trái & SCK & Pin 5 & Xung clock \\
+\hline
+HX711 Phải & VCC & 5V & Nguồn cấp \\
+HX711 Phải & GND & GND & Mass chung \\
+HX711 Phải & DT (DOUT) & Pin 6 & Dữ liệu \\
+HX711 Phải & SCK & Pin 7 & Xung clock \\
+\hline
+\end{tabular}
+\end{table}
+
+Kết nối giữa Arduino và driver TB6600 được thể hiện trong Bảng 3.5.
+
+\begin{table}{Kết nối Arduino với driver TB6600}
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Chân TB6600} & \textbf{Chân Arduino} & \textbf{Chức năng} \\
+\hline
+PUL+ & Pin 8 & Tín hiệu xung bước \\
+PUL- & GND & Mass tín hiệu \\
+DIR+ & Pin 9 & Tín hiệu chiều quay \\
+DIR- & GND & Mass tín hiệu \\
+ENA+ & Không kết nối & Kích hoạt driver \\
+ENA- & Không kết nối & (Bỏ trống = luôn bật) \\
+\hline
+\end{tabular}
+\end{table}
+
+Kết nối công tắc hành trình: chân NO (Normally Open) nối với Pin 10 của Arduino sử dụng INPUT\_PULLUP, chân COM nối với GND. Logic hoạt động: khi chưa nhấn, Pin 10 ở mức HIGH; khi nhấn (khối trượt chạm công tắc), Pin 10 xuống mức LOW.
+
+\subsection{Cấu hình Driver TB6600}
+
+Cấu hình DIP Switch trên TB6600: dòng điện đặt 1.5A theo bảng tra của TB6600, chế độ vi bước 1/16 (3200 pulse/rev) với SW4=ON, SW5=ON, SW6=OFF. Lưu ý cấu hình có thể khác nhau giữa các phiên bản TB6600, cần tham khảo datasheet của nhà sản xuất cụ thể.
+
+\subsection{Thiết kế nguồn điện}
+
+Hệ thống sử dụng hai nguồn điện riêng biệt. Nguồn 12V/5A cấp cho driver TB6600, công suất 60W dư so với yêu cầu của Nema 17, sử dụng nguồn xung để đảm bảo ổn định. Nguồn 5V cấp từ cổng USB của Arduino hoặc từ bộ nguồn riêng cho Arduino, HX711 và các cảm biến, dòng tiêu thụ ước tính dưới 500mA.
+
+Lưu ý quan trọng: GND của nguồn 12V và GND của Arduino phải được nối chung để đảm bảo tín hiệu điều khiển hoạt động đúng.
+
+\subsection{Xử lý nhiễu điện từ}
+
+Động cơ bước và driver công suất có thể tạo ra nhiễu điện từ ảnh hưởng đến tín hiệu loadcell. Các biện pháp giảm nhiễu bao gồm: tách biệt nguồn cho động cơ và mạch điều khiển; xoắn dây tín hiệu loadcell theo dạng twisted pair; giữ dây kết nối từ loadcell đến HX711 ngắn nhất có thể (dưới 50cm); có thể thêm tụ điện 100nF gần chân nguồn của HX711; và áp dụng lọc phần mềm bằng cách làm tròn giá trị đọc (quantization).
+
 \section{Thiết kế phần mềm}
 
-\subsection{Cấu trúc chương trình}
+\subsection{Kiến trúc phần mềm tổng quan}
 
-Chương trình được tổ chức theo mô hình Superloop với cơ chế Time-Slicing:
+Phần mềm điều khiển được thiết kế theo kiến trúc Superloop với Time-Slicing, đảm bảo tính non-blocking và đáp ứng các ràng buộc thời gian thực. Kiến trúc này chia thành ba tầng nhiệm vụ với độ ưu tiên và tần suất khác nhau.
 
-\begin{lstlisting}[style=arduino]
-void loop() {
-    // Nhiem vu nen - chay moi vong lap
-    LoadCellLeft.update();
-    LoadCellRight.update();
-    stepper.runSpeed();
+Nhiệm vụ nền chạy mỗi vòng lặp (khoảng 10 microsecond) bao gồm gọi hàm LoadCell.update() để kiểm tra dữ liệu mới một cách non-blocking và gọi hàm stepper.runSpeed() để tạo xung nếu đến thời điểm.
 
-    // Nhiem vu dieu khien - 20ms/lan
-    if (millis() > t_pid + 20) {
-        // Doc cam bien, tinh PID, cap nhat toc do
-        t_pid = millis();
-    }
+Nhiệm vụ điều khiển chạy mỗi 20ms (tần số 50Hz) bao gồm đọc giá trị cảm biến, tính toán sai số, xử lý logic Deadzone và Hysteresis, tính toán PID, và cập nhật tốc độ động cơ.
 
-    // Nhiem vu giam sat - 100ms/lan
-    if (millis() > t_print + 100) {
-        // In thong tin ra Serial
-        t_print = millis();
-    }
-}
-\end{lstlisting}
+Nhiệm vụ giám sát chạy mỗi 100ms (tần số 10Hz) bao gồm in các thông số ra Serial và hiển thị trạng thái hệ thống.
+
+\subsection{Các module phần mềm}
+
+\textbf{Module 1 - Khởi tạo hệ thống:} Khởi tạo giao tiếp Serial 115200 baud, cấu hình chân I/O cho công tắc hành trình, khởi tạo và hiệu chuẩn loadcell, khởi tạo bộ điều khiển PID, khởi tạo động cơ bước với tốc độ và gia tốc, và thực hiện quy trình Homing.
+
+\textbf{Module 2 - Đọc cảm biến:} Gọi hàm update() cho cả hai loadcell, lấy giá trị bằng getData() khi có dữ liệu mới, và áp dụng bộ lọc quantization làm tròn về bội số của 10g.
+
+\textbf{Module 3 - Điều khiển PID:} Tính sai số Input = fR - fL, kiểm tra điều kiện Deadzone và Hysteresis, tính toán tín hiệu điều khiển bằng PID, áp dụng ngưỡng tốc độ tối thiểu, kiểm tra giới hạn hành trình, và cập nhật tốc độ động cơ.
+
+\textbf{Module 4 - Điều khiển động cơ:} Gọi runSpeed() liên tục trong vòng lặp chính và xử lý Homing khi khởi động.
+
+\textbf{Module 5 - Giám sát:} In các thông số ra Serial với tần suất 10Hz và hiển thị trạng thái hệ thống ([OK] hoặc [RUN]).
 
 \subsection{Quy trình Homing}
 
-Khi khởi động, hệ thống thực hiện quy trình Homing 2 giai đoạn để xác định điểm gốc chính xác:
+Quy trình Homing xác định điểm gốc của hệ thống với độ chính xác cao thông qua phương pháp hai giai đoạn, được minh họa trong Hình 3.2.
 
-Giai đoạn 1 (Tìm nhanh): Di chuyển với tốc độ cao về phía công tắc hành trình. Khi chạm công tắc, dừng lại và đánh dấu vị trí tạm thời.
+\begin{figure}{Lưu đồ quy trình Homing}
+\centering
+%\includegraphics[width=0.7\textwidth]{hinh/luu-do-homing.png}
+% Neu chua co anh, thay bang dong duoi:
+% \fbox{\parbox{0.6\textwidth}{\centering\vspace{6cm}[Lưu đồ thuật toán Homing]\vspace{6cm}}}
+\end{figure}
 
-Giai đoạn 2 (Tìm chậm): Lùi ra 5mm, sau đó di chuyển chậm trở lại cho đến khi chạm công tắc lần thứ hai. Vị trí này được ghi nhận là điểm gốc chính xác.
+\textbf{Giai đoạn 1 - Tìm nhanh (Fast Seek):} Di chuyển khối trượt về phía công tắc hành trình với tốc độ cao 8000 bước/s. Khi chạm công tắc (Pin 10 xuống LOW), dừng ngay lập tức và ghi nhận vị trí tạm thời là MAX\_POS\_RIGHT.
 
-Sau đó, con trượt di chuyển về vị trí tâm (0) và chờ 5 giây để hệ thống ổn định trước khi bắt đầu cân bằng.
+\textbf{Giai đoạn 2 - Lùi ra và tìm chậm (Backoff and Slow Seek):} Lùi ra 5mm để nhả công tắc, kiểm tra công tắc đã nhả (Pin 10 lên HIGH), sau đó di chuyển chậm trở lại với tốc độ 4000 bước/s cho đến khi chạm công tắc lần thứ hai. Vị trí chạm lần hai là điểm gốc chính xác.
+
+\textbf{Giai đoạn 3 - Di chuyển về tâm:} Thiết lập vị trí hiện tại là MAX\_POS\_RIGHT (+110mm), di chuyển đến vị trí 0 (tâm khung), và chờ 5 giây để loadcell ổn định trước khi bắt đầu cân bằng.
 
 \subsection{Logic điều khiển PID với Deadzone và Hysteresis}
 
-Để tránh hiện tượng động cơ rung lắc khi độ lệch nhỏ, hệ thống áp dụng vùng chết (Deadzone) $\pm$50g và độ trễ (Hysteresis) $\pm$10g:
+Logic điều khiển được thiết kế để tránh các vấn đề phổ biến trong hệ thống cân bằng, được minh họa trong Hình 3.3.
 
-Nếu đang dừng và độ lệch $>$ 60g: Bắt đầu cân bằng.
+\begin{figure}{Lưu đồ thuật toán điều khiển PID}
+\centering
+%\includegraphics[width=0.8\textwidth]{hinh/luu-do-pid.png}
+% Neu chua co anh, thay bang dong duoi:
+% \fbox{\parbox{0.7\textwidth}{\centering\vspace{6cm}[Lưu đồ thuật toán điều khiển PID với Deadzone và Hysteresis]\vspace{6cm}}}
+\end{figure}
 
-Nếu đang chạy và độ lệch $<$ 40g: Dừng cân bằng.
+\textbf{Vấn đề 1 - Dao động quanh điểm cân bằng (Hunting):} Nếu không có vùng chết, khi độ lệch về gần 0, PID vẫn tiếp tục điều chỉnh, gây ra dao động liên tục. Giải pháp là áp dụng Deadzone $\pm$50g.
 
-Logic Hysteresis này ngăn chặn việc bật/tắt liên tục khi độ lệch dao động quanh ngưỡng 50g.
+\textbf{Vấn đề 2 - Bật/tắt liên tục (Chattering):} Nếu chỉ dùng một ngưỡng 50g, khi sai số dao động quanh ngưỡng này, hệ thống sẽ bật/tắt liên tục. Giải pháp là áp dụng Hysteresis $\pm$10g với ngưỡng bật 60g và ngưỡng tắt 40g.
 
-\subsection{Xử lý tốc độ tối thiểu}
+\textbf{Vấn đề 3 - Động cơ rung ở tốc độ thấp:} Động cơ bước có các vùng tốc độ gây cộng hưởng và rung lắc. Giải pháp là áp dụng ngưỡng tốc độ tối thiểu 2000 bước/s.
 
-Động cơ bước có vùng tốc độ thấp gây cộng hưởng và rung lắc. Để tránh điều này, khi PID tính ra tốc độ $>$ 0 nhưng $<$ 2000 bước/s, hệ thống ép tốc độ lên mức tối thiểu 2000 bước/s để đảm bảo động cơ hoạt động mượt mà.
+Logic điều khiển hoàn chỉnh: Nếu đang dừng và độ lệch lớn hơn 60g thì bật chế độ cân bằng. Nếu đang chạy và độ lệch nhỏ hơn 40g thì tắt chế độ cân bằng. Khi đang cân bằng, nếu PID tính ra tốc độ lớn hơn 0 nhưng nhỏ hơn 2000 thì ép lên 2000, giữ nguyên chiều quay.
+
+\subsection{Xử lý giới hạn hành trình mềm}
+
+Ngoài công tắc hành trình vật lý ở vị trí +110mm, phần mềm còn kiểm tra giới hạn mềm (soft limits) để ngăn khối trượt va chạm vào hai đầu. Nếu vị trí hiện tại đã đạt giới hạn trái và tốc độ đang âm (muốn đi tiếp sang trái), hệ thống ép tốc độ về 0. Tương tự cho giới hạn phải.
+
+Ưu điểm của soft limits: ngăn chặn va chạm trước khi xảy ra mà không cần chạm công tắc, có thể cảnh báo khi hệ thống hoạt động gần giới hạn, và bảo vệ cả hai chiều trong khi công tắc cứng chỉ có ở một đầu.
+
+\subsection{Cấu trúc chương trình chính}
+
+Chương trình chính được tổ chức theo cấu trúc setup-loop của Arduino. Hàm setup() thực hiện khởi tạo Serial, cấu hình chân I/O, khởi tạo loadcell với thời gian ổn định 1 giây và tự động tare, thiết lập hệ số hiệu chuẩn, khởi tạo PID với các tham số và giới hạn output, khởi tạo động cơ với tốc độ và gia tốc tối đa, và cuối cùng gọi quy trình Homing.
+
+Hàm loop() chạy liên tục và thực hiện ba nhóm nhiệm vụ. Nhiệm vụ nền gọi update() cho cả hai loadcell và runSpeed() cho động cơ trong mỗi vòng lặp. Nhiệm vụ điều khiển được thực hiện mỗi 20ms bao gồm đọc và xử lý cảm biến, tính toán PID, và cập nhật tốc độ động cơ. Nhiệm vụ giám sát được thực hiện mỗi 100ms để in thông số ra Serial.
+
+\subsection{Các tham số cấu hình}
+
+Bảng 3.6 tổng hợp các tham số cấu hình của phần mềm.
+
+\begin{table}{Bảng tổng hợp các tham số cấu hình phần mềm}
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Tham số} & \textbf{Giá trị} & \textbf{Ý nghĩa} \\
+\hline
+MICROSTEP & 16 & Chế độ vi bước 1/16 \\
+STEPS\_PER\_MM & 1600 & Số bước trên 1mm \\
+MAX\_POS\_RIGHT & +176000 & Giới hạn phải (bước) \\
+MAX\_POS\_LEFT & -192000 & Giới hạn trái (bước) \\
+\hline
+MAX\_SPEED\_PID & 8000 & Tốc độ tối đa (bước/s) \\
+MOTOR\_ACCEL & 16000 & Gia tốc (bước/s²) \\
+MIN\_SPEED\_THRESHOLD & 2000 & Tốc độ tối thiểu \\
+\hline
+Kp & 25.0 & Hệ số tỷ lệ PID \\
+Ki & 0.05 & Hệ số tích phân PID \\
+Kd & 0 & Hệ số vi phân PID \\
+\hline
+ACCEPTABLE\_RANGE & 50.0 & Vùng chết (g) \\
+HYSTERESIS\_GAP & 10.0 & Độ trễ (g) \\
+STEP\_SIZE & 10.0 & Độ chia quantization (g) \\
+\hline
+PID\_INTERVAL & 20 & Chu kỳ tính PID (ms) \\
+PRINT\_INTERVAL & 100 & Chu kỳ in Serial (ms) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Quy trình hiệu chuẩn Loadcell}
+
+Trước khi sử dụng, mỗi cụm loadcell cần được hiệu chuẩn để xác định hệ số chuyển đổi. Quy trình gồm 5 bước: nạp chương trình hiệu chuẩn từ ví dụ của thư viện HX711\_ADC; đảm bảo không có tải trên loadcell và thực hiện lệnh tare về 0; đặt vật chuẩn có khối lượng đã biết (ví dụ 500g) lên loadcell; điều chỉnh hệ số hiệu chuẩn cho đến khi giá trị đọc được bằng khối lượng vật chuẩn; và ghi nhận hệ số hiệu chuẩn để cập nhật vào chương trình chính.
+
+Trong dự án này, hệ số hiệu chuẩn đã xác định là CALIB\_LEFT = -53.13 và CALIB\_RIGHT = -55.36. Dấu âm là do cách lắp đặt loadcell theo chiều nén.
 
 %======================================================================
 % CHƯƠNG 4: THỰC NGHIỆM VÀ ĐÁNH GIÁ

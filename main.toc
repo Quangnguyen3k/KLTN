@@ -61,34 +61,34 @@
 \contentsline {section}{\numberline {3.3.}{Thiết kế mạch điện}}{24}{}%
 \contentsline {subsection}{\numberline {3.3.1.}{Sơ đồ khối hệ thống}}{24}{}%
 \contentsline {subsection}{\numberline {3.3.2.}{Danh sách linh kiện điện tử}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.3.}{Sơ đồ kết nối chi tiết}}{25}{}%
-\contentsline {subsection}{\numberline {3.3.4.}{Cấu hình Driver TB6600}}{25}{}%
-\contentsline {subsection}{\numberline {3.3.5.}{Thiết kế nguồn điện}}{25}{}%
+\contentsline {subsection}{\numberline {3.3.3.}{Sơ đồ kết nối chi tiết}}{24}{}%
+\contentsline {subsection}{\numberline {3.3.4.}{Cấu hình Driver TB6600}}{24}{}%
+\contentsline {subsection}{\numberline {3.3.5.}{Thiết kế nguồn điện}}{26}{}%
 \contentsline {subsection}{\numberline {3.3.6.}{Xử lý nhiễu điện từ}}{26}{}%
 \contentsline {section}{\numberline {3.4.}{Thiết kế phần mềm}}{26}{}%
 \contentsline {subsection}{\numberline {3.4.1.}{Kiến trúc phần mềm tổng quan}}{26}{}%
-\contentsline {subsection}{\numberline {3.4.2.}{Các module phần mềm}}{26}{}%
+\contentsline {subsection}{\numberline {3.4.2.}{Các module phần mềm}}{27}{}%
 \contentsline {subsection}{\numberline {3.4.3.}{Quy trình Homing}}{27}{}%
 \contentsline {subsection}{\numberline {3.4.4.}{Logic điều khiển PID với Deadzone và Hysteresis}}{27}{}%
-\contentsline {subsection}{\numberline {3.4.5.}{Xử lý giới hạn hành trình mềm}}{28}{}%
-\contentsline {subsection}{\numberline {3.4.6.}{Cấu trúc chương trình chính}}{28}{}%
-\contentsline {subsection}{\numberline {3.4.7.}{Các tham số cấu hình}}{28}{}%
-\contentsline {subsection}{\numberline {3.4.8.}{Quy trình hiệu chuẩn Loadcell}}{28}{}%
-\contentsline {chapter}{\numberline {Chương\ 4.}{Thực nghiệm và đánh giá}}{30}{}%
-\contentsline {section}{\numberline {4.1.}{Môi trường thử nghiệm}}{30}{}%
-\contentsline {section}{\numberline {4.2.}{Tinh chỉnh tham số PID}}{30}{}%
-\contentsline {subsection}{\numberline {4.2.1.}{Quá trình tinh chỉnh}}{30}{}%
-\contentsline {subsection}{\numberline {4.2.2.}{Tham số PID cuối cùng}}{30}{}%
-\contentsline {section}{\numberline {4.3.}{Kết quả thực nghiệm}}{30}{}%
-\contentsline {subsection}{\numberline {4.3.1.}{Thử nghiệm với tải tĩnh}}{30}{}%
-\contentsline {subsection}{\numberline {4.3.2.}{Thử nghiệm với tải thay đổi}}{31}{}%
-\contentsline {subsection}{\numberline {4.3.3.}{Giới hạn khả năng cân bằng}}{31}{}%
-\contentsline {section}{\numberline {4.4.}{Phân tích và đánh giá}}{31}{}%
-\contentsline {subsection}{\numberline {4.4.1.}{Ưu điểm}}{31}{}%
-\contentsline {subsection}{\numberline {4.4.2.}{Hạn chế}}{31}{}%
-\contentsline {subsection}{\numberline {4.4.3.}{So sánh với mục tiêu}}{31}{}%
-\contentsline {chapter}{\numberline {Chương\ 5.}{Kết luận và hướng phát triển}}{32}{}%
-\contentsline {section}{\numberline {5.1.}{Kết quả đạt được}}{32}{}%
-\contentsline {section}{\numberline {5.2.}{Hạn chế của đề tài}}{32}{}%
-\contentsline {section}{\numberline {5.3.}{Hướng phát triển}}{32}{}%
-\contentsline {chapter}{\numberline {Phụ lục\ A.}{Mã nguồn chương trình điều khiển}}{35}{}%
+\contentsline {subsection}{\numberline {3.4.5.}{Xử lý giới hạn hành trình mềm}}{29}{}%
+\contentsline {subsection}{\numberline {3.4.6.}{Cấu trúc chương trình chính}}{29}{}%
+\contentsline {subsection}{\numberline {3.4.7.}{Các tham số cấu hình}}{29}{}%
+\contentsline {subsection}{\numberline {3.4.8.}{Quy trình hiệu chuẩn Loadcell}}{31}{}%
+\contentsline {chapter}{\numberline {Chương\ 4.}{Thực nghiệm và đánh giá}}{32}{}%
+\contentsline {section}{\numberline {4.1.}{Môi trường thử nghiệm}}{32}{}%
+\contentsline {section}{\numberline {4.2.}{Tinh chỉnh tham số PID}}{32}{}%
+\contentsline {subsection}{\numberline {4.2.1.}{Quá trình tinh chỉnh}}{32}{}%
+\contentsline {subsection}{\numberline {4.2.2.}{Tham số PID cuối cùng}}{32}{}%
+\contentsline {section}{\numberline {4.3.}{Kết quả thực nghiệm}}{32}{}%
+\contentsline {subsection}{\numberline {4.3.1.}{Thử nghiệm với tải tĩnh}}{32}{}%
+\contentsline {subsection}{\numberline {4.3.2.}{Thử nghiệm với tải thay đổi}}{33}{}%
+\contentsline {subsection}{\numberline {4.3.3.}{Giới hạn khả năng cân bằng}}{33}{}%
+\contentsline {section}{\numberline {4.4.}{Phân tích và đánh giá}}{33}{}%
+\contentsline {subsection}{\numberline {4.4.1.}{Ưu điểm}}{33}{}%
+\contentsline {subsection}{\numberline {4.4.2.}{Hạn chế}}{33}{}%
+\contentsline {subsection}{\numberline {4.4.3.}{So sánh với mục tiêu}}{33}{}%
+\contentsline {chapter}{\numberline {Chương\ 5.}{Kết luận và hướng phát triển}}{34}{}%
+\contentsline {section}{\numberline {5.1.}{Kết quả đạt được}}{34}{}%
+\contentsline {section}{\numberline {5.2.}{Hạn chế của đề tài}}{34}{}%
+\contentsline {section}{\numberline {5.3.}{Hướng phát triển}}{34}{}%
+\contentsline {chapter}{\numberline {Phụ lục\ A.}{Mã nguồn chương trình điều khiển}}{37}{}%

@@ -18,77 +18,80 @@
 \contentsline {subsection}{\numberline {1.5.2.}{Ý nghĩa thực tiễn}}{6}{}%
 \contentsline {section}{\numberline {1.6.}{Bố cục khóa luận}}{6}{}%
 \contentsline {chapter}{\numberline {Chương\ 2.}{Cơ sở lý thuyết}}{7}{}%
-\contentsline {section}{\numberline {2.1.}{Lý thuyết cân bằng trọng tâm và momen lực}}{7}{}%
-\contentsline {subsection}{\numberline {2.1.1.}{Khái niệm trọng tâm}}{7}{}%
-\contentsline {subsection}{\numberline {2.1.2.}{Momen lực và điều kiện cân bằng tĩnh}}{7}{}%
-\contentsline {subsection}{\numberline {2.1.3.}{Áp dụng nguyên lý momen vào bài toán cân bằng khung robot}}{8}{}%
-\contentsline {section}{\numberline {2.2.}{Cảm biến lực Loadcell và module HX711}}{9}{}%
-\contentsline {subsection}{\numberline {2.2.1.}{Cấu tạo và nguyên lý hoạt động của Loadcell}}{9}{}%
-\contentsline {subsection}{\numberline {2.2.2.}{Loadcell 3 dây và cách ghép thành cầu đầy đủ}}{9}{}%
-\contentsline {subsection}{\numberline {2.2.3.}{Module HX711 và giao thức truyền thông}}{10}{}%
-\contentsline {subsection}{\numberline {2.2.4.}{Thư viện HX711\_ADC và cơ chế Non-blocking}}{10}{}%
-\contentsline {section}{\numberline {2.3.}{Động cơ bước và driver TB6600}}{11}{}%
-\contentsline {subsection}{\numberline {2.3.1.}{Nguyên lý hoạt động của động cơ bước}}{11}{}%
-\contentsline {subsection}{\numberline {2.3.2.}{Chế độ vi bước (Microstepping) và ảnh hưởng đến hiệu năng}}{11}{}%
-\contentsline {subsection}{\numberline {2.3.3.}{Driver TB6600 và cấu hình điều khiển}}{12}{}%
-\contentsline {subsection}{\numberline {2.3.4.}{Thư viện AccelStepper và cơ chế Polling}}{13}{}%
-\contentsline {section}{\numberline {2.4.}{Vi điều khiển Arduino}}{13}{}%
-\contentsline {subsection}{\numberline {2.4.1.}{Kiến trúc phần cứng ATmega328P}}{13}{}%
-\contentsline {subsection}{\numberline {2.4.2.}{Mô hình lập trình Arduino}}{14}{}%
-\contentsline {subsection}{\numberline {2.4.3.}{Vấn đề Blocking I/O trong giao tiếp Serial}}{14}{}%
-\contentsline {section}{\numberline {2.5.}{Thuật toán điều khiển PID}}{15}{}%
-\contentsline {subsection}{\numberline {2.5.1.}{Mô hình toán học của bộ điều khiển PID}}{15}{}%
-\contentsline {subsection}{\numberline {2.5.2.}{Vai trò của từng thành phần}}{15}{}%
-\contentsline {subsection}{\numberline {2.5.3.}{Dạng rời rạc của PID cho hệ thống số}}{16}{}%
-\contentsline {subsection}{\numberline {2.5.4.}{Phương pháp tinh chỉnh tham số PID}}{17}{}%
-\contentsline {section}{\numberline {2.6.}{Lập trình thời gian thực cho hệ thống nhúng}}{17}{}%
-\contentsline {subsection}{\numberline {2.6.1.}{Khái niệm hệ thống thời gian thực}}{17}{}%
-\contentsline {subsection}{\numberline {2.6.2.}{Blocking vs Non-blocking I/O}}{17}{}%
-\contentsline {subsection}{\numberline {2.6.3.}{Cơ chế Time-Slicing với millis()}}{18}{}%
-\contentsline {subsection}{\numberline {2.6.4.}{Vấn đề Pulse Starvation trong điều khiển động cơ bước}}{18}{}%
-\contentsline {subsection}{\numberline {2.6.5.}{Kỹ thuật Deadzone và Hysteresis trong điều khiển}}{19}{}%
-\contentsline {chapter}{\numberline {Chương\ 3.}{Thiết kế hệ thống}}{21}{}%
-\contentsline {section}{\numberline {3.1.}{Phân tích yêu cầu thiết kế}}{21}{}%
-\contentsline {subsection}{\numberline {3.1.1.}{Yêu cầu chức năng}}{21}{}%
-\contentsline {subsection}{\numberline {3.1.2.}{Yêu cầu phi chức năng}}{21}{}%
-\contentsline {subsection}{\numberline {3.1.3.}{Ràng buộc thiết kế}}{22}{}%
-\contentsline {section}{\numberline {3.2.}{Thiết kế cơ khí}}{22}{}%
-\contentsline {subsection}{\numberline {3.2.1.}{Tổng quan cấu trúc cơ khí}}{22}{}%
-\contentsline {subsection}{\numberline {3.2.2.}{Khung nhôm định hình}}{22}{}%
-\contentsline {subsection}{\numberline {3.2.3.}{Cơ cấu vitme - thanh trượt}}{23}{}%
-\contentsline {subsection}{\numberline {3.2.4.}{Bố trí cảm biến Loadcell}}{23}{}%
-\contentsline {subsection}{\numberline {3.2.5.}{Giới hạn hành trình}}{24}{}%
-\contentsline {section}{\numberline {3.3.}{Thiết kế mạch điện}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.1.}{Sơ đồ khối hệ thống}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.2.}{Danh sách linh kiện điện tử}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.3.}{Sơ đồ kết nối chi tiết}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.4.}{Cấu hình Driver TB6600}}{24}{}%
-\contentsline {subsection}{\numberline {3.3.5.}{Thiết kế nguồn điện}}{26}{}%
-\contentsline {subsection}{\numberline {3.3.6.}{Xử lý nhiễu điện từ}}{26}{}%
-\contentsline {section}{\numberline {3.4.}{Thiết kế phần mềm}}{26}{}%
-\contentsline {subsection}{\numberline {3.4.1.}{Kiến trúc phần mềm tổng quan}}{26}{}%
-\contentsline {subsection}{\numberline {3.4.2.}{Các module phần mềm}}{27}{}%
-\contentsline {subsection}{\numberline {3.4.3.}{Quy trình Homing}}{27}{}%
-\contentsline {subsection}{\numberline {3.4.4.}{Logic điều khiển PID với Deadzone và Hysteresis}}{27}{}%
-\contentsline {subsection}{\numberline {3.4.5.}{Xử lý giới hạn hành trình mềm}}{29}{}%
-\contentsline {subsection}{\numberline {3.4.6.}{Cấu trúc chương trình chính}}{29}{}%
-\contentsline {subsection}{\numberline {3.4.7.}{Các tham số cấu hình}}{29}{}%
-\contentsline {subsection}{\numberline {3.4.8.}{Quy trình hiệu chuẩn Loadcell}}{31}{}%
-\contentsline {chapter}{\numberline {Chương\ 4.}{Thực nghiệm và đánh giá}}{32}{}%
-\contentsline {section}{\numberline {4.1.}{Môi trường thử nghiệm}}{32}{}%
-\contentsline {section}{\numberline {4.2.}{Tinh chỉnh tham số PID}}{32}{}%
-\contentsline {subsection}{\numberline {4.2.1.}{Quá trình tinh chỉnh}}{32}{}%
-\contentsline {subsection}{\numberline {4.2.2.}{Tham số PID cuối cùng}}{32}{}%
-\contentsline {section}{\numberline {4.3.}{Kết quả thực nghiệm}}{32}{}%
-\contentsline {subsection}{\numberline {4.3.1.}{Thử nghiệm với tải tĩnh}}{32}{}%
-\contentsline {subsection}{\numberline {4.3.2.}{Thử nghiệm với tải thay đổi}}{33}{}%
-\contentsline {subsection}{\numberline {4.3.3.}{Giới hạn khả năng cân bằng}}{33}{}%
-\contentsline {section}{\numberline {4.4.}{Phân tích và đánh giá}}{33}{}%
-\contentsline {subsection}{\numberline {4.4.1.}{Ưu điểm}}{33}{}%
-\contentsline {subsection}{\numberline {4.4.2.}{Hạn chế}}{33}{}%
-\contentsline {subsection}{\numberline {4.4.3.}{So sánh với mục tiêu}}{33}{}%
-\contentsline {chapter}{\numberline {Chương\ 5.}{Kết luận và hướng phát triển}}{34}{}%
-\contentsline {section}{\numberline {5.1.}{Kết quả đạt được}}{34}{}%
-\contentsline {section}{\numberline {5.2.}{Hạn chế của đề tài}}{34}{}%
-\contentsline {section}{\numberline {5.3.}{Hướng phát triển}}{34}{}%
-\contentsline {chapter}{\numberline {Phụ lục\ A.}{Mã nguồn chương trình điều khiển}}{37}{}%
+\contentsline {section}{\numberline {2.1.}{So sánh các phương pháp cân bằng robot}}{7}{}%
+\contentsline {subsection}{\numberline {2.1.1.}{Các phương pháp cân bằng chính}}{7}{}%
+\contentsline {subsection}{\numberline {2.1.2.}{Bảng so sánh tổng hợp}}{8}{}%
+\contentsline {subsection}{\numberline {2.1.3.}{Phân tích ưu nhược điểm chi tiết}}{8}{}%
+\contentsline {subsection}{\numberline {2.1.4.}{Lý do lựa chọn phương pháp khối lượng di động}}{9}{}%
+\contentsline {section}{\numberline {2.2.}{Lý thuyết cân bằng trọng tâm và momen lực}}{10}{}%
+\contentsline {subsection}{\numberline {2.2.1.}{Khái niệm trọng tâm}}{10}{}%
+\contentsline {subsection}{\numberline {2.2.2.}{Momen lực và điều kiện cân bằng tĩnh}}{10}{}%
+\contentsline {subsection}{\numberline {2.2.3.}{Áp dụng nguyên lý momen vào bài toán cân bằng khung robot}}{11}{}%
+\contentsline {section}{\numberline {2.3.}{Cảm biến lực Loadcell và module HX711}}{11}{}%
+\contentsline {subsection}{\numberline {2.3.1.}{Cấu tạo và nguyên lý hoạt động của Loadcell}}{12}{}%
+\contentsline {subsection}{\numberline {2.3.2.}{Loadcell 3 dây và cách ghép thành cầu đầy đủ}}{12}{}%
+\contentsline {subsection}{\numberline {2.3.3.}{Module HX711 và giao thức truyền thông}}{12}{}%
+\contentsline {subsection}{\numberline {2.3.4.}{Thư viện HX711\_ADC và cơ chế Non-blocking}}{13}{}%
+\contentsline {section}{\numberline {2.4.}{Động cơ bước và driver TB6600}}{14}{}%
+\contentsline {subsection}{\numberline {2.4.1.}{Nguyên lý hoạt động của động cơ bước}}{14}{}%
+\contentsline {subsection}{\numberline {2.4.2.}{Chế độ vi bước (Microstepping) và ảnh hưởng đến hiệu năng}}{14}{}%
+\contentsline {subsection}{\numberline {2.4.3.}{Driver TB6600 và cấu hình điều khiển}}{15}{}%
+\contentsline {subsection}{\numberline {2.4.4.}{Thư viện AccelStepper và cơ chế Polling}}{16}{}%
+\contentsline {section}{\numberline {2.5.}{Vi điều khiển Arduino}}{16}{}%
+\contentsline {subsection}{\numberline {2.5.1.}{Kiến trúc phần cứng ATmega328P}}{16}{}%
+\contentsline {subsection}{\numberline {2.5.2.}{Mô hình lập trình Arduino}}{17}{}%
+\contentsline {subsection}{\numberline {2.5.3.}{Vấn đề Blocking I/O trong giao tiếp Serial}}{17}{}%
+\contentsline {section}{\numberline {2.6.}{Thuật toán điều khiển PID}}{18}{}%
+\contentsline {subsection}{\numberline {2.6.1.}{Mô hình toán học của bộ điều khiển PID}}{18}{}%
+\contentsline {subsection}{\numberline {2.6.2.}{Vai trò của từng thành phần}}{18}{}%
+\contentsline {subsection}{\numberline {2.6.3.}{Dạng rời rạc của PID cho hệ thống số}}{19}{}%
+\contentsline {subsection}{\numberline {2.6.4.}{Phương pháp tinh chỉnh tham số PID}}{20}{}%
+\contentsline {section}{\numberline {2.7.}{Lập trình thời gian thực cho hệ thống nhúng}}{20}{}%
+\contentsline {subsection}{\numberline {2.7.1.}{Khái niệm hệ thống thời gian thực}}{20}{}%
+\contentsline {subsection}{\numberline {2.7.2.}{Blocking vs Non-blocking I/O}}{20}{}%
+\contentsline {subsection}{\numberline {2.7.3.}{Cơ chế Time-Slicing với millis()}}{21}{}%
+\contentsline {subsection}{\numberline {2.7.4.}{Vấn đề Pulse Starvation trong điều khiển động cơ bước}}{21}{}%
+\contentsline {subsection}{\numberline {2.7.5.}{Kỹ thuật Deadzone và Hysteresis trong điều khiển}}{22}{}%
+\contentsline {chapter}{\numberline {Chương\ 3.}{Thiết kế hệ thống}}{24}{}%
+\contentsline {section}{\numberline {3.1.}{Phân tích yêu cầu thiết kế}}{24}{}%
+\contentsline {subsection}{\numberline {3.1.1.}{Yêu cầu chức năng}}{24}{}%
+\contentsline {subsection}{\numberline {3.1.2.}{Yêu cầu phi chức năng}}{24}{}%
+\contentsline {subsection}{\numberline {3.1.3.}{Ràng buộc thiết kế}}{24}{}%
+\contentsline {section}{\numberline {3.2.}{Thiết kế cơ khí}}{25}{}%
+\contentsline {subsection}{\numberline {3.2.1.}{Tổng quan cấu trúc cơ khí}}{25}{}%
+\contentsline {subsection}{\numberline {3.2.2.}{Cơ cấu vitme - thanh trượt}}{25}{}%
+\contentsline {subsection}{\numberline {3.2.3.}{Bố trí cảm biến Loadcell}}{26}{}%
+\contentsline {subsection}{\numberline {3.2.4.}{Giới hạn hành trình}}{26}{}%
+\contentsline {section}{\numberline {3.3.}{Thiết kế mạch điện}}{26}{}%
+\contentsline {subsection}{\numberline {3.3.1.}{Sơ đồ khối hệ thống}}{26}{}%
+\contentsline {subsection}{\numberline {3.3.2.}{Danh sách linh kiện điện tử}}{27}{}%
+\contentsline {subsection}{\numberline {3.3.3.}{Sơ đồ kết nối chi tiết}}{27}{}%
+\contentsline {subsection}{\numberline {3.3.4.}{Cấu hình Driver TB6600}}{28}{}%
+\contentsline {subsection}{\numberline {3.3.5.}{Sơ đồ nguyên lý mạch điện}}{28}{}%
+\contentsline {subsection}{\numberline {3.3.6.}{Thiết kế nguồn điện}}{29}{}%
+\contentsline {subsection}{\numberline {3.3.7.}{Xử lý nhiễu điện từ}}{29}{}%
+\contentsline {section}{\numberline {3.4.}{Thiết kế phần mềm}}{29}{}%
+\contentsline {subsection}{\numberline {3.4.1.}{Kiến trúc phần mềm tổng quan}}{30}{}%
+\contentsline {subsection}{\numberline {3.4.2.}{Quy trình Homing}}{30}{}%
+\contentsline {subsection}{\numberline {3.4.3.}{Logic điều khiển PID với Deadzone và Hysteresis}}{32}{}%
+\contentsline {subsection}{\numberline {3.4.4.}{Xử lý giới hạn hành trình mềm}}{33}{}%
+\contentsline {subsection}{\numberline {3.4.5.}{Các tham số cấu hình}}{33}{}%
+\contentsline {subsection}{\numberline {3.4.6.}{Quy trình hiệu chuẩn Loadcell}}{33}{}%
+\contentsline {chapter}{\numberline {Chương\ 4.}{Thực nghiệm và đánh giá}}{35}{}%
+\contentsline {section}{\numberline {4.1.}{Môi trường thử nghiệm}}{35}{}%
+\contentsline {section}{\numberline {4.2.}{Tinh chỉnh tham số PID}}{35}{}%
+\contentsline {subsection}{\numberline {4.2.1.}{Quá trình tinh chỉnh}}{35}{}%
+\contentsline {subsection}{\numberline {4.2.2.}{Tham số PID cuối cùng}}{35}{}%
+\contentsline {section}{\numberline {4.3.}{Kết quả thực nghiệm}}{35}{}%
+\contentsline {subsection}{\numberline {4.3.1.}{Thử nghiệm với tải tĩnh}}{35}{}%
+\contentsline {subsection}{\numberline {4.3.2.}{Thử nghiệm với tải thay đổi}}{36}{}%
+\contentsline {subsection}{\numberline {4.3.3.}{Giới hạn khả năng cân bằng}}{36}{}%
+\contentsline {section}{\numberline {4.4.}{Phân tích và đánh giá}}{36}{}%
+\contentsline {subsection}{\numberline {4.4.1.}{Ưu điểm}}{36}{}%
+\contentsline {subsection}{\numberline {4.4.2.}{Hạn chế}}{36}{}%
+\contentsline {subsection}{\numberline {4.4.3.}{So sánh với mục tiêu}}{36}{}%
+\contentsline {chapter}{\numberline {Chương\ 5.}{Kết luận và hướng phát triển}}{37}{}%
+\contentsline {section}{\numberline {5.1.}{Kết quả đạt được}}{37}{}%
+\contentsline {section}{\numberline {5.2.}{Hạn chế của đề tài}}{37}{}%
+\contentsline {section}{\numberline {5.3.}{Hướng phát triển}}{37}{}%
+\contentsline {chapter}{\numberline {Phụ lục\ A.}{Mã nguồn chương trình điều khiển}}{40}{}%

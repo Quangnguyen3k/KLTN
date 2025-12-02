@@ -1,4 +1,4 @@
-\documentclass{uetgraduation}
+\documentclass{uetgraduation}\RequirePackage{float}
 
 % Gói bổ sung cho code listing
 \RequirePackage{listings}
@@ -281,6 +281,92 @@ Khóa luận được trình bày trong 5 chương với nội dung như sau:
 \chapter{Cơ sở lý thuyết}
 
 Chương này trình bày các kiến thức nền tảng cần thiết cho việc thiết kế và xây dựng hệ thống cân bằng trọng tâm tự động. Các nội dung được trình bày bao gồm: lý thuyết cơ học về cân bằng và momen lực, nguyên lý hoạt động của cảm biến lực và module chuyển đổi tín hiệu, đặc tính của động cơ bước và kỹ thuật điều khiển vi bước, nền tảng vi điều khiển Arduino, thuật toán điều khiển PID, và đặc biệt là các vấn đề về lập trình thời gian thực trong hệ thống nhúng.
+
+%======================================================================
+% PHẦN BỔ SUNG CHO CHƯƠNG 2: SO SÁNH CÁC PHƯƠNG PHÁP CÂN BẰNG
+% Chèn vào đầu Chương 2, sau phần giới thiệu chương
+% hoặc sau phần "Nguyên lý cân bằng trọng tâm"
+%======================================================================
+
+\section{So sánh các phương pháp cân bằng robot}
+
+Trong lĩnh vực robot di động, có nhiều phương pháp khác nhau để duy trì sự cân bằng và ổn định. Mỗi phương pháp có nguyên lý hoạt động, ưu điểm và hạn chế riêng, phù hợp với các ứng dụng cụ thể. Phần này trình bày và so sánh bốn phương pháp cân bằng phổ biến nhất.
+
+\subsection{Các phương pháp cân bằng chính}
+
+\textbf{Phương pháp 1 - Điều khiển bánh xe (Wheel-based Balancing):} Đây là phương pháp phổ biến nhất, được sử dụng trong robot tự cân bằng hai bánh như Segway. Nguyên lý hoạt động dựa trên việc di chuyển bánh xe theo hướng robot đang nghiêng để ``đuổi theo'' trọng tâm, tương tự như cách con người giữ thăng bằng khi đứng. Cảm biến IMU (gyroscope và accelerometer) đo góc nghiêng, sau đó bộ điều khiển tính toán tốc độ bánh xe cần thiết để giữ thăng bằng.
+
+\textbf{Phương pháp 2 - Bánh đà/Con quay hồi chuyển (Reaction Wheel/CMG):} Phương pháp này sử dụng momen động lượng của một hoặc nhiều bánh đà quay tốc độ cao. Khi cần tạo momen cân bằng, động cơ tăng hoặc giảm tốc độ bánh đà, theo định luật bảo toàn momen động lượng, một momen phản lực sẽ tác động lên thân robot. Control Moment Gyroscope (CMG) là biến thể sử dụng hiệu ứng tiến động của con quay hồi chuyển.
+
+\textbf{Phương pháp 3 - Khối lượng di động (Moving Mass):} Nguyên lý hoạt động dựa trên việc di chuyển một khối lượng đối trọng để thay đổi vị trí trọng tâm của hệ thống. Khi phát hiện độ lệch, khối đối trọng được di chuyển về phía đối diện để bù đắp momen lực gây mất cân bằng. Đây chính là phương pháp được áp dụng trong đề tài này.
+
+\textbf{Phương pháp 4 - Mở rộng đa giác đỡ (Support Polygon Expansion):} Phương pháp này tăng độ ổn định tĩnh bằng cách mở rộng diện tích tiếp xúc với mặt đất. Các robot có thể sử dụng chân chống, bánh xe phụ, hoặc thay đổi tư thế để mở rộng đa giác đỡ. Tuy nhiên, phương pháp này làm giảm tính linh hoạt của robot.
+
+\subsection{Bảng so sánh tổng hợp}
+
+Bảng 2.1 trình bày so sánh chi tiết bốn phương pháp cân bằng theo các tiêu chí quan trọng.
+
+\begin{table}[H]{So sánh các phương pháp cân bằng robot}
+\centering
+\small
+\begin{tabular}{|p{2.8cm}|p{2.8cm}|p{2.8cm}|p{2.8cm}|p{2.8cm}|}
+\hline
+\textbf{Tiêu chí} & \textbf{Điều khiển bánh xe} & \textbf{Bánh đà/CMG} & \textbf{Khối lượng di động} & \textbf{Mở rộng đa giác đỡ} \\
+\hline
+\textbf{Nguyên lý} & Di chuyển bánh xe theo hướng nghiêng & Thay đổi tốc độ bánh đà tạo momen phản lực & Di chuyển đối trọng thay đổi trọng tâm & Tăng diện tích tiếp xúc mặt đất \\
+\hline
+\textbf{Cảm biến chính} & IMU (gyro + accel) & IMU (gyro + accel) & Loadcell hoặc IMU & Cảm biến tiếp xúc, IMU \\
+\hline
+\textbf{Cơ cấu chấp hành} & Động cơ DC/BLDC cho bánh xe & Động cơ BLDC tốc độ cao & Động cơ bước + vitme/đai & Động cơ servo, xi-lanh \\
+\hline
+\textbf{Thời gian đáp ứng} & Rất nhanh (ms) & Nhanh (ms) & Trung bình (100ms-1s) & Chậm (giây) \\
+\hline
+\textbf{Khả năng cân bằng tĩnh} & Không (cần di chuyển liên tục) & Có (giới hạn bởi saturation) & Có (trong phạm vi hành trình) & Có (ổn định nhất) \\
+\hline
+\textbf{Tiêu hao năng lượng} & Cao khi đứng yên & Cao (bánh đà quay liên tục) & Thấp khi đã cân bằng & Rất thấp \\
+\hline
+\textbf{Độ phức tạp điều khiển} & Cao (hệ bất ổn định) & Rất cao & Trung bình & Thấp \\
+\hline
+\textbf{Độ phức tạp cơ khí} & Thấp-Trung bình & Cao & Trung bình & Thấp-Cao \\
+\hline
+\textbf{Khả năng chịu tải thay đổi} & Hạn chế & Hạn chế & Tốt (thiết kế phù hợp) & Tốt \\
+\hline
+\textbf{Tính linh hoạt di chuyển} & Cao & Cao & Cao & Thấp \\
+\hline
+\textbf{Ứng dụng tiêu biểu} & Segway, robot giao hàng & Vệ tinh, xe đạp tự lái & Robot mang tải, cần cẩu & Robot công nghiệp, xe nâng \\
+\hline
+\textbf{Chi phí triển khai} & Trung bình & Cao & Thấp-Trung bình & Thấp \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Phân tích ưu nhược điểm chi tiết}
+
+\textbf{Điều khiển bánh xe:}
+Ưu điểm bao gồm khả năng đáp ứng rất nhanh, cấu trúc cơ khí đơn giản, và robot có thể di chuyển linh hoạt. Nhược điểm chính là không thể cân bằng tĩnh (phải di chuyển liên tục để giữ thăng bằng), tiêu hao năng lượng cao khi đứng yên, và yêu cầu mặt sàn phẳng để hoạt động hiệu quả. Phương pháp này phù hợp với các ứng dụng di chuyển liên tục như robot giao hàng, xe cân bằng cá nhân.
+
+\textbf{Bánh đà/CMG:}
+Ưu điểm là có thể cân bằng mà không cần di chuyển bánh xe, đáp ứng nhanh, và hoạt động được trên nhiều loại địa hình. Nhược điểm bao gồm tiêu hao năng lượng liên tục (bánh đà phải quay), vấn đề bão hòa momen động lượng (saturation) khi nhiễu kéo dài, độ phức tạp cơ khí cao, và tiếng ồn từ bánh đà tốc độ cao. Phương pháp này phù hợp với vệ tinh, tàu vũ trụ, và các robot cần cân bằng chính xác trong thời gian ngắn.
+
+\textbf{Khối lượng di động (Phương pháp được chọn):}
+Ưu điểm là tiêu hao năng lượng thấp sau khi đã cân bằng (động cơ dừng), cấu trúc đơn giản với linh kiện phổ biến, có thể đo trực tiếp phân bố tải bằng loadcell, và phù hợp với ứng dụng cân bằng tĩnh hoặc bán tĩnh. Nhược điểm bao gồm thời gian đáp ứng chậm hơn (phụ thuộc vào tốc độ vitme), giới hạn bởi hành trình di chuyển của đối trọng, và khả năng bù đắp phụ thuộc vào khối lượng đối trọng. Phương pháp này phù hợp với robot mang tải có trọng tâm thay đổi chậm, khung đế cân bằng cho cánh tay robot.
+
+\textbf{Mở rộng đa giác đỡ:}
+Ưu điểm là độ ổn định cao nhất, không cần điều khiển phức tạp, và tiêu hao năng lượng rất thấp. Nhược điểm là làm giảm tính linh hoạt và khả năng di chuyển, tăng kích thước và khối lượng robot, và thời gian chuyển đổi trạng thái chậm. Phương pháp này phù hợp với robot công nghiệp cố định, xe nâng hàng, và các ứng dụng ưu tiên độ ổn định tuyệt đối.
+
+\subsection{Lý do lựa chọn phương pháp khối lượng di động}
+
+Đề tài này lựa chọn phương pháp khối lượng di động dựa trên các lý do sau:
+
+Thứ nhất, về đặc điểm ứng dụng: Khung đế robot được thiết kế để cân bằng khi tải thay đổi (ví dụ: cánh tay robot gắp vật), không yêu cầu thời gian đáp ứng cực nhanh như robot tự cân bằng động.
+
+Thứ hai, về hiệu quả năng lượng: Sau khi đạt vị trí cân bằng, động cơ bước có thể dừng hoàn toàn (giữ vị trí bằng momen từ tính), tiết kiệm năng lượng đáng kể so với phương pháp bánh đà.
+
+Thứ ba, về khả năng đo lường: Việc sử dụng loadcell cho phép đo trực tiếp chênh lệch trọng lượng giữa hai bên, cung cấp phản hồi chính xác về trạng thái cân bằng mà không cần tính toán phức tạp từ góc nghiêng.
+
+Thứ tư, về tính khả thi: Các linh kiện cần thiết (động cơ bước, vitme, loadcell, Arduino) đều phổ biến và có giá thành hợp lý tại Việt Nam, phù hợp với điều kiện nghiên cứu và triển khai.
+
+Thứ năm, về độ phức tạp: So với phương pháp bánh đà hoặc CMG, phương pháp khối lượng di động có độ phức tạp cơ khí và điều khiển thấp hơn, thuận lợi cho việc nghiên cứu và phát triển trong khuôn khổ đồ án tốt nghiệp.
 
 \section{Lý thuyết cân bằng trọng tâm và momen lực}
 
@@ -789,11 +875,12 @@ Mục đích: Tránh hiện tượng bật/tắt liên tục (chattering) khi sa
 Điều này đảm bảo khi động cơ cần chạy, nó chạy ở tốc độ đủ cao để vượt qua vùng cộng hưởng.
 
 %======================================================================
-% CHƯƠNG 3: THIẾT KẾ HỆ THỐNG
+%======================================================================
+% CHƯƠNG 3: THIẾT KẾ HỆ THỐNG (ĐÃ SỬA LỖI FLOAT)
 %======================================================================
 \chapter{Thiết kế hệ thống}
 
-Chương này trình bày chi tiết quá trình thiết kế hệ thống khung đế cân bằng trọng tâm, bao gồm: phân tích yêu cầu thiết kế, thiết kế cơ khí, thiết kế mạch điện, và thiết kế phần mềm điều khiển. Mỗi phần thiết kế đều dựa trên cơ sở lý thuyết đã trình bày ở Chương 2 và các ràng buộc thực tế của dự án.
+Chương này trình bày chi tiết quá trình thiết kế hệ thống khung đế cân bằng trọng tâm, bao gồm: phân tích yêu cầu thiết kế, thiết kế cơ khí, thiết kế mạch điện, và thiết kế phần mềm điều khiển.
 
 \section{Phân tích yêu cầu thiết kế}
 
@@ -801,51 +888,37 @@ Chương này trình bày chi tiết quá trình thiết kế hệ thống khung
 
 Dựa trên mục tiêu đề tài và phân tích ứng dụng thực tế, hệ thống cần đáp ứng các yêu cầu chức năng sau:
 
-\textbf{Yêu cầu F1 - Phát hiện độ lệch trọng tâm:} Hệ thống phải có khả năng đo lường sự chênh lệch trọng lượng giữa hai bên khung (trái và phải) với độ phân giải đủ cao để phát hiện các thay đổi nhỏ. Yêu cầu độ phân giải tối thiểu: 10g.
+\textbf{F1 - Phát hiện độ lệch trọng tâm:} Hệ thống phải có khả năng đo lường sự chênh lệch trọng lượng giữa hai bên khung (trái và phải) với độ phân giải tối thiểu 10g.
 
-\textbf{Yêu cầu F2 - Bù đắp độ lệch tự động:} Khi phát hiện độ lệch vượt ngưỡng cho phép, hệ thống phải tự động di chuyển khối đối trọng để bù đắp, đưa trọng tâm về vị trí cân bằng.
+\textbf{F2 - Bù đắp độ lệch tự động:} Khi phát hiện độ lệch vượt ngưỡng cho phép, hệ thống phải tự động di chuyển khối đối trọng để bù đắp, đưa trọng tâm về vị trí cân bằng.
 
-\textbf{Yêu cầu F3 - Xác định điểm gốc (Homing):} Khi khởi động, hệ thống phải có khả năng tự động xác định vị trí tham chiếu của khối đối trọng thông qua công tắc hành trình.
+\textbf{F3 - Xác định điểm gốc (Homing):} Khi khởi động, hệ thống phải có khả năng tự động xác định vị trí tham chiếu của khối đối trọng thông qua công tắc hành trình.
 
-\textbf{Yêu cầu F4 - Bảo vệ hành trình:} Hệ thống phải ngăn chặn khối đối trọng di chuyển vượt quá giới hạn cơ khí, tránh va chạm và hư hỏng.
+\textbf{F4 - Bảo vệ hành trình:} Hệ thống phải ngăn chặn khối đối trọng di chuyển vượt quá giới hạn cơ khí.
 
-\textbf{Yêu cầu F5 - Giám sát hoạt động:} Cung cấp khả năng theo dõi các thông số hoạt động (giá trị cảm biến, sai số, tốc độ động cơ) thông qua giao diện Serial để hỗ trợ tinh chỉnh và gỡ lỗi.
+\textbf{F5 - Giám sát hoạt động:} Cung cấp khả năng theo dõi các thông số hoạt động thông qua giao diện Serial.
 
 \subsection{Yêu cầu phi chức năng}
 
-\textbf{Yêu cầu NF1 - Kích thước:} Khung đế có kích thước phù hợp để gắn lên robot di động cỡ nhỏ và vừa. Kích thước mục tiêu: 35$\times$35cm.
+\textbf{NF1 - Kích thước:} Khung đế có kích thước 35$\times$35cm, phù hợp với robot di động cỡ nhỏ và vừa.
 
-\textbf{Yêu cầu NF2 - Thời gian đáp ứng:} Hệ thống phải phản ứng với thay đổi tải trong thời gian hợp lý. Mục tiêu: bắt đầu di chuyển đối trọng trong vòng 100ms sau khi phát hiện độ lệch.
+\textbf{NF2 - Thời gian đáp ứng:} Hệ thống phải bắt đầu di chuyển đối trọng trong vòng 100ms sau khi phát hiện độ lệch.
 
-\textbf{Yêu cầu NF3 - Độ ổn định:} Động cơ bước phải hoạt động mượt mà, không bị giật cục hay mất bước trong quá trình cân bằng.
+\textbf{NF3 - Độ ổn định:} Động cơ bước phải hoạt động mượt mà, không bị giật cục hay mất bước.
 
-\textbf{Yêu cầu NF4 - Độ chính xác cân bằng:} Sau khi cân bằng, độ lệch còn lại phải nằm trong vùng chấp nhận được. Mục tiêu: $\pm$50g.
-
-\textbf{Yêu cầu NF5 - Khả năng mở rộng:} Thiết kế cho phép điều chỉnh các tham số (khối lượng đối trọng, hành trình, tham số PID) để thích ứng với các yêu cầu khác nhau.
+\textbf{NF4 - Độ chính xác cân bằng:} Sau khi cân bằng, độ lệch còn lại phải nằm trong vùng $\pm$50g.
 
 \subsection{Ràng buộc thiết kế}
 
-Quá trình thiết kế phải tuân thủ các ràng buộc sau:
-
-\textbf{Ràng buộc về linh kiện:} Sử dụng các linh kiện phổ biến, dễ tìm mua tại thị trường Việt Nam: động cơ bước Nema 17, driver TB6600, loadcell 50kg, module HX711, vi điều khiển Arduino.
-
-\textbf{Ràng buộc về gia công:} Khung cơ khí sử dụng nhôm định hình 20$\times$20mm -- vật liệu tiêu chuẩn, dễ gia công và lắp ráp bằng các dụng cụ cơ bản.
-
-\textbf{Ràng buộc về phần mềm:} Chương trình điều khiển chạy trên nền tảng Arduino với các thư viện mã nguồn mở: AccelStepper, HX711\_ADC, PID\_v1.
-
-\textbf{Ràng buộc về hiệu năng:} Do giới hạn của vi điều khiển Arduino (16MHz) và thư viện AccelStepper, tốc độ tối đa của động cơ bước bị giới hạn ở khoảng 4000 bước/giây trong điều kiện thực tế.
+Quá trình thiết kế phải tuân thủ các ràng buộc: sử dụng linh kiện phổ biến tại Việt Nam (Arduino, Nema 17, TB6600, Loadcell 50kg, HX711); khung cơ khí dùng nhôm định hình 20$\times$20mm; và tốc độ tối đa của động cơ bị giới hạn khoảng 4000 bước/giây do giới hạn của thư viện AccelStepper.
 
 \section{Thiết kế cơ khí}
 
 \subsection{Tổng quan cấu trúc cơ khí}
 
-Hệ thống cơ khí bao gồm các thành phần chính: khung đế hình vuông làm từ nhôm định hình, cơ cấu di chuyển đối trọng gồm vitme và thanh trượt, động cơ bước gắn ở một đầu vitme, các cụm loadcell gắn ở bốn góc khung, và công tắc hành trình để xác định điểm gốc.
+Hệ thống cơ khí bao gồm các thành phần chính: khung đế hình vuông làm từ nhôm định hình, cơ cấu di chuyển đối trọng gồm vitme và thanh trượt, động cơ bước gắn ở một đầu vitme, các cụm loadcell gắn ở bốn góc khung, và công tắc hành trình để xác định điểm gốc. Bảng 3.1 trình bày thông số khung nhôm định hình.
 
-\subsection{Khung nhôm định hình}
-
-Khung đế được xây dựng từ thanh nhôm định hình tiết diện 20$\times$20mm với các thông số được trình bày trong Bảng 3.1.
-
-\begin{table}{Thông số khung nhôm định hình}
+\begin{table}[H]{Thông số khung nhôm định hình}
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -855,75 +928,59 @@ Kích thước tổng thể & 350 $\times$ 350 mm \\
 Tiết diện thanh nhôm & 20 $\times$ 20 mm \\
 Vật liệu & Hợp kim nhôm 6063-T5 \\
 Phương pháp liên kết & Ke góc vuông + bu-lông M5 \\
-Khối lượng khung (ước tính) & 1.2 kg \\
+Khối lượng khung & Khoảng 1.2 kg \\
 \hline
 \end{tabular}
 \end{table}
 
-Lý do lựa chọn nhôm định hình: độ cứng vững cao nhờ tiết diện rỗng với các gân tăng cứng bên trong; dễ gia công bằng cưa tay hoặc máy cắt đĩa thông thường; linh hoạt lắp ráp nhờ rãnh chữ T trên các mặt cho phép gắn linh kiện ở bất kỳ vị trí nào; nhẹ với tỷ trọng 2.7 g/cm³; và khả năng tái sử dụng cao, dễ dàng tháo lắp và điều chỉnh cấu hình.
+Lý do lựa chọn nhôm định hình: độ cứng vững cao nhờ tiết diện rỗng với các gân tăng cứng bên trong; dễ gia công và lắp ráp; linh hoạt nhờ rãnh chữ T cho phép gắn linh kiện ở bất kỳ vị trí nào; nhẹ với tỷ trọng 2.7 g/cm³; và khả năng tái sử dụng cao.
 
 \subsection{Cơ cấu vitme - thanh trượt}
 
-Cơ cấu di chuyển đối trọng sử dụng truyền động vitme-đai ốc kết hợp với thanh trượt tròn dẫn hướng.
+Cơ cấu di chuyển đối trọng sử dụng truyền động vitme-đai ốc kết hợp với thanh trượt tròn dẫn hướng. Bảng 3.2 trình bày thông số vitme.
 
-\begin{table}{Thông số vitme}
+\begin{table}[H]{Thông số vitme}
 \centering
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Thông số} & \textbf{Giá trị} \\
 \hline
 Đường kính danh nghĩa & 8 mm \\
-Bước ren (Lead/Pitch) & 2 mm \\
+Bước ren (Pitch) & 2 mm \\
 Chiều dài làm việc & 250 mm \\
 Loại & Vitme bi hoặc vitme thang \\
 \hline
 \end{tabular}
 \end{table}
 
-Bước ren 2mm có nghĩa mỗi vòng quay của động cơ, khối trượt di chuyển 2mm. Đây là bước ren nhỏ, cho độ phân giải vị trí cao nhưng tốc độ di chuyển thấp.
+Bước ren 2mm có nghĩa mỗi vòng quay của động cơ, khối trượt di chuyển 2mm. Tính toán tốc độ di chuyển tối đa với chế độ 1/16 microstep (3200 bước/vòng) và tốc độ xung tối đa 4000 bước/giây: $n_{max} = 4000/3200 \times 60 = 75$ RPM, suy ra $v_{max} = 75 \times 2 / 60 = 2.5$ mm/s. Tốc độ này khá chậm, để di chuyển hết hành trình 120mm cần khoảng 48 giây.
 
-Tính toán tốc độ di chuyển tối đa với chế độ 1/16 microstep (3200 bước/vòng) và tốc độ xung tối đa 4000 bước/giây:
-
-\begin{equation}
-n_{max} = \frac{4000}{3200} \times 60 = 75 \text{ RPM}
-\end{equation}
-
-\begin{equation}
-v_{max} = \frac{75 \times 2}{60} = 2.5 \text{ mm/s}
-\end{equation}
-
-Tốc độ 2.5 mm/s là khá chậm. Để di chuyển hết hành trình 120mm cần khoảng 48 giây. Đây là một hạn chế cần lưu ý khi đánh giá hiệu năng hệ thống.
-
-Thanh trượt tròn đường kính 8mm, chiều dài 280mm, vật liệu thép mạ cứng, số lượng 2 thanh song song với vitme. Thanh trượt có chức năng dẫn hướng cho khối trượt di chuyển thẳng, chịu tải trọng ngang, và chống xoay cho khối trượt.
+Thanh trượt tròn đường kính 8mm, chiều dài 280mm, vật liệu thép mạ cứng, số lượng 2 thanh song song với vitme. Thanh trượt có chức năng dẫn hướng cho khối trượt di chuyển thẳng và chống xoay.
 
 \subsection{Bố trí cảm biến Loadcell}
 
-Hệ thống sử dụng 4 loadcell 50kg được bố trí ở bốn góc khung, ghép thành 2 cụm (trái và phải). Cụm trái gồm 2 loadcell ở góc trái-trước và trái-sau, ghép thành cầu Wheatstone đầy đủ. Cụm phải gồm 2 loadcell ở góc phải-trước và phải-sau, ghép thành cầu Wheatstone đầy đủ.
-
-Mỗi cụm kết nối với một module HX711 riêng biệt. Độ chênh lệch giữa giá trị đọc từ hai cụm ($f_R - f_L$) phản ánh độ lệch trọng tâm theo trục trái-phải.
+Hệ thống sử dụng 4 loadcell 50kg được bố trí ở bốn góc khung, ghép thành 2 cụm (trái và phải). Cụm trái gồm 2 loadcell ở góc trái-trước và trái-sau, ghép thành cầu Wheatstone đầy đủ. Cụm phải gồm 2 loadcell ở góc phải-trước và phải-sau. Mỗi cụm kết nối với một module HX711 riêng biệt.
 
 \subsection{Giới hạn hành trình}
 
-Hành trình di chuyển của khối đối trọng được xác định từ vị trí tâm (0): giới hạn trái là -120 mm tương ứng -192000 bước, giới hạn phải là +110 mm tương ứng +176000 bước. Sự bất đối xứng là do cấu trúc cơ khí thực tế, nơi động cơ chiếm một phần không gian ở phía phải.
-
-Công tắc hành trình được lắp đặt ở vị trí giới hạn phải (+110mm) để xác định điểm gốc khi thực hiện Homing. Công tắc sử dụng loại micro switch với cần gạt, kết nối theo chế độ thường mở (Normally Open).
+Hành trình di chuyển của khối đối trọng được xác định từ vị trí tâm (0): giới hạn trái là -120mm (tương ứng -192000 bước), giới hạn phải là +110mm (tương ứng +176000 bước). Công tắc hành trình được lắp đặt ở vị trí giới hạn phải (+110mm) để xác định điểm gốc khi thực hiện Homing.
 
 \section{Thiết kế mạch điện}
 
 \subsection{Sơ đồ khối hệ thống}
 
-Hệ thống điện tử bao gồm các khối chức năng chính được thể hiện trong Hình 3.1: Khối cảm biến (2 cụm Loadcell kết nối với 2 module HX711), Khối xử lý trung tâm (Arduino Uno), Khối điều khiển động cơ (Driver TB6600 và động cơ bước Nema 17), Khối nguồn (12V cho động cơ, 5V cho mạch điều khiển), và Khối giới hạn hành trình (công tắc hành trình).
+Hệ thống điện tử bao gồm các khối chức năng chính: Khối cảm biến (2 cụm Loadcell kết nối với 2 module HX711), Khối xử lý trung tâm (Arduino Uno), Khối điều khiển động cơ (Driver TB6600 và động cơ bước Nema 17), Khối nguồn (12V cho động cơ, 5V cho mạch điều khiển), và Khối giới hạn hành trình (công tắc hành trình). Hình 3.1 thể hiện sơ đồ khối hệ thống.
 
-\begin{figure}{Sơ đồ khối hệ thống điện tử}
+\begin{figure}[H]{Sơ đồ khối hệ thống điện tử}
 \centering
-\includegraphics[width=0.9\textwidth]{hinh/so-do-khoi.png}
-% Neu chua co anh, thay bang dong duoi:
-% \fbox{\parbox{0.8\textwidth}{\centering\vspace{4cm}[Sơ đồ khối hệ thống điện tử]\vspace{4cm}}}
+\includegraphics[width=0.95\textwidth]{hinh/so-do-khoi.png}
 \end{figure}
 
 \subsection{Danh sách linh kiện điện tử}
 
-\begin{table}{Danh sách linh kiện điện tử}
+Bảng 3.3 liệt kê các linh kiện điện tử sử dụng trong hệ thống.
+
+\begin{table}[H]{Danh sách linh kiện điện tử}
 \centering
 \begin{tabular}{|c|l|l|c|}
 \hline
@@ -944,7 +1001,7 @@ Hệ thống điện tử bao gồm các khối chức năng chính được th�
 
 Kết nối giữa Arduino và các module HX711 được thể hiện trong Bảng 3.4.
 
-\begin{table}{Kết nối Arduino với các module HX711}
+\begin{table}[H]{Kết nối Arduino với các module HX711}
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -965,9 +1022,9 @@ HX711 Phải & SCK & Pin 7 & Xung clock \\
 
 Kết nối giữa Arduino và driver TB6600 được thể hiện trong Bảng 3.5.
 
-\begin{table}{Kết nối Arduino với driver TB6600}
+\begin{table}[H]{Kết nối Arduino với driver TB6600}
 \centering
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l|l|l|}
 \hline
 \textbf{Chân TB6600} & \textbf{Chân Arduino} & \textbf{Chức năng} \\
 \hline
@@ -987,66 +1044,57 @@ Kết nối công tắc hành trình: chân NO (Normally Open) nối với Pin 1
 
 Cấu hình DIP Switch trên TB6600: dòng điện đặt 1.5A theo bảng tra của TB6600, chế độ vi bước 1/16 (3200 pulse/rev) với SW4=ON, SW5=ON, SW6=OFF. Lưu ý cấu hình có thể khác nhau giữa các phiên bản TB6600, cần tham khảo datasheet của nhà sản xuất cụ thể.
 
+\subsection{Sơ đồ nguyên lý mạch điện}
+
+Hình 3.2 thể hiện sơ đồ nguyên lý mạch điện chi tiết của toàn bộ hệ thống, bao gồm các kết nối giữa Arduino, HX711, TB6600, động cơ bước, công tắc hành trình và nguồn điện.
+
+\begin{figure}[H]{Sơ đồ nguyên lý mạch điện hệ thống}
+\centering
+\includegraphics[width=\textwidth]{hinh/so-do-nguyen-ly.png}
+\end{figure}
+
 \subsection{Thiết kế nguồn điện}
 
-Hệ thống sử dụng hai nguồn điện riêng biệt. Nguồn 12V/5A cấp cho driver TB6600, công suất 60W dư so với yêu cầu của Nema 17, sử dụng nguồn xung để đảm bảo ổn định. Nguồn 5V cấp từ cổng USB của Arduino hoặc từ bộ nguồn riêng cho Arduino, HX711 và các cảm biến, dòng tiêu thụ ước tính dưới 500mA.
-
-Lưu ý quan trọng: GND của nguồn 12V và GND của Arduino phải được nối chung để đảm bảo tín hiệu điều khiển hoạt động đúng.
+Hệ thống sử dụng hai nguồn điện riêng biệt. Nguồn 12V/5A cấp cho driver TB6600 và động cơ, công suất 60W dư so với yêu cầu của Nema 17. Nguồn 5V cấp từ cổng USB của Arduino cho Arduino, HX711 và các cảm biến, dòng tiêu thụ ước tính dưới 500mA. Lưu ý quan trọng: GND của nguồn 12V và GND của Arduino phải được nối chung để đảm bảo tín hiệu điều khiển hoạt động đúng.
 
 \subsection{Xử lý nhiễu điện từ}
 
-Động cơ bước và driver công suất có thể tạo ra nhiễu điện từ ảnh hưởng đến tín hiệu loadcell. Các biện pháp giảm nhiễu bao gồm: tách biệt nguồn cho động cơ và mạch điều khiển; xoắn dây tín hiệu loadcell theo dạng twisted pair; giữ dây kết nối từ loadcell đến HX711 ngắn nhất có thể (dưới 50cm); có thể thêm tụ điện 100nF gần chân nguồn của HX711; và áp dụng lọc phần mềm bằng cách làm tròn giá trị đọc (quantization).
+Động cơ bước và driver công suất có thể tạo ra nhiễu điện từ ảnh hưởng đến tín hiệu loadcell. Các biện pháp giảm nhiễu bao gồm: tách biệt nguồn cho động cơ và mạch điều khiển; xoắn dây tín hiệu loadcell theo dạng twisted pair; giữ dây kết nối ngắn nhất có thể (dưới 50cm); có thể thêm tụ điện 100nF gần chân nguồn của HX711; và áp dụng lọc phần mềm bằng cách làm tròn giá trị đọc (quantization).
 
 \section{Thiết kế phần mềm}
 
 \subsection{Kiến trúc phần mềm tổng quan}
 
-Phần mềm điều khiển được thiết kế theo kiến trúc Superloop với Time-Slicing, đảm bảo tính non-blocking và đáp ứng các ràng buộc thời gian thực. Kiến trúc này chia thành ba tầng nhiệm vụ với độ ưu tiên và tần suất khác nhau.
+Phần mềm điều khiển được thiết kế theo kiến trúc Superloop với Time-Slicing, đảm bảo tính non-blocking và đáp ứng các ràng buộc thời gian thực. Kiến trúc này chia thành ba tầng nhiệm vụ với độ ưu tiên và tần suất khác nhau:
 
-Nhiệm vụ nền chạy mỗi vòng lặp (khoảng 10 microsecond) bao gồm gọi hàm LoadCell.update() để kiểm tra dữ liệu mới một cách non-blocking và gọi hàm stepper.runSpeed() để tạo xung nếu đến thời điểm.
+Nhiệm vụ nền chạy mỗi vòng lặp (khoảng 10 $\mu$s) bao gồm gọi hàm LoadCell.update() để kiểm tra dữ liệu mới một cách non-blocking và gọi hàm stepper.runSpeed() để tạo xung nếu đến thời điểm.
 
 Nhiệm vụ điều khiển chạy mỗi 20ms (tần số 50Hz) bao gồm đọc giá trị cảm biến, tính toán sai số, xử lý logic Deadzone và Hysteresis, tính toán PID, và cập nhật tốc độ động cơ.
 
 Nhiệm vụ giám sát chạy mỗi 100ms (tần số 10Hz) bao gồm in các thông số ra Serial và hiển thị trạng thái hệ thống.
 
-\subsection{Các module phần mềm}
-
-\textbf{Module 1 - Khởi tạo hệ thống:} Khởi tạo giao tiếp Serial 115200 baud, cấu hình chân I/O cho công tắc hành trình, khởi tạo và hiệu chuẩn loadcell, khởi tạo bộ điều khiển PID, khởi tạo động cơ bước với tốc độ và gia tốc, và thực hiện quy trình Homing.
-
-\textbf{Module 2 - Đọc cảm biến:} Gọi hàm update() cho cả hai loadcell, lấy giá trị bằng getData() khi có dữ liệu mới, và áp dụng bộ lọc quantization làm tròn về bội số của 10g.
-
-\textbf{Module 3 - Điều khiển PID:} Tính sai số Input = fR - fL, kiểm tra điều kiện Deadzone và Hysteresis, tính toán tín hiệu điều khiển bằng PID, áp dụng ngưỡng tốc độ tối thiểu, kiểm tra giới hạn hành trình, và cập nhật tốc độ động cơ.
-
-\textbf{Module 4 - Điều khiển động cơ:} Gọi runSpeed() liên tục trong vòng lặp chính và xử lý Homing khi khởi động.
-
-\textbf{Module 5 - Giám sát:} In các thông số ra Serial với tần suất 10Hz và hiển thị trạng thái hệ thống ([OK] hoặc [RUN]).
-
 \subsection{Quy trình Homing}
 
-Quy trình Homing xác định điểm gốc của hệ thống với độ chính xác cao thông qua phương pháp hai giai đoạn, được minh họa trong Hình 3.2.
+Quy trình Homing xác định điểm gốc của hệ thống với độ chính xác cao thông qua phương pháp hai giai đoạn, được minh họa trong Hình 3.3.
 
-\begin{figure}{Lưu đồ quy trình Homing}
+\begin{figure}[H]{Lưu đồ quy trình Homing}
 \centering
-\includegraphics[width=0.7\textwidth]{hinh/luu-do-homing.png}
-% Neu chua co anh, thay bang dong duoi:
-% \fbox{\parbox{0.6\textwidth}{\centering\vspace{6cm}[Lưu đồ thuật toán Homing]\vspace{6cm}}}
+\includegraphics[width=0.65\textwidth]{hinh/luu-do-homing.png}
 \end{figure}
 
-\textbf{Giai đoạn 1 - Tìm nhanh (Fast Seek):} Di chuyển khối trượt về phía công tắc hành trình với tốc độ cao 8000 bước/s. Khi chạm công tắc (Pin 10 xuống LOW), dừng ngay lập tức và ghi nhận vị trí tạm thời là MAX\_POS\_RIGHT.
+\textbf{Giai đoạn 1 - Tìm nhanh:} Di chuyển khối trượt về phía công tắc hành trình với tốc độ cao 8000 bước/s. Khi chạm công tắc (Pin 10 xuống LOW), dừng ngay lập tức và ghi nhận vị trí tạm thời là MAX\_POS\_RIGHT.
 
-\textbf{Giai đoạn 2 - Lùi ra và tìm chậm (Backoff and Slow Seek):} Lùi ra 5mm để nhả công tắc, kiểm tra công tắc đã nhả (Pin 10 lên HIGH), sau đó di chuyển chậm trở lại với tốc độ 4000 bước/s cho đến khi chạm công tắc lần thứ hai. Vị trí chạm lần hai là điểm gốc chính xác.
+\textbf{Giai đoạn 2 - Lùi ra và tìm chậm:} Lùi ra 5mm để nhả công tắc, kiểm tra công tắc đã nhả (Pin 10 lên HIGH), sau đó di chuyển chậm trở lại với tốc độ 4000 bước/s cho đến khi chạm công tắc lần thứ hai. Vị trí chạm lần hai là điểm gốc chính xác.
 
 \textbf{Giai đoạn 3 - Di chuyển về tâm:} Thiết lập vị trí hiện tại là MAX\_POS\_RIGHT (+110mm), di chuyển đến vị trí 0 (tâm khung), và chờ 5 giây để loadcell ổn định trước khi bắt đầu cân bằng.
 
 \subsection{Logic điều khiển PID với Deadzone và Hysteresis}
 
-Logic điều khiển được thiết kế để tránh các vấn đề phổ biến trong hệ thống cân bằng, được minh họa trong Hình 3.3.
+Logic điều khiển được thiết kế để tránh các vấn đề phổ biến trong hệ thống cân bằng, được minh họa trong Hình 3.4.
 
-\begin{figure}{Lưu đồ thuật toán điều khiển PID}
+\begin{figure}[H]{Lưu đồ thuật toán điều khiển PID}
 \centering
-\includegraphics[width=0.8\textwidth]{hinh/luu-do-pid.png}
-% Neu chua co anh, thay bang dong duoi:
-% \fbox{\parbox{0.7\textwidth}{\centering\vspace{6cm}[Lưu đồ thuật toán điều khiển PID với Deadzone và Hysteresis]\vspace{6cm}}}
+\includegraphics[width=0.75\textwidth]{hinh/luu-do-pid.png}
 \end{figure}
 
 \textbf{Vấn đề 1 - Dao động quanh điểm cân bằng (Hunting):} Nếu không có vùng chết, khi độ lệch về gần 0, PID vẫn tiếp tục điều chỉnh, gây ra dao động liên tục. Giải pháp là áp dụng Deadzone $\pm$50g.
@@ -1055,25 +1103,15 @@ Logic điều khiển được thiết kế để tránh các vấn đề phổ 
 
 \textbf{Vấn đề 3 - Động cơ rung ở tốc độ thấp:} Động cơ bước có các vùng tốc độ gây cộng hưởng và rung lắc. Giải pháp là áp dụng ngưỡng tốc độ tối thiểu 2000 bước/s.
 
-Logic điều khiển hoàn chỉnh: Nếu đang dừng và độ lệch lớn hơn 60g thì bật chế độ cân bằng. Nếu đang chạy và độ lệch nhỏ hơn 40g thì tắt chế độ cân bằng. Khi đang cân bằng, nếu PID tính ra tốc độ lớn hơn 0 nhưng nhỏ hơn 2000 thì ép lên 2000, giữ nguyên chiều quay.
-
 \subsection{Xử lý giới hạn hành trình mềm}
 
 Ngoài công tắc hành trình vật lý ở vị trí +110mm, phần mềm còn kiểm tra giới hạn mềm (soft limits) để ngăn khối trượt va chạm vào hai đầu. Nếu vị trí hiện tại đã đạt giới hạn trái và tốc độ đang âm (muốn đi tiếp sang trái), hệ thống ép tốc độ về 0. Tương tự cho giới hạn phải.
-
-Ưu điểm của soft limits: ngăn chặn va chạm trước khi xảy ra mà không cần chạm công tắc, có thể cảnh báo khi hệ thống hoạt động gần giới hạn, và bảo vệ cả hai chiều trong khi công tắc cứng chỉ có ở một đầu.
-
-\subsection{Cấu trúc chương trình chính}
-
-Chương trình chính được tổ chức theo cấu trúc setup-loop của Arduino. Hàm setup() thực hiện khởi tạo Serial, cấu hình chân I/O, khởi tạo loadcell với thời gian ổn định 1 giây và tự động tare, thiết lập hệ số hiệu chuẩn, khởi tạo PID với các tham số và giới hạn output, khởi tạo động cơ với tốc độ và gia tốc tối đa, và cuối cùng gọi quy trình Homing.
-
-Hàm loop() chạy liên tục và thực hiện ba nhóm nhiệm vụ. Nhiệm vụ nền gọi update() cho cả hai loadcell và runSpeed() cho động cơ trong mỗi vòng lặp. Nhiệm vụ điều khiển được thực hiện mỗi 20ms bao gồm đọc và xử lý cảm biến, tính toán PID, và cập nhật tốc độ động cơ. Nhiệm vụ giám sát được thực hiện mỗi 100ms để in thông số ra Serial.
 
 \subsection{Các tham số cấu hình}
 
 Bảng 3.6 tổng hợp các tham số cấu hình của phần mềm.
 
-\begin{table}{Bảng tổng hợp các tham số cấu hình phần mềm}
+\begin{table}[H]{Bảng tổng hợp các tham số cấu hình phần mềm}
 \centering
 \begin{tabular}{|l|l|l|}
 \hline

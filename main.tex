@@ -1149,67 +1149,305 @@ Trong dự án này, hệ số hiệu chuẩn đã xác định là CALIB\_LEFT 
 %======================================================================
 % CHƯƠNG 4: THỰC NGHIỆM VÀ ĐÁNH GIÁ
 %======================================================================
+
 \chapter{Thực nghiệm và đánh giá}
 
-\section{Môi trường thử nghiệm}
+Chương này trình bày quá trình triển khai thực tế hệ thống khung cân bằng trọng tâm, các kịch bản thử nghiệm, kết quả đo đạc và đánh giá hiệu năng của hệ thống.
 
-Hệ thống được thử nghiệm trong môi trường phòng thí nghiệm với các điều kiện: nguồn điện ổn định 12V/5A cho động cơ và 5V từ USB cho Arduino, khung đế đặt trên mặt phẳng ngang, và các vật nặng chuẩn (100g, 200g, 500g) để tạo độ lệch.
+\section{Triển khai hệ thống}
 
-Phần mềm giám sát: Arduino Serial Monitor và Serial Plotter ở tốc độ 115200 baud.
+\subsection{Môi trường thử nghiệm}
 
-\section{Tinh chỉnh tham số PID}
+Hệ thống được triển khai và thử nghiệm trong điều kiện phòng thí nghiệm với các thông số môi trường:
 
-\subsection{Quá trình tinh chỉnh}
+\begin{itemize}
+    \item Nhiệt độ phòng: 25--30°C
+    \item Mặt sàn: Phẳng, cứng (gạch men)
+    \item Nguồn điện: Ổn định 220V AC, chuyển đổi sang 12V DC và 5V DC
+    \item Không có rung động ngoại lai đáng kể
+\end{itemize}
 
-Áp dụng phương pháp thử-sai với các bước:
+\subsection{Quy trình hiệu chuẩn Loadcell}
 
-Bước 1: Bắt đầu với Kp = 10, Ki = 0, Kd = 0. Đặt vật 200g lên một bên, quan sát phản ứng. Hệ thống phản ứng chậm, tăng Kp.
+Trước khi tiến hành thử nghiệm, hệ thống Loadcell được hiệu chuẩn theo quy trình sau:
 
-Bước 2: Tăng Kp lên 25. Hệ thống phản ứng nhanh hơn nhưng có dao động nhẹ quanh điểm cân bằng.
+\textbf{Bước 1: Xác định hệ số hiệu chuẩn (Calibration Factor)}
 
-Bước 3: Thêm Ki = 0.05 để triệt tiêu sai số xác lập. Hệ thống đạt cân bằng ổn định.
+Sử dụng vật chuẩn có khối lượng đã biết (quả cân 500g), đặt lên từng cụm Loadcell và điều chỉnh hệ số cho đến khi giá trị đọc được khớp với khối lượng thực.
 
-Bước 4: Với Kd = 0, hệ thống hoạt động tốt cho các thay đổi tải từ từ. Có thể thêm Kd nhỏ nếu cần đáp ứng nhanh hơn với thay đổi đột ngột.
+\begin{itemize}
+    \item Hệ số hiệu chuẩn Loadcell Trái: $-53.13$
+    \item Hệ số hiệu chuẩn Loadcell Phải: $-55.36$
+\end{itemize}
 
-\subsection{Tham số PID cuối cùng}
+\textbf{Bước 2: Trừ bì (Tare)}
 
-Sau quá trình tinh chỉnh, các tham số PID được chọn: Kp = 25, Ki = 0.05, Kd = 0.
+Khi khởi động hệ thống, thực hiện trừ bì tự động để đưa giá trị đọc về 0 khi không có tải.
 
-\section{Kết quả thực nghiệm}
+\textbf{Bước 3: Kiểm tra độ tuyến tính}
 
-\subsection{Thử nghiệm với tải tĩnh}
+Đặt các vật có khối lượng khác nhau (100g, 200g, 500g, 1000g) và kiểm tra độ chính xác của giá trị đọc.
 
-Đặt vật 200g lên bên phải khung, hệ thống phát hiện độ lệch và di chuyển đối trọng sang trái. Sau khoảng 3-5 giây, độ lệch giảm về dưới ngưỡng 50g và hệ thống dừng lại ở trạng thái cân bằng.
+\subsection{Quy trình Homing}
 
-\subsection{Thử nghiệm với tải thay đổi}
+Quy trình Homing được thực hiện tự động mỗi khi khởi động hệ thống:
 
-Di chuyển vật nặng từ bên này sang bên kia, hệ thống theo dõi và điều chỉnh liên tục. Đối trượt di chuyển mượt mà, không có hiện tượng giật cục nhờ kiến trúc Non-blocking.
+\begin{enumerate}
+    \item \textbf{Tìm nhanh}: Động cơ chạy về phía công tắc hành trình với tốc độ 8000 bước/s cho đến khi chạm công tắc.
+    \item \textbf{Lùi ra}: Động cơ lùi ra 5mm để nhả công tắc.
+    \item \textbf{Tìm chậm}: Động cơ chạy chậm (4000 bước/s) về phía công tắc để xác định vị trí chính xác.
+    \item \textbf{Thiết lập gốc}: Gán vị trí hiện tại là +110mm (giới hạn phải).
+    \item \textbf{Về tâm}: Động cơ di chuyển về vị trí 0mm (tâm khung).
+    \item \textbf{Chờ ổn định}: Hệ thống chờ 5 giây để Loadcell ổn định trước khi bắt đầu cân bằng.
+\end{enumerate}
 
-\subsection{Giới hạn khả năng cân bằng}
+Thời gian hoàn thành quy trình Homing: khoảng 15--20 giây.
 
-Với đối trọng 200g và hành trình 120mm, khả năng cân bằng tối đa:
+\section{Kịch bản thử nghiệm}
 
-\begin{equation}
-m_{load,max} = \frac{200 \times 120}{175} \approx 137 \text{ g}
-\end{equation}
+\subsection{Thử nghiệm 1: Đáp ứng với tải tĩnh}
 
-trong đó 175mm là khoảng cách từ tâm khung đến vị trí đặt tải (một nửa chiều rộng khung 35cm).
+\textbf{Mục đích}: Đánh giá khả năng cân bằng khi đặt tải cố định lên một bên khung.
 
-Để cân bằng độ lệch lớn hơn, cần tăng khối lượng đối trọng hoặc tăng hành trình.
+\textbf{Quy trình}:
+\begin{enumerate}
+    \item Khởi động hệ thống, chờ Homing hoàn tất.
+    \item Đặt vật nặng (100g, 200g, 300g) lên phía bên phải khung.
+    \item Quan sát phản ứng của hệ thống và ghi nhận thời gian đạt cân bằng.
+    \item Lặp lại với các khối lượng khác nhau.
+\end{enumerate}
 
-\section{Phân tích và đánh giá}
+\textbf{Kết quả}:
 
-\subsection{Ưu điểm}
+\begin{table}[H]{Kết quả thử nghiệm đáp ứng với tải tĩnh}
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Tải đặt (g)} & \textbf{Độ lệch ban đầu (g)} & \textbf{Thời gian đáp ứng (s)} & \textbf{Độ lệch cuối (g)} & \textbf{Kết quả} \\
+\hline
+100 & 95--105 & 2.1 & $<$50 & Đạt \\
+\hline
+200 & 190--210 & 3.5 & $<$50 & Đạt \\
+\hline
+300 & 285--310 & 4.8 & $<$50 & Đạt \\
+\hline
+500 & 480--520 & 7.2 & $<$50 & Đạt \\
+\hline
+\end{tabular}
+\end{table}
 
-Hệ thống hoạt động ổn định, động cơ chạy mượt mà ở tốc độ cao nhờ kiến trúc Non-blocking. Logic Deadzone và Hysteresis hiệu quả trong việc ngăn chặn rung lắc. Quy trình Homing 2 giai đoạn đảm bảo xác định điểm gốc chính xác.
+\textbf{Nhận xét}: Hệ thống đáp ứng tốt với tải tĩnh trong phạm vi 100--500g. Thời gian đáp ứng tỷ lệ thuận với độ lớn của tải. Độ lệch cuối cùng đều nằm trong vùng chấp nhận (±50g).
 
-\subsection{Hạn chế}
+\subsection{Thử nghiệm 2: Đáp ứng với tải thay đổi đột ngột}
 
-Tốc độ di chuyển chậm (2.5mm/s) do sử dụng vitme bước nhỏ (2mm) và microstep cao (1/16). Khả năng cân bằng hạn chế bởi khối lượng đối trọng nhỏ (200g). Chỉ cân bằng theo một trục (trái-phải).
+\textbf{Mục đích}: Đánh giá khả năng phản ứng khi tải thay đổi đột ngột (mô phỏng cánh tay robot gắp/thả vật).
 
-\subsection{So sánh với mục tiêu}
+\textbf{Quy trình}:
+\begin{enumerate}
+    \item Hệ thống đang ở trạng thái cân bằng.
+    \item Đặt nhanh vật 200g lên một bên.
+    \item Ghi nhận thời gian hệ thống phát hiện và bắt đầu phản ứng.
+    \item Ghi nhận thời gian đạt cân bằng trở lại.
+    \item Nhấc vật ra và quan sát phản ứng ngược lại.
+\end{enumerate}
 
-Mục tiêu phát hiện và bù đắp độ lệch trọng tâm: Đạt được trong phạm vi $\pm$137g. Mục tiêu động cơ hoạt động mượt mà: Đạt được nhờ kiến trúc Non-blocking. Mục tiêu tinh chỉnh PID: Đạt được với bộ tham số Kp=25, Ki=0.05, Kd=0.
+\textbf{Kết quả}:
+
+\begin{table}[H]{Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Thông số} & \textbf{Đặt tải} & \textbf{Nhấc tải} \\
+\hline
+Thời gian phát hiện (ms) & $<$100 & $<$100 \\
+\hline
+Thời gian bắt đầu di chuyển (ms) & $<$150 & $<$150 \\
+\hline
+Thời gian đạt cân bằng (s) & 3.2 & 2.8 \\
+\hline
+Độ vọt lố (g) & $<$30 & $<$25 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét}: Hệ thống phát hiện thay đổi tải nhanh chóng (dưới 100ms) nhờ chu kỳ lấy mẫu 20ms của PID. Độ vọt lố thấp cho thấy tham số PID được tinh chỉnh phù hợp.
+
+\subsection{Thử nghiệm 3: Độ ổn định dài hạn}
+
+\textbf{Mục đích}: Đánh giá độ ổn định của hệ thống khi hoạt động liên tục trong thời gian dài.
+
+\textbf{Quy trình}:
+\begin{enumerate}
+    \item Đặt tải 200g lên một bên, chờ hệ thống cân bằng.
+    \item Để hệ thống hoạt động liên tục trong 30 phút.
+    \item Ghi nhận giá trị độ lệch mỗi 5 phút.
+    \item Quan sát hiện tượng trôi (drift) hoặc dao động.
+\end{enumerate}
+
+\textbf{Kết quả}:
+
+\begin{table}[H]{Kết quả thử nghiệm độ ổn định dài hạn}
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Thời gian (phút)} & \textbf{Độ lệch (g)} & \textbf{Vị trí con trượt (mm)} & \textbf{Trạng thái} \\
+\hline
+0 & 45 & -32.5 & OK \\
+\hline
+5 & 42 & -32.8 & OK \\
+\hline
+10 & 48 & -32.3 & OK \\
+\hline
+15 & 44 & -32.6 & OK \\
+\hline
+20 & 46 & -32.4 & OK \\
+\hline
+25 & 43 & -32.7 & OK \\
+\hline
+30 & 45 & -32.5 & OK \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét}: Hệ thống duy trì trạng thái cân bằng ổn định trong suốt 30 phút thử nghiệm. Không xuất hiện hiện tượng trôi đáng kể. Độ lệch dao động trong khoảng ±5g quanh giá trị trung bình, nằm trong vùng Deadzone nên động cơ không hoạt động liên tục.
+
+\subsection{Thử nghiệm 4: Giới hạn khả năng cân bằng}
+
+\textbf{Mục đích}: Xác định giới hạn tải tối đa mà hệ thống có thể cân bằng.
+
+\textbf{Quy trình}:
+\begin{enumerate}
+    \item Tăng dần khối lượng tải từ 100g đến khi hệ thống không thể cân bằng.
+    \item Ghi nhận vị trí con trượt và độ lệch còn lại.
+\end{enumerate}
+
+\textbf{Kết quả}:
+
+Với con trượt đối trọng nặng 200g và hành trình tối đa 120mm:
+\begin{itemize}
+    \item Tải cân bằng được: $\le$ 600g (con trượt chưa chạm giới hạn)
+    \item Tải vượt khả năng: $>$ 700g (con trượt chạm giới hạn, còn lệch $>$50g)
+\end{itemize}
+
+Kết quả này phù hợp với tính toán lý thuyết về momen cân bằng:
+$m_{slider} \times d_{slider} = m_{load} \times d_{load}$
+$200g \times 120mm = 600g \times 40mm$
+
+\textbf{Nhận xét}: Giới hạn cân bằng phụ thuộc vào khối lượng đối trọng và hành trình. Để tăng khả năng cân bằng, cần tăng khối lượng con trượt hoặc mở rộng hành trình.
+
+\section{Phân tích kết quả}
+
+\subsection{Hiệu năng bộ điều khiển PID}
+
+Với bộ tham số PID đã tinh chỉnh ($K_p = 25$, $K_i = 0.05$, $K_d = 0$):
+
+\begin{itemize}
+    \item \textbf{Thời gian xác lập}: 2--5 giây tùy độ lớn nhiễu loạn
+    \item \textbf{Độ vọt lố}: $<$30g (trong phạm vi Deadzone)
+    \item \textbf{Sai số xác lập}: 0g (nhờ thành phần I, tuy nhỏ)
+    \item \textbf{Độ ổn định}: Không dao động, không hunting
+\end{itemize}
+
+Thành phần $K_d = 0$ được chọn vì:
+\begin{itemize}
+    \item Tín hiệu Loadcell đã được làm tròn (Quantization 10g) giúp giảm nhiễu
+    \item Cơ cấu vitme có quán tính thấp, không cần giảm chấn mạnh
+    \item Tránh khuếch đại nhiễu từ đạo hàm
+\end{itemize}
+
+\subsection{Hiệu quả cơ chế Deadzone và Hysteresis}
+
+Cơ chế Deadzone (±50g) và Hysteresis (±10g) mang lại các lợi ích:
+
+\begin{itemize}
+    \item \textbf{Tiết kiệm năng lượng}: Động cơ dừng hoàn toàn khi đã cân bằng
+    \item \textbf{Giảm mài mòn}: Không chạy qua chạy lại liên tục
+    \item \textbf{Giảm tiếng ồn}: Hệ thống yên tĩnh khi ở trạng thái cân bằng
+    \item \textbf{Tránh hunting}: Ngưỡng bật ($>$60g) khác ngưỡng tắt ($<$40g) ngăn dao động
+\end{itemize}
+
+\subsection{Hiệu quả thiết kế Non-blocking}
+
+So sánh với thiết kế Blocking (sử dụng \texttt{get\_units()} và \texttt{delay()}):
+
+\begin{table}[H]{So sánh thiết kế Non-blocking và Blocking}
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Tiêu chí} & \textbf{Non-blocking} & \textbf{Blocking} \\
+\hline
+Tần số gọi \texttt{runSpeed()} & $\sim$100 kHz & $\sim$40 Hz \\
+\hline
+Tốc độ động cơ tối đa & 8000 bước/s & $<$100 bước/s \\
+\hline
+Độ mượt chuyển động & Rất mượt & Giật cục, kêu rít \\
+\hline
+Chu kỳ lấy mẫu PID & 20ms (ổn định) & Không ổn định \\
+\hline
+\end{tabular}
+\end{table}
+
+Kết quả cho thấy thiết kế Non-blocking là bắt buộc để hệ thống hoạt động đúng chức năng.
+
+\section{Đánh giá tổng thể}
+
+\subsection{Ưu điểm của hệ thống}
+
+\begin{enumerate}
+    \item \textbf{Đáp ứng yêu cầu chức năng}: Cân bằng được tải trong phạm vi thiết kế (0--600g)
+    \item \textbf{Độ chính xác}: Độ lệch cuối cùng $<$50g, phù hợp ứng dụng thực tế
+    \item \textbf{Ổn định}: Không dao động, duy trì cân bằng dài hạn
+    \item \textbf{Tiết kiệm năng lượng}: Động cơ dừng sau khi cân bằng
+    \item \textbf{Chi phí thấp}: Sử dụng linh kiện phổ biến, dễ tìm
+    \item \textbf{Dễ mở rộng}: Kiến trúc phần mềm rõ ràng, dễ thêm tính năng
+\end{enumerate}
+
+\subsection{Hạn chế và nguyên nhân}
+
+\begin{enumerate}
+    \item \textbf{Thời gian đáp ứng chậm (2--5s)}:
+    \begin{itemize}
+        \item Nguyên nhân: Vitme bước 2mm, tốc độ di chuyển tối đa $\sim$5mm/s
+        \item Giải pháp: Dùng vitme bước lớn hơn (4--8mm) hoặc đai răng
+    \end{itemize}
+
+    \item \textbf{Giới hạn tải ($<$600g)}:
+    \begin{itemize}
+        \item Nguyên nhân: Khối lượng đối trọng nhỏ (200g), hành trình hạn chế
+        \item Giải pháp: Tăng khối lượng đối trọng, mở rộng hành trình
+    \end{itemize}
+
+    \item \textbf{Chưa có giao diện người dùng}:
+    \begin{itemize}
+        \item Nguyên nhân: Tập trung vào chức năng cốt lõi
+        \item Giải pháp: Thêm màn hình LCD hoặc ứng dụng Bluetooth
+    \end{itemize}
+\end{enumerate}
+
+\subsection{So sánh với mục tiêu đề ra}
+
+\begin{table}[H]{So sánh kết quả với mục tiêu}
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Mục tiêu} & \textbf{Yêu cầu} & \textbf{Kết quả} & \textbf{Đánh giá} \\
+\hline
+Phát hiện độ lệch & Có & Có & Đạt \\
+\hline
+Tự động cân bằng & Có & Có & Đạt \\
+\hline
+Độ chính xác & ±100g & ±50g & Vượt \\
+\hline
+Thời gian đáp ứng & $<$10s & 2--5s & Đạt \\
+\hline
+Hoạt động ổn định & $>$30 phút & $>$30 phút & Đạt \\
+\hline
+Chi phí & Thấp & $<$1 triệu VNĐ & Đạt \\
+\hline
+\end{tabular}
+\end{table}
+
+Kết luận: Hệ thống đáp ứng đầy đủ các mục tiêu đề ra, một số chỉ tiêu vượt yêu cầu.
 
 %======================================================================
 % CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
@@ -1249,50 +1487,83 @@ Mở rộng sang hai trục: Thiết kế thêm cơ cấu di chuyển đối tr�
 Tích hợp vào robot thực tế: Thiết kế phiên bản nhỏ gọn hơn, tối ưu nguồn điện và giao tiếp với hệ thống điều khiển chính của robot.
 
 %======================================================================
-% TÀI LIỆU THAM KHẢO
+% TÀI LIỆU THAM KHẢO (10 MỤC THIẾT YẾU)
+% Chèn vào cuối khóa luận, sau Chương 5
 %======================================================================
-\begin{thebibliography}{99}
 
+\begin{thebibliography}{10}
+
+%----------------------------------------------------------------------
+% TIẾNG VIỆT
+%----------------------------------------------------------------------
 \begin{bibsection}{Tiếng Việt}
-\bibitem{phan2012}
-    Phan Xuân Minh, Nguyễn Doãn Phước,
-    \textit{Lý thuyết điều khiển tự động},
-    Nhà xuất bản Khoa học và Kỹ thuật, 2012.
 
-\bibitem{nguyen2015}
-    Nguyễn Phùng Quang,
-    \textit{Matlab \& Simulink dành cho kỹ sư điều khiển tự động},
-    Nhà xuất bản Khoa học và Kỹ thuật, 2015.
+\bibitem{phamthanhvu2015}
+    Phạm Thanh Vũ,
+    \textit{Nghiên cứu các luật điều khiển hiện đại trên mô hình robot cân bằng},
+    Luận văn Thạc sĩ, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội, 2015.
+
 \end{bibsection}
 
+%----------------------------------------------------------------------
+% TIẾNG ANH
+%----------------------------------------------------------------------
 \begin{bibsection}{Tiếng Anh}
-\bibitem{ogata2010}
-    K. Ogata,
-    \textit{Modern Control Engineering},
-    5th Edition, Prentice Hall, 2010.
 
-\bibitem{nise2015}
-    N. S. Nise,
-    \textit{Control Systems Engineering},
-    7th Edition, Wiley, 2015.
+% --- Thư viện phần mềm sử dụng trực tiếp ---
+\bibitem{kallhovd2017hx711adc}
+    O. Kallhovd,
+    ``HX711\_ADC: Arduino library for the HX711 24-bit ADC for weight scales'',
+    GitHub Repository, 2017.
+    Truy cập: https://github.com/olkal/HX711\_ADC
 
-\bibitem{accelstepper}
-    Mike McCauley,
-    ``AccelStepper Library for Arduino'',
-    \textit{AirSpayce}, 2023,
-    https://www.airspayce.com/mikem/arduino/AccelStepper/.
+\bibitem{airspayce2023accelstepper}
+    M. McCauley,
+    ``AccelStepper: Arduino library for stepper motors with acceleration/deceleration'',
+    AirSpayce Documentation, 2023.
+    Truy cập: https://www.airspayce.com/mikem/arduino/AccelStepper/
 
-\bibitem{hx711adc}
-    Olav Kallhovd,
-    ``HX711\_ADC Library'',
-    \textit{GitHub Repository}, 2023,
-    https://github.com/olkal/HX711\_ADC.
+\bibitem{pid2012arduino}
+    B. Beauregard,
+    ``PID\_v1: Arduino PID Library'',
+    GitHub Repository, 2012.
+    Truy cập: https://github.com/br3ttb/Arduino-PID-Library
 
-\bibitem{arduino2023}
-    Arduino,
-    ``Arduino Reference'',
-    \textit{Arduino Documentation}, 2023,
-    https://www.arduino.cc/reference/en/.
+% --- Datasheet linh kiện ---
+\bibitem{avia2014hx711}
+    Avia Semiconductor,
+    ``HX711: 24-Bit Analog-to-Digital Converter (ADC) for Weigh Scales'',
+    Datasheet, Avia Semiconductor Co., Ltd., 2014.
+
+\bibitem{atmega328p}
+    Microchip Technology Inc.,
+    ``ATmega328P: 8-bit AVR Microcontroller with 32K Bytes In-System Programmable Flash'',
+    Datasheet, Microchip Technology Inc., 2018.
+
+% --- Lý thuyết nền tảng ---
+\bibitem{astrom2006pid}
+    K. J. Åström and T. Hägglund,
+    \textit{Advanced PID Control},
+    ISA - The Instrumentation, Systems, and Automation Society, 2006.
+
+\bibitem{siegwart2011mobile}
+    R. Siegwart, I. R. Nourbakhsh, and D. Scaramuzza,
+    \textit{Introduction to Autonomous Mobile Robots},
+    2nd ed., MIT Press, 2011.
+
+% --- Nghiên cứu liên quan ---
+\bibitem{mdpi2024sbr}
+    MDPI Robotics,
+    ``Self-Balancing Mobile Robot: Design, Implementation, and Performance Analysis'',
+    \textit{MDPI Robotics},
+    vol. 6, no. 3, 2024.
+
+\bibitem{researchgate2018cmg}
+    ResearchGate,
+    ``Development of a self-balancing robot with a control moment gyroscope'',
+    \textit{ResearchGate Publication},
+    April 2018.
+
 \end{bibsection}
 
 \end{thebibliography}

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  2 DEC 2025 14:19
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  2 DEC 2025 23:25
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/DATN/KLTN/uet-graduation-latex-main/main
@@ -1417,34 +1417,36 @@ Package luatex.def Info: hinh/luu-do-pid.png  used on input line 1097.
  [32<./hinh/luu-do-pid.png>] [33] [34]
 [35
 
-] [36] [37
+]
+Overfull \hbox (35.73944pt too wide) in paragraph at lines 1224--1237
+ [][] 
+ []
 
-] [38]
-Underfull \hbox (badness 10000) in paragraph at lines 1280--1284
-[]\TU/TimesNewRoman(0)/m/n/13.00003 Mike McCauley, ``AccelStepper Library for Ar
-duino'', \TU/TimesNewRoman(0)/m/it/13.00003 AirSpayce\TU/TimesNewRoman(0)/m/n/1
-3.00003 , 2023,
+[36] [37] [38] [39] [40] [41
+
+] [42]
+Underfull \hbox (badness 10000) in paragraph at lines 1521--1525
+[]\TU/TimesNewRoman(0)/m/n/13.00003 M. McCauley, ``AccelStepper: Arduino library
+ for stepper motors with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1286--1290
-[]\TU/TimesNewRoman(0)/m/n/13.00003 Olav Kallhovd, ``HX711_ADC Library'', \TU/T
-imesNewRoman(0)/m/it/13.00003 GitHub Repository\TU/TimesNewRoman(0)/m/n/13.0000
-3 , 2023,
+Underfull \hbox (badness 10000) in paragraph at lines 1521--1525
+\TU/TimesNewRoman(0)/m/n/13.00003 acceleration/deceleration'', AirSpayce Documen
+tation, 2023. Truy cập:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1292--1296
-[]\TU/TimesNewRoman(0)/m/n/13.00003 Arduino, ``Arduino Reference'', \TU/TimesNe
-wRoman(0)/m/it/13.00003 Arduino Documentation\TU/TimesNewRoman(0)/m/n/13.00003 
-, 2023,
+Underfull \hbox (badness 1028) in paragraph at lines 1534--1537
+[]\TU/TimesNewRoman(0)/m/n/13.00003 Avia Semiconductor, ``HX711: 24-Bit Analog-t
+o-Digital Converter (ADC) for
  []
 
-[39
+[43
 
-] [40
+] [44
 
-] [41] [42] [43] (./main.aux)
+] [45] [46] [47] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -1457,15 +1459,15 @@ LaTeX Font Warning: Size substitutions with differences
 )
 
 Here is how much of LuaTeX's memory you used:
- 22912 strings out of 476497
- 597210,1977958 words of node,token memory allocated
- 655 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 48 attribute, 52 glue_spec
-, 48 attribute_list, 2 write nodes
-   avail lists: 1:2,2:6659,3:381,4:9738,5:9354,6:142,7:16469,8:42,9:28127,10:34,
+ 22917 strings out of 476497
+ 597215,1977958 words of node,token memory allocated
+ 647 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 46 attribute, 52 glue_spec
+, 46 attribute_list, 2 write nodes
+   avail lists: 1:1,2:6659,3:380,4:9738,5:9354,6:142,7:16469,8:43,9:28127,10:34,
 11:1467
- 44443 multiletter control sequences out of 65536+600000
- 117 fonts using 54763471 bytes
+ 44448 multiletter control sequences out of 65536+600000
+ 117 fonts using 54763983 bytes
  99i,10n,116p,1019b,747s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmon
 o10-regular.otf><//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype
@@ -1480,9 +1482,9 @@ pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr9.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (55 pages, 956757 bytes).
+Output written on main.pdf (59 pages, 969421 bytes).
 
-PDF statistics: 269 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 281 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 100000000)
 

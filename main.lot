@@ -5,3 +5,8 @@
 \contentsline {a@table}{\numberline {3.4.}{\ignorespaces Kết nối Arduino với các module HX711}}{28}{}%
 \contentsline {a@table}{\numberline {3.5.}{\ignorespaces Kết nối Arduino với driver TB6600}}{28}{}%
 \contentsline {a@table}{\numberline {3.6.}{\ignorespaces Bảng tổng hợp các tham số cấu hình phần mềm}}{33}{}%
+\contentsline {a@table}{\numberline {4.1.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải tĩnh}}{36}{}%
+\contentsline {a@table}{\numberline {4.2.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}}{37}{}%
+\contentsline {a@table}{\numberline {4.3.}{\ignorespaces Kết quả thử nghiệm độ ổn định dài hạn}}{38}{}%
+\contentsline {a@table}{\numberline {4.4.}{\ignorespaces So sánh thiết kế Non-blocking và Blocking}}{39}{}%
+\contentsline {a@table}{\numberline {4.5.}{\ignorespaces So sánh kết quả với mục tiêu}}{40}{}%

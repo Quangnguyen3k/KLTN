@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  2 DEC 2025 23:25
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  3 DEC 2025 18:49
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/DATN/KLTN/uet-graduation-latex-main/main
@@ -1424,29 +1424,31 @@ Overfull \hbox (35.73944pt too wide) in paragraph at lines 1224--1237
 
 [36] [37] [38] [39] [40] [41
 
-] [42]
-Underfull \hbox (badness 10000) in paragraph at lines 1521--1525
+] [42] [43
+
+] [44] [45] [46]
+Underfull \hbox (badness 10000) in paragraph at lines 1643--1647
 []\TU/TimesNewRoman(0)/m/n/13.00003 M. McCauley, ``AccelStepper: Arduino library
  for stepper motors with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1521--1525
+Underfull \hbox (badness 10000) in paragraph at lines 1643--1647
 \TU/TimesNewRoman(0)/m/n/13.00003 acceleration/deceleration'', AirSpayce Documen
 tation, 2023. Truy cập:
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 1534--1537
+Underfull \hbox (badness 1028) in paragraph at lines 1656--1659
 []\TU/TimesNewRoman(0)/m/n/13.00003 Avia Semiconductor, ``HX711: 24-Bit Analog-t
 o-Digital Converter (ADC) for
  []
 
-[43
+[47
 
-] [44
+] [48
 
-] [45] [46] [47] (./main.aux)
+] [49] [50] [51] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -1467,7 +1469,7 @@ Here is how much of LuaTeX's memory you used:
    avail lists: 1:1,2:6659,3:380,4:9738,5:9354,6:142,7:16469,8:43,9:28127,10:34,
 11:1467
  44448 multiletter control sequences out of 65536+600000
- 117 fonts using 54763983 bytes
+ 117 fonts using 54763727 bytes
  99i,10n,116p,1019b,747s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmon
 o10-regular.otf><//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype
@@ -1482,9 +1484,9 @@ pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr9.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (59 pages, 969421 bytes).
+Output written on main.pdf (63 pages, 978857 bytes).
 
-PDF statistics: 281 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 294 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 100000000)
 

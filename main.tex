@@ -1487,6 +1487,128 @@ Mở rộng sang hai trục: Thiết kế thêm cơ cấu di chuyển đối tr�
 Tích hợp vào robot thực tế: Thiết kế phiên bản nhỏ gọn hơn, tối ưu nguồn điện và giao tiếp với hệ thống điều khiển chính của robot.
 
 %======================================================================
+% CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+%======================================================================
+
+\chapter{Kết luận và hướng phát triển}
+
+\section{Kết luận}
+
+Khóa luận đã hoàn thành việc nghiên cứu, thiết kế và xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm sử dụng phương pháp khối lượng di động (Moving Mass). Các kết quả đạt được bao gồm:
+
+\subsection{Về mặt lý thuyết}
+
+\begin{enumerate}
+    \item Phân tích và so sánh các phương pháp cân bằng robot: điều khiển bánh xe, bánh đà/CMG, khối lượng di động, và mở rộng đa giác đỡ. Từ đó lựa chọn phương pháp phù hợp với yêu cầu đề tài.
+
+    \item Nghiên cứu nguyên lý hoạt động của cảm biến Loadcell và module HX711, đặc biệt là cơ chế Non-blocking của thư viện HX711\_ADC giúp giải quyết xung đột tần số giữa cảm biến chậm và điều khiển động cơ nhanh.
+
+    \item Tìm hiểu lý thuyết điều khiển PID và các kỹ thuật cải tiến như Deadzone, Hysteresis, Min Speed Threshold để tăng độ ổn định thực tế.
+
+    \item Phân tích vấn đề thời gian thực trong hệ thống nhúng, đặc biệt là tác động của Blocking I/O đến hiệu năng điều khiển động cơ bước.
+\end{enumerate}
+
+\subsection{Về mặt thực tiễn}
+
+\begin{enumerate}
+    \item Thiết kế và chế tạo thành công khung cơ khí sử dụng nhôm định hình 20x20mm, vitme bước 2mm, và thanh trượt tuyến tính. Kích thước khung 35x35cm phù hợp với robot di động cỡ nhỏ và vừa.
+
+    \item Xây dựng hệ thống điện tử với Arduino Uno làm bộ xử lý trung tâm, 2 module HX711 đọc 4 Loadcell 50kg (2 cụm Trái/Phải), driver TB6600 điều khiển động cơ Nema 17.
+
+    \item Phát triển phần mềm điều khiển hoàn chỉnh bao gồm:
+    \begin{itemize}
+        \item Quy trình Homing tự động 2 giai đoạn (nhanh + chậm)
+        \item Thuật toán PID với các tham số đã tinh chỉnh ($K_p=25$, $K_i=0.05$, $K_d=0$)
+        \item Cơ chế Deadzone (±50g) và Hysteresis (±10g)
+        \item Giới hạn hành trình mềm bảo vệ cơ khí
+        \item Kiến trúc Non-blocking đảm bảo động cơ chạy mượt
+    \end{itemize}
+
+    \item Thử nghiệm và đánh giá hệ thống với kết quả:
+    \begin{itemize}
+        \item Cân bằng được tải trong phạm vi 0--600g
+        \item Độ chính xác ±50g (vượt yêu cầu ±100g)
+        \item Thời gian đáp ứng 2--5 giây
+        \item Hoạt động ổn định liên tục trên 30 phút
+        \item Chi phí linh kiện dưới 1 triệu VNĐ
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Đóng góp của đề tài}
+
+\begin{enumerate}
+    \item Đề xuất giải pháp cân bằng trọng tâm sử dụng Loadcell thay vì IMU, phù hợp với ứng dụng cân bằng tĩnh và bán tĩnh khi tải thay đổi.
+
+    \item Giải quyết vấn đề tích hợp cảm biến chậm (Loadcell 10--80Hz) với điều khiển nhanh (động cơ bước kHz) thông qua kiến trúc Non-blocking.
+
+    \item Cung cấp bộ mã nguồn Arduino hoàn chỉnh, có thể tái sử dụng và mở rộng cho các ứng dụng tương tự.
+
+    \item Xây dựng tài liệu kỹ thuật chi tiết về thiết kế, triển khai và tinh chỉnh hệ thống cân bằng.
+\end{enumerate}
+
+\section{Hạn chế}
+
+Bên cạnh các kết quả đạt được, đề tài còn một số hạn chế:
+
+\begin{enumerate}
+    \item \textbf{Tốc độ đáp ứng}: Thời gian cân bằng 2--5 giây có thể chưa đủ nhanh cho các ứng dụng yêu cầu phản ứng tức thời. Nguyên nhân chính là vitme bước 2mm có tốc độ di chuyển thấp.
+
+    \item \textbf{Giới hạn tải}: Khả năng cân bằng tối đa 600g bị giới hạn bởi khối lượng đối trọng (200g) và hành trình (120mm). Chưa thử nghiệm với tải lớn hơn.
+
+    \item \textbf{Một trục}: Hệ thống chỉ cân bằng theo một trục (Trái-Phải). Chưa mở rộng cho cân bằng 2 trục (Trước-Sau).
+
+    \item \textbf{Giao diện}: Chưa có giao diện người dùng trực quan, chỉ giám sát qua Serial Monitor.
+
+    \item \textbf{Tích hợp}: Chưa tích hợp thực tế với robot di động để đánh giá hiệu quả trong điều kiện vận hành.
+\end{enumerate}
+
+\section{Hướng phát triển}
+
+Dựa trên kết quả và hạn chế của đề tài, các hướng phát triển tiếp theo bao gồm:
+
+\subsection{Cải tiến phần cứng}
+
+\begin{enumerate}
+    \item \textbf{Tăng tốc độ di chuyển}: Thay vitme bước 2mm bằng vitme bước 4--8mm hoặc hệ thống đai răng (belt drive) để tăng tốc độ đáp ứng lên 2--3 lần.
+
+    \item \textbf{Mở rộng 2 trục}: Thêm một cơ cấu vitme + đối trọng theo trục Trước-Sau để cân bằng hoàn toàn trên mặt phẳng.
+
+    \item \textbf{Tăng khả năng chịu tải}: Sử dụng đối trọng nặng hơn (500g--1kg) hoặc tận dụng pin/acquy của robot làm đối trọng di động.
+
+    \item \textbf{Nâng cấp vi điều khiển}: Chuyển sang ESP32 hoặc STM32 để có tốc độ xử lý cao hơn, hỗ trợ WiFi/Bluetooth, và nhiều timer phần cứng cho điều khiển chính xác hơn.
+\end{enumerate}
+
+\subsection{Cải tiến phần mềm}
+
+\begin{enumerate}
+    \item \textbf{Thuật toán điều khiển nâng cao}: Nghiên cứu áp dụng LQR (Linear Quadratic Regulator) hoặc MPC (Model Predictive Control) để tối ưu đáp ứng.
+
+    \item \textbf{Bộ lọc Kalman}: Tích hợp bộ lọc Kalman để kết hợp dữ liệu từ Loadcell và IMU, tăng độ chính xác và tốc độ phản hồi.
+
+    \item \textbf{Adaptive PID}: Phát triển PID tự thích nghi, tự động điều chỉnh tham số theo đặc tính tải.
+
+    \item \textbf{Giao diện người dùng}: Xây dựng ứng dụng di động (Android/iOS) hoặc giao diện web để giám sát và điều khiển từ xa qua Bluetooth/WiFi.
+\end{enumerate}
+
+\subsection{Tích hợp và ứng dụng}
+
+\begin{enumerate}
+    \item \textbf{Tích hợp robot thực tế}: Lắp đặt khung cân bằng lên robot di động có cánh tay gắp để đánh giá hiệu quả trong điều kiện vận hành thực.
+
+    \item \textbf{Phối hợp với hệ thống điều khiển robot}: Kết nối với ROS (Robot Operating System) để tích hợp vào hệ thống điều khiển tổng thể của robot.
+
+    \item \textbf{Ứng dụng công nghiệp}: Phát triển phiên bản công nghiệp với độ bền cao hơn, phù hợp môi trường nhà máy.
+\end{enumerate}
+
+\section{Lời kết}
+
+Khóa luận đã hoàn thành mục tiêu đề ra là xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm. Mặc dù còn một số hạn chế, hệ thống đã chứng minh tính khả thi của phương pháp khối lượng di động kết hợp cảm biến Loadcell cho ứng dụng cân bằng robot.
+
+Các kiến thức và kinh nghiệm thu được trong quá trình thực hiện đề tài, từ thiết kế cơ khí, điện tử đến lập trình nhúng và điều khiển tự động, là nền tảng quý giá cho việc nghiên cứu và phát triển các hệ thống robot phức tạp hơn trong tương lai.
+
+Em xin chân thành cảm ơn thầy giáo hướng dẫn ThS. Đặng Anh Việt đã tận tình chỉ bảo và hỗ trợ em trong suốt quá trình thực hiện khóa luận này.
+
+%======================================================================
 % TÀI LIỆU THAM KHẢO (10 MỤC THIẾT YẾU)
 % Chèn vào cuối khóa luận, sau Chương 5
 %======================================================================

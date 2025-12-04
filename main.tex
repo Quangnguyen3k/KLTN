@@ -64,7 +64,7 @@ Tôi xin cam đoan rằng mọi sự giúp đỡ cho việc thực hiện khóa 
 
 Trước hết, tôi xin gửi lời cảm ơn chân thành và sâu sắc nhất đến ThS. Đặng Anh Việt -- người đã trực tiếp hướng dẫn, chỉ bảo tận tình và tạo mọi điều kiện thuận lợi cho tôi trong suốt quá trình thực hiện khóa luận.
 
-Tôi xin chân thành cảm ơn các thầy cô giáo trong Khoa Điện tử - Viễn thông, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội đã trang bị cho tôi những kiến thức quý báu trong suốt thời gian học tập tại trường.
+Tôi xin chân thành cảm ơn các thầy cô giáo trong Khoa Cơ học kỹ thuật và Tự động hóa, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội đã trang bị cho tôi những kiến thức quý báu trong suốt thời gian học tập tại trường.
 
 Cuối cùng, tôi xin gửi lời cảm ơn đến gia đình, bạn bè đã luôn động viên, khích lệ tôi trong suốt quá trình học tập và thực hiện khóa luận.
 
@@ -209,7 +209,7 @@ Khóa luận tập trung vào các giới hạn sau:
 
 \textbf{Về điều khiển:} Sử dụng điều khiển vòng hở cho động cơ bước (không có encoder phản hồi vị trí). Thuật toán PID với vùng chết $\pm$50g -- tức là hệ thống chấp nhận độ lệch trong phạm vi này mà không cần điều chỉnh.
 
-\textbf{Về hiệu năng:} Tốc độ tối đa của động cơ bước bị giới hạn bởi khả năng xử lý của vi điều khiển và đặc tính của thư viện AccelStepper (khoảng 4000 bước/giây trong điều kiện tối ưu).
+\textbf{Về hiệu năng:} Tốc độ tối đa của động cơ bước bị giới hạn bởi khả năng xử lý của vi điều khiển và đặc tính của thư viện AccelStepper (khoảng 15000 bước/giây trong điều kiện tối ưu).
 
 \section{Phương pháp nghiên cứu}
 
@@ -217,7 +217,7 @@ Khóa luận sử dụng kết hợp các phương pháp nghiên cứu sau:
 
 \subsection{Phương pháp nghiên cứu lý thuyết}
 
-Thu thập và phân tích các tài liệu về: cơ học lý thuyết (momen lực, điều kiện cân bằng), lý thuyết điều khiển tự động (bộ điều khiển PID, ổn định hệ thống), kỹ thuật cảm biến (nguyên lý loadcell, xử lý tín hiệu), và lập trình hệ thống nhúng (kiến trúc real-time, xử lý ngắt).
+Tham khảo các tài liệu về cơ học (momen lực, điều kiện cân bằng) [7], lý thuyết điều khiển PID [7], nguyên lý cảm biến loadcell [5], và lập trình hệ thống nhúng [6].
 
 Tổng hợp kiến thức từ các nghiên cứu trước đó về điều khiển động cơ bước, đặc biệt là các vấn đề về hiệu năng thời gian thực khi kết hợp nhiều tác vụ (đọc cảm biến, điều khiển động cơ, giao tiếp Serial).
 
@@ -294,9 +294,9 @@ Trong lĩnh vực robot di động, có nhiều phương pháp khác nhau để 
 
 \subsection{Các phương pháp cân bằng chính}
 
-\textbf{Phương pháp 1 - Điều khiển bánh xe (Wheel-based Balancing):} Đây là phương pháp phổ biến nhất, được sử dụng trong robot tự cân bằng hai bánh như Segway. Nguyên lý hoạt động dựa trên việc di chuyển bánh xe theo hướng robot đang nghiêng để ``đuổi theo'' trọng tâm, tương tự như cách con người giữ thăng bằng khi đứng. Cảm biến IMU (gyroscope và accelerometer) đo góc nghiêng, sau đó bộ điều khiển tính toán tốc độ bánh xe cần thiết để giữ thăng bằng.
+\textbf{Phương pháp 1 - Điều khiển bánh xe (Wheel-based Balancing):} Phương pháp này được sử dụng trong các sản phẩm thương mại như Segway và nhiều robot giao hàng [9]. Robot di chuyển bánh xe theo hướng nghiêng để giữ trọng tâm nằm trên đa giác đỡ.
 
-\textbf{Phương pháp 2 - Bánh đà/Con quay hồi chuyển (Reaction Wheel/CMG):} Phương pháp này sử dụng momen động lượng của một hoặc nhiều bánh đà quay tốc độ cao. Khi cần tạo momen cân bằng, động cơ tăng hoặc giảm tốc độ bánh đà, theo định luật bảo toàn momen động lượng, một momen phản lực sẽ tác động lên thân robot. Control Moment Gyroscope (CMG) là biến thể sử dụng hiệu ứng tiến động của con quay hồi chuyển.
+\textbf{Phương pháp 2 - Bánh đà/Con quay hồi chuyển (Reaction Wheel/CMG):} Bánh đà quay tốc độ cao tạo momen phản lực khi thay đổi tốc độ, được ứng dụng trong điều khiển tư thế vệ tinh và một số robot thí nghiệm [10]. Khi cần tạo momen cân bằng, động cơ tăng hoặc giảm tốc độ bánh đà, theo định luật bảo toàn momen động lượng, một momen phản lực sẽ tác động lên thân robot. Control Moment Gyroscope (CMG) là biến thể sử dụng hiệu ứng tiến động của con quay hồi chuyển.
 
 \textbf{Phương pháp 3 - Khối lượng di động (Moving Mass):} Nguyên lý hoạt động dựa trên việc di chuyển một khối lượng đối trọng để thay đổi vị trí trọng tâm của hệ thống. Khi phát hiện độ lệch, khối đối trọng được di chuyển về phía đối diện để bù đắp momen lực gây mất cân bằng. Đây chính là phương pháp được áp dụng trong đề tài này.
 
@@ -372,7 +372,7 @@ Thứ năm, về độ phức tạp: So với phương pháp bánh đà hoặc C
 
 \subsection{Khái niệm trọng tâm}
 
-Trọng tâm (Center of Gravity - CoG) của một vật thể hoặc hệ vật là điểm mà tại đó toàn bộ trọng lượng của hệ có thể được coi như tập trung. Đối với một hệ thống gồm $n$ vật thể rời rạc, vị trí trọng tâm theo trục $x$ được xác định bởi công thức:
+Trọng tâm (Center of Gravity - CoG) là điểm đặt của hợp lực trọng trường tác dụng lên vật thể [8]. Đối với một hệ thống gồm $n$ vật thể rời rạc, vị trí trọng tâm theo trục $x$ được xác định bởi công thức:
 
 \begin{equation}
 x_G = \frac{\sum_{i=1}^{n} m_i \cdot x_i}{\sum_{i=1}^{n} m_i} = \frac{\sum_{i=1}^{n} m_i \cdot x_i}{M}
@@ -444,7 +444,7 @@ Kết quả này cho thấy để tăng khả năng cân bằng, có thể: (1) 
 
 \subsection{Cấu tạo và nguyên lý hoạt động của Loadcell}
 
-Loadcell là cảm biến chuyển đổi lực cơ học thành tín hiệu điện, hoạt động dựa trên hiệu ứng điện trở biến dạng (Piezoresistive effect). Cấu tạo cơ bản của loadcell gồm:
+Loadcell là cảm biến chuyển đổi lực cơ học thành tín hiệu điện, hoạt động dựa trên hiệu ứng điện trở biến dạng (Piezoresistive effect)[5]. Cấu tạo cơ bản của loadcell gồm:
 
 \textbf{Thân đàn hồi (Elastic element):} Thường làm từ thép hợp kim hoặc nhôm, được gia công với hình dạng đặc biệt để biến dạng theo hướng xác định khi chịu lực.
 
@@ -497,7 +497,7 @@ Giao thức truyền thông của HX711 hoạt động như sau: Vi điều khi�
 
 \subsection{Thư viện HX711\_ADC và cơ chế Non-blocking}
 
-Một trong những quyết định kỹ thuật quan trọng của dự án là sử dụng thư viện \texttt{HX711\_ADC} của tác giả Olav Kallhovd thay vì thư viện \texttt{HX711} chuẩn (của Bogde). Sự khác biệt cốt lõi nằm ở cơ chế đọc dữ liệu:
+Một trong những quyết định kỹ thuật quan trọng của dự án là sử dụng thư viện \texttt{HX711\_ADC} của tác giả Olav Kallhovd[2]  thay vì thư viện \texttt{HX711} chuẩn (của Bogde). Sự khác biệt cốt lõi nằm ở cơ chế đọc dữ liệu:
 
 \textbf{Thư viện HX711 chuẩn (Blocking):}
 \begin{itemize}
@@ -596,7 +596,7 @@ Giao thức điều khiển đơn giản: Mỗi xung trên chân PUL làm độn
 
 \subsection{Thư viện AccelStepper và cơ chế Polling}
 
-Thư viện AccelStepper của Mike McCauley là thư viện phổ biến nhất cho điều khiển động cơ bước trên Arduino. Thư viện hoạt động theo cơ chế \textbf{Polling} (hỏi vòng), không phải Interrupt-driven (ngắt).
+Thư viện AccelStepper [3] điều khiển động cơ bước theo cơ chế Polling, yêu cầu gọi hàm \texttt{runSpeed()} liên tục trong vòng lặp chính.
 
 Hàm cốt lõi \texttt{runSpeed()} hoạt động như sau (mã giả):
 
@@ -687,7 +687,7 @@ Trong 26 ms này:
 
 \subsection{Mô hình toán học của bộ điều khiển PID}
 
-PID (Proportional-Integral-Derivative) là thuật toán điều khiển vòng kín phổ biến nhất trong công nghiệp. Bộ điều khiển PID tính toán tín hiệu điều khiển $u(t)$ dựa trên sai số $e(t)$ giữa giá trị đặt (Setpoint) và giá trị thực tế (Process Variable):
+PID (Proportional-Integral-Derivative) là thuật toán điều khiển vòng kín phổ biến nhất trong công nghiệp[7]. Bộ điều khiển PID tính toán tín hiệu điều khiển $u(t)$ dựa trên sai số $e(t)$ giữa giá trị đặt (Setpoint) và giá trị thực tế (Process Variable):
 
 \begin{equation}
 u(t) = K_p \cdot e(t) + K_i \cdot \int_0^t e(\tau) \, d\tau + K_d \cdot \frac{de(t)}{dt}
@@ -741,7 +741,7 @@ u[k] = K_p \cdot e[k] + K_i \cdot T_s \sum_{j=0}^{k} e[j] + K_d \cdot \frac{e[k]
 \label{eq:pid_discrete}
 \end{equation}
 
-Thư viện PID\_v1 cho Arduino triển khai dạng rời rạc này với các tối ưu như: anti-windup (chống tích lũy tích phân khi bão hòa), derivative kick prevention (tránh đột biến vi phân khi thay đổi setpoint), và on-the-fly tuning (cho phép thay đổi tham số trong khi chạy).
+Thư viện PID\_v1 [4] triển khai dạng rời rạc với các tính năng anti-windup và derivative kick prevention.
 
 \subsection{Phương pháp tinh chỉnh tham số PID}
 
@@ -910,7 +910,7 @@ Dựa trên mục tiêu đề tài và phân tích ứng dụng thực tế, h�
 
 \subsection{Ràng buộc thiết kế}
 
-Quá trình thiết kế phải tuân thủ các ràng buộc: sử dụng linh kiện phổ biến tại Việt Nam (Arduino, Nema 17, TB6600, Loadcell 50kg, HX711); khung cơ khí dùng nhôm định hình 20$\times$20mm; và tốc độ tối đa của động cơ bị giới hạn khoảng 4000 bước/giây do giới hạn của thư viện AccelStepper.
+Quá trình thiết kế phải tuân thủ các ràng buộc: sử dụng linh kiện phổ biến tại Việt Nam (Arduino, Nema 17, TB6600, Loadcell 50kg, HX711); khung cơ khí dùng nhôm định hình 20$\times$20mm; và tốc độ tối đa của động cơ bị giới hạn khoảng 15000 bước/giây do giới hạn của thư viện AccelStepper.
 
 \section{Thiết kế cơ khí}
 
@@ -953,7 +953,7 @@ Loại & Vitme bi hoặc vitme thang \\
 \end{tabular}
 \end{table}
 
-Bước ren 2mm có nghĩa mỗi vòng quay của động cơ, khối trượt di chuyển 2mm. Tính toán tốc độ di chuyển tối đa với chế độ 1/16 microstep (3200 bước/vòng) và tốc độ xung tối đa 4000 bước/giây: $n_{max} = 4000/3200 \times 60 = 75$ RPM, suy ra $v_{max} = 75 \times 2 / 60 = 2.5$ mm/s. Tốc độ này khá chậm, để di chuyển hết hành trình 120mm cần khoảng 48 giây.
+Bước ren 2mm có nghĩa mỗi vòng quay của động cơ, khối trượt di chuyển 2mm. Tính toán tốc độ di chuyển tối đa với chế độ 1/16 microstep (3200 bước/vòng) và tốc độ xung tối đa 15000 bước/giây: $n_{max} = 15000/3200 \times 60 = 281$ RPM, suy ra $v_{max} = 281 \times 2 / 60 = 9.4$ mm/s. Tốc độ này khá ổn, để di chuyển hết hành trình 120mm cần khoảng 13 giây.
 
 Thanh trượt tròn đường kính 8mm, chiều dài 280mm, vật liệu thép mạ cứng, số lượng 2 thanh song song với vitme. Thanh trượt có chức năng dẫn hướng cho khối trượt di chuyển thẳng và chống xoay.
 
@@ -1448,43 +1448,6 @@ Chi phí & Thấp & $<$1 triệu VNĐ & Đạt \\
 \end{table}
 
 Kết luận: Hệ thống đáp ứng đầy đủ các mục tiêu đề ra, một số chỉ tiêu vượt yêu cầu.
-
-%======================================================================
-% CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
-%======================================================================
-\chapter{Kết luận và hướng phát triển}
-
-\section{Kết quả đạt được}
-
-Khóa luận đã hoàn thành các mục tiêu đề ra:
-
-Về lý thuyết: Nghiên cứu và trình bày đầy đủ cơ sở lý thuyết về cân bằng trọng tâm, cảm biến lực, động cơ bước, thuật toán PID và lập trình thời gian thực cho hệ thống nhúng.
-
-Về thiết kế: Thiết kế hoàn chỉnh hệ thống khung đế cân bằng bao gồm cơ khí (khung nhôm, cơ cấu vitme-thanh trượt), mạch điện (kết nối Arduino, HX711, TB6600), và phần mềm điều khiển.
-
-Về chế tạo: Chế tạo thành công mô hình khung đế hoạt động ổn định. Hệ thống có khả năng phát hiện và bù đắp độ lệch trọng tâm trong phạm vi thiết kế.
-
-Về phần mềm: Xây dựng chương trình điều khiển theo kiến trúc Non-blocking, đảm bảo động cơ bước hoạt động mượt mà. Tích hợp thuật toán PID với các kỹ thuật Deadzone, Hysteresis và Min Speed Cutoff.
-
-\section{Hạn chế của đề tài}
-
-Tốc độ phản hồi: Do sử dụng vitme bước nhỏ (2mm) kết hợp microstep cao (1/16), tốc độ di chuyển đối trọng chỉ đạt 2.5mm/s, chưa đáp ứng được các tình huống thay đổi tải đột ngột.
-
-Khả năng cân bằng: Với đối trọng 200g, hệ thống chỉ bù đắp được độ lệch tối đa khoảng 137g. Để cân bằng tải lớn hơn cần tăng khối lượng đối trọng.
-
-Phạm vi cân bằng: Hệ thống chỉ cân bằng theo một trục. Robot thực tế có thể cần cân bằng theo cả hai trục.
-
-\section{Hướng phát triển}
-
-Tăng tốc độ phản hồi: Sử dụng vitme bước lớn hơn (4mm hoặc 8mm) hoặc giảm microstep xuống 1/4 để tăng tốc độ di chuyển.
-
-Tăng khả năng cân bằng: Sử dụng đối trọng nặng hơn (có thể tận dụng pin/acquy của robot) hoặc thiết kế cơ cấu có cánh tay đòn dài hơn.
-
-Mở rộng sang hai trục: Thiết kế thêm cơ cấu di chuyển đối trọng theo trục trước-sau để cân bằng hoàn toàn.
-
-Điều khiển vị trí và tốc độ: Như yêu cầu mở rộng của đề tài, có thể phát triển thêm chế độ điều khiển vị trí tuyệt đối và giới hạn tốc độ chuyển dịch của đối trọng.
-
-Tích hợp vào robot thực tế: Thiết kế phiên bản nhỏ gọn hơn, tối ưu nguồn điện và giao tiếp với hệ thống điều khiển chính của robot.
 
 %======================================================================
 % CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN

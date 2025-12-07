@@ -1,14 +1,15 @@
 \contentsline {a@table}{\numberline {2.1.}{\ignorespaces So sánh các phương pháp cân bằng robot}}{8}{}%
-\contentsline {a@table}{\numberline {3.1.}{\ignorespaces Thông số khung nhôm định hình}}{24}{}%
-\contentsline {a@table}{\numberline {3.2.}{\ignorespaces Thông số vitme}}{24}{}%
-\contentsline {a@table}{\numberline {3.3.}{\ignorespaces Danh sách linh kiện điện tử}}{26}{}%
-\contentsline {a@table}{\numberline {3.4.}{\ignorespaces Kết nối Arduino với các module HX711}}{27}{}%
-\contentsline {a@table}{\numberline {3.5.}{\ignorespaces Kết nối Arduino với driver TB6600}}{27}{}%
-\contentsline {a@table}{\numberline {3.6.}{\ignorespaces Bảng tổng hợp các tham số cấu hình phần mềm}}{32}{}%
-\contentsline {a@table}{\numberline {4.1.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải tĩnh}}{35}{}%
-\contentsline {a@table}{\numberline {4.2.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}}{36}{}%
-\contentsline {a@table}{\numberline {4.3.}{\ignorespaces Kết quả thử nghiệm độ ổn định dài hạn}}{37}{}%
-\contentsline {a@table}{\numberline {4.4.}{\ignorespaces \centering }}{38}{}%
-\contentsline {a@table}{\numberline {4.5}{\ignorespaces Khả năng cân bằng theo khối lượng đối trọng}}{38}{}%
-\contentsline {a@table}{\numberline {4.6.}{\ignorespaces So sánh thiết kế Non-blocking và Blocking}}{39}{}%
-\contentsline {a@table}{\numberline {4.7.}{\ignorespaces So sánh kết quả với mục tiêu}}{40}{}%
+\contentsline {a@table}{\numberline {2.2.}{\ignorespaces \centering }}{11}{}%
+\contentsline {a@table}{\numberline {2.3}{\ignorespaces Khả năng cân bằng theo khối lượng đối trọng}}{11}{}%
+\contentsline {a@table}{\numberline {3.1.}{\ignorespaces Thông số khung nhôm định hình}}{25}{}%
+\contentsline {a@table}{\numberline {3.2.}{\ignorespaces Thông số vitme}}{25}{}%
+\contentsline {a@table}{\numberline {3.3.}{\ignorespaces Danh sách linh kiện điện tử}}{27}{}%
+\contentsline {a@table}{\numberline {3.4.}{\ignorespaces Kết nối Arduino với các module HX711}}{28}{}%
+\contentsline {a@table}{\numberline {3.5.}{\ignorespaces Kết nối Arduino với driver TB6600}}{28}{}%
+\contentsline {a@table}{\numberline {3.6.}{\ignorespaces Bảng tổng hợp các tham số cấu hình phần mềm}}{34}{}%
+\contentsline {a@table}{\numberline {4.1.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải tĩnh}}{37}{}%
+\contentsline {a@table}{\numberline {4.2.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}}{38}{}%
+\contentsline {a@table}{\numberline {4.3.}{\ignorespaces Kết quả thử nghiệm độ ổn định dài hạn}}{39}{}%
+\contentsline {a@table}{\numberline {4.4.}{\ignorespaces \centering }}{40}{}%
+\contentsline {a@table}{\numberline {4.5.}{\ignorespaces So sánh thiết kế Non-blocking và Blocking}}{41}{}%
+\contentsline {a@table}{\numberline {4.6.}{\ignorespaces So sánh kết quả với mục tiêu}}{42}{}%

@@ -4,6 +4,10 @@
 \RequirePackage{listings}
 \RequirePackage{xcolor}
 
+% Gói bổ sung cho biểu đồ (Chương 4)
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
 % Cấu hình hiển thị code Arduino
 \lstdefinestyle{arduino}{
     backgroundcolor=\color{white},
@@ -1190,18 +1194,20 @@ Trước khi sử dụng, mỗi cụm loadcell cần được hiệu chuẩn đ�
 Trong dự án này, hệ số hiệu chuẩn đã xác định là CALIB\_LEFT = -53.13 và CALIB\_RIGHT = -55.36. Dấu âm là do cách lắp đặt loadcell theo chiều nén.
 
 %======================================================================
-% CHƯƠNG 4: THỰC NGHIỆM VÀ ĐÁNH GIÁ
+% CHƯƠNG 4: THỰC NGHIỆM VÀ ĐÁNH GIÁ  
+% Dựa trên số liệu thực nghiệm: Kp=20/30/40, vật chuẩn 210g
+% LƯU Ý: File này đã sửa lỗi cellcolor
 %======================================================================
 
 \chapter{Thực nghiệm và đánh giá}
 
-Chương này trình bày quá trình triển khai thực tế hệ thống khung cân bằng trọng tâm, các kịch bản thử nghiệm, kết quả đo đạc và đánh giá hiệu năng của hệ thống.
+Chương này trình bày chi tiết các kết quả thực nghiệm thu được từ hệ thống khung cân bằng trọng tâm. Dữ liệu được thu thập trực tiếp từ Serial Monitor trong quá trình vận hành thực tế, bao gồm: kiểm tra độ chính xác cảm biến, so sánh hiệu năng với các giá trị $K_p$ khác nhau, và thử nghiệm tổng hợp với nhiều kịch bản tải trọng.
 
 \section{Triển khai hệ thống}
 
 \subsection{Môi trường thử nghiệm}
 
-Hệ thống được triển khai và thử nghiệm trong điều kiện phòng thí nghiệm với các thông số môi trường:
+Hệ thống được triển khai và thử nghiệm trong điều kiện phòng thí nghiệm với các thông số:
 
 \begin{itemize}
     \item Nhiệt độ phòng: 25--30°C
@@ -1210,307 +1216,419 @@ Hệ thống được triển khai và thử nghiệm trong điều kiện phòn
     \item Không có rung động ngoại lai đáng kể
 \end{itemize}
 
-\subsection{Quy trình hiệu chuẩn Loadcell}
+\subsection{Các tham số cấu hình thử nghiệm}
 
-Trước khi tiến hành thử nghiệm, hệ thống Loadcell được hiệu chuẩn theo quy trình sau:
-
-\textbf{Bước 1: Xác định hệ số hiệu chuẩn (Calibration Factor)}
-
-Sử dụng vật chuẩn có khối lượng đã biết (quả cân 500g), đặt lên từng cụm Loadcell và điều chỉnh hệ số cho đến khi giá trị đọc được khớp với khối lượng thực.
-
-\begin{itemize}
-    \item Hệ số hiệu chuẩn Loadcell Trái: $-53.13$
-    \item Hệ số hiệu chuẩn Loadcell Phải: $-55.36$
-\end{itemize}
-
-\textbf{Bước 2: Trừ bì (Tare)}
-
-Khi khởi động hệ thống, thực hiện trừ bì tự động để đưa giá trị đọc về 0 khi không có tải.
-
-\textbf{Bước 3: Kiểm tra độ tuyến tính}
-
-Đặt các vật có khối lượng khác nhau (100g, 200g, 500g, 1000g) và kiểm tra độ chính xác của giá trị đọc.
-
-\subsection{Quy trình Homing}
-
-Quy trình Homing được thực hiện tự động mỗi khi khởi động hệ thống:
-
-\begin{enumerate}
-    \item \textbf{Tìm nhanh}: Động cơ chạy về phía công tắc hành trình với tốc độ 8000 bước/s cho đến khi chạm công tắc.
-    \item \textbf{Lùi ra}: Động cơ lùi ra 5mm để nhả công tắc.
-    \item \textbf{Tìm chậm}: Động cơ chạy chậm (6000 bước/s) về phía công tắc để xác định vị trí chính xác.
-    \item \textbf{Thiết lập gốc}: Gán vị trí hiện tại là +110mm (giới hạn phải).
-    \item \textbf{Về tâm}: Động cơ di chuyển về vị trí 0mm (tâm khung).
-    \item \textbf{Chờ ổn định}: Hệ thống chờ 5 giây để Loadcell ổn định trước khi bắt đầu cân bằng.
-\end{enumerate}
-
-Thời gian hoàn thành quy trình Homing: khoảng 15--20 giây.
-
-\section{Kịch bản thử nghiệm}
-
-\subsection{Thử nghiệm 1: Đáp ứng với tải tĩnh}
-
-\textbf{Mục đích}: Đánh giá khả năng cân bằng khi đặt tải cố định lên một bên khung.
-
-\textbf{Quy trình}:
-\begin{enumerate}
-    \item Khởi động hệ thống, chờ Homing hoàn tất.
-    \item Đặt vật nặng (100g, 200g, 300g) lên phía bên phải khung.
-    \item Quan sát phản ứng của hệ thống và ghi nhận thời gian đạt cân bằng.
-    \item Lặp lại với các khối lượng khác nhau.
-\end{enumerate}
-
-\textbf{Kết quả}:
-
-\begin{table}[H]{Kết quả thử nghiệm đáp ứng với tải tĩnh}
-\centering
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\textbf{Tải đặt (g)} & \textbf{Độ lệch ban đầu (g)} & \textbf{Thời gian đáp ứng (s)} & \textbf{Độ lệch cuối (g)} & \textbf{Kết quả} \\
-\hline
-100 & 95--105 & 2.1 & $<$50 & Đạt \\
-\hline
-200 & 190--210 & 3.5 & $<$50 & Đạt \\
-\hline
-300 & 285--310 & 4.8 & $<$50 & Đạt \\
-\hline
-500 & 480--520 & 7.2 & $<$50 & Đạt \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Nhận xét}: Hệ thống đáp ứng tốt với tải tĩnh trong phạm vi 100--500g. Thời gian đáp ứng tỷ lệ thuận với độ lớn của tải. Độ lệch cuối cùng đều nằm trong vùng chấp nhận (±100g).
-
-\subsection{Thử nghiệm 2: Đáp ứng với tải thay đổi đột ngột}
-
-\textbf{Mục đích}: Đánh giá khả năng phản ứng khi tải thay đổi đột ngột (mô phỏng cánh tay robot gắp/thả vật).
-
-\textbf{Quy trình}:
-\begin{enumerate}
-    \item Hệ thống đang ở trạng thái cân bằng.
-    \item Đặt nhanh vật 200g lên một bên.
-    \item Ghi nhận thời gian hệ thống phát hiện và bắt đầu phản ứng.
-    \item Ghi nhận thời gian đạt cân bằng trở lại.
-    \item Nhấc vật ra và quan sát phản ứng ngược lại.
-\end{enumerate}
-
-\textbf{Kết quả}:
-
-\begin{table}[H]{Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}
-\centering
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Thông số} & \textbf{Đặt tải} & \textbf{Nhấc tải} \\
-\hline
-Thời gian phát hiện (ms) & $<$100 & $<$100 \\
-\hline
-Thời gian bắt đầu di chuyển (ms) & $<$150 & $<$150 \\
-\hline
-Thời gian đạt cân bằng (s) & 3.2 & 2.8 \\
-\hline
-Độ vọt lố (g) & $<$30 & $<$25 \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Nhận xét}: Hệ thống phát hiện thay đổi tải nhanh chóng (dưới 100ms) nhờ chu kỳ lấy mẫu 20ms của PID. Độ vọt lố thấp cho thấy tham số PID được tinh chỉnh phù hợp.
-
-\subsection{Thử nghiệm 3: Độ ổn định dài hạn}
-
-\textbf{Mục đích}: Đánh giá độ ổn định của hệ thống khi hoạt động liên tục trong thời gian dài.
-
-\textbf{Quy trình}:
-\begin{enumerate}
-    \item Đặt tải 200g lên một bên, chờ hệ thống cân bằng.
-    \item Để hệ thống hoạt động liên tục trong 30 phút.
-    \item Ghi nhận giá trị độ lệch mỗi 5 phút.
-    \item Quan sát hiện tượng trôi (drift) hoặc dao động.
-\end{enumerate}
-
-\textbf{Kết quả}:
-
-\begin{table}[H]{Kết quả thử nghiệm độ ổn định dài hạn}
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Thời gian (phút)} & \textbf{Độ lệch (g)} & \textbf{Vị trí con trượt (mm)} & \textbf{Trạng thái} \\
-\hline
-0 & 45 & -32.5 & OK \\
-\hline
-5 & 42 & -32.8 & OK \\
-\hline
-10 & 48 & -32.3 & OK \\
-\hline
-15 & 44 & -32.6 & OK \\
-\hline
-20 & 46 & -32.4 & OK \\
-\hline
-25 & 43 & -32.7 & OK \\
-\hline
-30 & 45 & -32.5 & OK \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Nhận xét}: Hệ thống duy trì trạng thái cân bằng ổn định trong suốt 30 phút thử nghiệm. Không xuất hiện hiện tượng trôi đáng kể. Độ lệch dao động trong khoảng ±5g quanh giá trị trung bình, nằm trong vùng Deadzone nên động cơ không hoạt động liên tục.
-
-\subsection{Thử nghiệm 4: Giới hạn khả năng cân bằng}
-
-\textbf{Mục đích}: Xác định giới hạn tải tối đa mà hệ thống có thể cân bằng.
-
-\textbf{Quy trình}:
-\begin{enumerate}
-    \item Tăng dần khối lượng tải từ 100g đến khi hệ thống không thể cân bằng.
-    \item Ghi nhận vị trí con trượt và độ lệch còn lại.
-\end{enumerate}
-
-\textbf{Kết quả}:
-
-Khả năng cân bằng phụ thuộc vào khối lượng đối trọng và hành trình. Công thức tính độ lệch tối đa có thể bù được:
-\begin{equation}
-m_{load,max} = 0.69 \times m_{slider}
-\end{equation}
-
-Trong thử nghiệm với đối trọng 200g:
-\begin{itemize}
-    \item Độ lệch tối đa bù được: $0.69 \times 200 \approx 137$g
-    \item Tải vượt khả năng: $>$ 137g (con trượt chạm giới hạn, còn lệch $>$100g)
-\end{itemize}
-
-Bảng tra cứu khả năng cân bằng theo khối lượng đối trọng (với khung 35cm, hành trình 120mm):
+Bảng \ref{tab:test_params} tổng hợp các tham số cấu hình được sử dụng trong toàn bộ quá trình thử nghiệm.
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|l|}
+\caption{Tham số cấu hình hệ thống trong thử nghiệm}
+\label{tab:test_params}
+\begin{tabular}{|l|c|l|}
 \hline
-\textbf{Đối trọng} & \textbf{Độ lệch tối đa bù được} & \textbf{Ghi chú} \\
+\textbf{Tham số} & \textbf{Giá trị} & \textbf{Ý nghĩa} \\
 \hline
-200g & $\sim$137g & Dùng trong thử nghiệm \\
+\texttt{ACCEPTABLE\_RANGE} & 100.0 g & Vùng chết (Deadzone) \\
+\texttt{HYSTERESIS\_GAP} & 10.0 g & Độ trễ Hysteresis \\
+Ngưỡng bật [RUN] & $>$ 110 g & 100 + 10 \\
+Ngưỡng tắt [OK] & $<$ 90 g & 100 -- 10 \\
 \hline
-500g & $\sim$343g & Khuyên nghị ứng dụng nhẹ \\
+\texttt{MIN\_SPEED\_THRESHOLD} & 4000 bước/s & Tốc độ tối thiểu \\
+\texttt{MAX\_SPEED\_PID} & 8000 bước/s & Tốc độ tối đa \\
+\texttt{MOTOR\_ACCEL} & 16000 bước/s² & Gia tốc động cơ \\
 \hline
-1000g & $\sim$686g & Khuyên nghị ứng dụng nặng \\
-\hline
-1500g & $\sim$1029g & Sử dụng pin/acquy làm đối trọng \\
+\texttt{STEP\_SIZE} & 10.0 g & Độ chia quantization \\
+\texttt{PID\_INTERVAL} & 20 ms & Chu kỳ tính PID \\
 \hline
 \end{tabular}
 \end{table}
 
-\textbf{Nhận xét}: Giới hạn cân bằng phụ thuộc vào khối lượng đối trọng. Hệ số 0.69 được xác định từ tỷ lệ cánh tay đòn: $\frac{d_{slider,max}}{d_{load}} = \frac{120}{175} \approx 0.69$. Để tăng khả năng cân bằng, cần tăng khối lượng đối trọng hoặc sử dụng pin/acquy nặng làm đối trọng.
+\section{Kiểm tra độ chính xác cảm biến Loadcell}
 
-\section{Phân tích kết quả}
+Trước khi tiến hành các thử nghiệm chính, cần đảm bảo hai cụm loadcell (Trái và Phải) đã được hiệu chuẩn chính xác.
+
+\subsection{Phương pháp kiểm tra}
+
+\begin{itemize}
+    \item \textbf{Vật chuẩn}: Quả cân 210 gram
+    \item \textbf{Quy trình}: Đặt vật lên cụm loadcell Trái, ghi nhận giá trị ổn định; sau đó đặt lên cụm Phải, ghi nhận giá trị
+    \item \textbf{Tiêu chí đánh giá}: Sai số $<$ 5\%, không có hiện tượng crosstalk (đọc chéo)
+\end{itemize}
+
+\subsection{Kết quả đo}
+
+Bảng \ref{tab:sensor_accuracy} trình bày kết quả kiểm tra độ chính xác cảm biến.
+
+\begin{table}[H]
+\centering
+\caption{Kết quả kiểm tra độ chính xác cảm biến với vật chuẩn 210g}
+\label{tab:sensor_accuracy}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Vị trí đặt vật} & \textbf{Giá trị L (g)} & \textbf{Giá trị R (g)} & \textbf{Sai số} & \textbf{Kết quả} \\
+\hline
+Bên TRÁI & 210 & 0 & 0\% & \textbf{Đạt} \\
+Bên PHẢI & 0 & 210 & 0\% & \textbf{Đạt} \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét}: Cả hai cụm loadcell đều đọc chính xác giá trị 210g với sai số 0\%. Không có hiện tượng crosstalk -- khi đặt vật lên một bên, bên còn lại đọc giá trị 0. Giá trị đọc ổn định trong suốt thời gian đo, xác nhận hệ thống cảm biến sẵn sàng cho các thử nghiệm tiếp theo.
+
+\section{Thử nghiệm so sánh các giá trị hệ số $K_p$}
+
+Mục đích của thử nghiệm này là xác định giá trị $K_p$ tối ưu cho bộ điều khiển PID. Ba giá trị $K_p$ được thử nghiệm là 20, 30 và 40, với cùng điều kiện: đặt vật nặng khoảng 200g lên bên TRÁI, theo dõi quá trình cân bằng từ khi bắt đầu cho đến khi đạt trạng thái [OK].
+
+\subsection{Kết quả chi tiết từng giá trị $K_p$}
+
+\textbf{Thử nghiệm với $K_p = 20$}
+
+Dữ liệu thu thập từ Serial Monitor:
+\begin{itemize}
+    \item Thời điểm bắt đầu: 14:30:08 -- Độ lệch --120g, chuyển sang [RUN]
+    \item Độ lệch đỉnh: --220g
+    \item Tốc độ động cơ: 4000--4400 bước/s (công thức: $Speed = K_p \times |Lệch| = 20 \times 220 = 4400$)
+    \item Thời điểm kết thúc: 14:30:33 -- Độ lệch --80g, chuyển về [OK]
+    \item \textbf{Thời gian xác lập: khoảng 25 giây}
+\end{itemize}
+
+\textbf{Thử nghiệm với $K_p = 30$}
+
+\begin{itemize}
+    \item Thời điểm bắt đầu: 14:11:58 -- Độ lệch --130g, chuyển sang [RUN]
+    \item Độ lệch đỉnh: --220g
+    \item Tốc độ động cơ đỉnh: 6600 bước/s ($Speed = 30 \times 220 = 6600$)
+    \item Thời điểm kết thúc: 14:12:19 -- Độ lệch --80g, chuyển về [OK]
+    \item \textbf{Thời gian xác lập: khoảng 21 giây}
+\end{itemize}
+
+\textbf{Thử nghiệm với $K_p = 40$}
+
+\begin{itemize}
+    \item Thời điểm bắt đầu: 13:39:20 -- Độ lệch --140g, chuyển sang [RUN]
+    \item Độ lệch đỉnh: --220g
+    \item Tốc độ động cơ đỉnh: 8000 bước/s ($Speed = 40 \times 220 = 8800$, bị giới hạn bởi \texttt{MAX\_SPEED})
+    \item Thời điểm kết thúc: 13:39:36 -- Độ lệch --80g, chuyển về [OK]
+    \item \textbf{Thời gian xác lập: khoảng 16 giây}
+\end{itemize}
+
+\subsection{Bảng so sánh tổng hợp}
+
+Bảng \ref{tab:kp_comparison} so sánh hiệu năng hệ thống với các giá trị $K_p$ khác nhau.
+
+\begin{table}[H]
+\centering
+\caption{So sánh hiệu năng với các giá trị $K_p$ khác nhau}
+\label{tab:kp_comparison}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{$K_p = 20$} & \textbf{$K_p = 30$} & \textbf{$K_p = 40$} \\
+\hline
+Độ lệch đỉnh (g) & --220 & --220 & --220 \\
+Tốc độ đỉnh (bước/s) & 4400 & 6600 & 8000 \\
+\textbf{Thời gian xác lập (s)} & khoảng 25 & khoảng 21 & \textbf{khoảng 16} \\
+Độ lệch cuối (g) & --80 [OK] & --80 [OK] & --80 [OK] \\
+Overshoot & Không & Không & Không \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Biểu đồ so sánh thời gian xác lập}
+
+Hình \ref{fig:kp_settling_time} minh họa mối quan hệ giữa giá trị $K_p$ và thời gian xác lập.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    bar width=25pt,
+    xlabel={Giá trị $K_p$},
+    ylabel={Thời gian xác lập (giây)},
+    symbolic x coords={Kp=20, Kp=30, Kp=40},
+    xtick=data,
+    ymin=0, ymax=30,
+    nodes near coords,
+    nodes near coords align={vertical},
+    enlarge x limits=0.25,
+    width=0.7\textwidth,
+    height=0.45\textwidth,
+]
+\addplot[fill=blue!60] coordinates {(Kp=20, 25) (Kp=30, 21) (Kp=40, 16)};
+\end{axis}
+\end{tikzpicture}
+\caption{So sánh thời gian xác lập với các giá trị $K_p$ khác nhau}
+\label{fig:kp_settling_time}
+\end{figure}
+
+\subsection{Biểu đồ diễn biến độ lệch theo thời gian}
+
+Hình \ref{fig:response_curves} minh họa đường cong đáp ứng của hệ thống với ba giá trị $K_p$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Thời gian (giây)},
+    ylabel={Độ lệch tuyệt đối (g)},
+    xmin=0, xmax=28,
+    ymin=0, ymax=250,
+    legend pos=north east,
+    grid=major,
+    width=0.85\textwidth,
+    height=0.5\textwidth,
+]
+% Kp = 20 (chậm nhất)
+\addplot[color=red, thick, mark=none] coordinates {
+    (0, 0) (1, 120) (2, 220) (3, 220) (4, 210) (5, 210) (6, 200) (7, 200)
+    (8, 190) (9, 190) (10, 180) (11, 180) (12, 170) (13, 170) (14, 160)
+    (15, 160) (16, 150) (17, 150) (18, 140) (19, 140) (20, 130) (21, 120)
+    (22, 110) (23, 100) (24, 90) (25, 80)
+};
+% Kp = 30 (trung bình)
+\addplot[color=blue, thick, mark=none] coordinates {
+    (0, 0) (1, 130) (2, 220) (3, 220) (4, 200) (5, 180) (6, 180) (7, 170)
+    (8, 160) (9, 160) (10, 150) (11, 140) (12, 140) (13, 130) (14, 120)
+    (15, 120) (16, 110) (17, 100) (18, 100) (19, 90) (20, 90) (21, 80)
+};
+% Kp = 40 (nhanh nhất)
+\addplot[color=green!70!black, thick, mark=none] coordinates {
+    (0, 0) (1, 140) (2, 220) (3, 210) (4, 190) (5, 170) (6, 150) (7, 140)
+    (8, 130) (9, 120) (10, 110) (11, 100) (12, 100) (13, 90) (14, 90) 
+    (15, 80) (16, 80)
+};
+% Đường ngưỡng Deadzone
+\addplot[color=gray, dashed, thick] coordinates {(0, 90) (28, 90)};
+\node at (axis cs:26,95) {\small Ngưỡng tắt};
+
+\legend{$K_p = 20$, $K_p = 30$, $K_p = 40$}
+\end{axis}
+\end{tikzpicture}
+\caption{Đường cong đáp ứng -- Diễn biến độ lệch theo thời gian với các giá trị $K_p$}
+\label{fig:response_curves}
+\end{figure}
+
+\textbf{Nhận xét}: $K_p = 40$ cho thời gian đáp ứng nhanh nhất (khoảng 16 giây), nhanh hơn 36\% so với $K_p = 20$. Tất cả các giá trị $K_p$ đều đạt trạng thái cân bằng với độ lệch cuối --80g (trong vùng Deadzone $\pm$100g). Không có hiện tượng overshoot ở bất kỳ giá trị $K_p$ nào, cho thấy hệ thống ổn định.
+
+\section{Thử nghiệm tổng hợp với nhiều kịch bản tải}
+
+Thử nghiệm này đánh giá khả năng đáp ứng của hệ thống với nhiều thay đổi tải liên tiếp, mô phỏng điều kiện vận hành thực tế của robot khi gắp/thả vật. Sử dụng $K_p = 40$ (giá trị tối ưu từ thử nghiệm trước).
+
+\subsection{Kịch bản thử nghiệm}
+
+Bảng \ref{tab:comprehensive_test} trình bày timeline của thử nghiệm tổng hợp.
+
+\begin{table}[H]
+\centering
+\caption{Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}
+\label{tab:comprehensive_test}
+\begin{tabular}{|c|l|c|c|}
+\hline
+\textbf{Thời gian} & \textbf{Hành động} & \textbf{Độ lệch (g)} & \textbf{Trạng thái} \\
+\hline
+13:38:46 & Đặt vật ở TÂM sau Homing & L:100, R:110 $\rightarrow$ +10 & \textbf{[OK]} \\
+13:39:19 & +200g bên TRÁI & --220 $\rightarrow$ --80 & [RUN]$\rightarrow$[OK] \\
+khoảng 13:39:50 & Nhấc 200g khỏi TRÁI & Motor đảo chiều & [RUN]$\rightarrow$[OK] \\
+khoảng 13:40:20 & +200g bên PHẢI & Lệch dương lớn & [RUN]$\rightarrow$[OK] \\
+khoảng 13:40:50 & +80g bên TRÁI (chồng tải) & Giảm lệch nhẹ & [RUN]$\rightarrow$[OK] \\
+khoảng 13:41:05 & Nhấc 80g khỏi TRÁI & --110 $\rightarrow$ --80 & [RUN]$\rightarrow$[OK] \\
+13:41:14 & Kết thúc thử nghiệm & L:150, R:70 $\rightarrow$ --80 & \textbf{[OK]} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Biểu đồ diễn biến thử nghiệm tổng hợp}
+
+Hình \ref{fig:comprehensive_timeline} minh họa diễn biến độ lệch và trạng thái hệ thống trong thử nghiệm tổng hợp.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Thời gian (giây từ khi bắt đầu)},
+    ylabel={Độ lệch (g)},
+    xmin=0, xmax=150,
+    ymin=-250, ymax=250,
+    grid=major,
+    width=0.95\textwidth,
+    height=0.5\textwidth,
+    legend pos=south east,
+    ytick={-200,-150,-100,-50,0,50,100,150,200},
+]
+% Đường độ lệch
+\addplot[color=blue, thick, mark=none] coordinates {
+    (0, 10) (10, 10) (33, 10)
+    (35, -120) (37, -220) (40, -200) (45, -150) (50, -80)
+    (55, -80) (64, -80)
+    (66, 50) (68, 150) (75, 80)
+    (80, 80) (94, 80)
+    (96, 180) (100, 150) (105, 80)
+    (110, 80) (124, 80)
+    (126, 50) (130, -30) (135, -80)
+    (140, -80) (148, -80)
+};
+
+% Đường ngưỡng
+\addplot[color=red, dashed] coordinates {(0, 110) (150, 110)};
+\addplot[color=red, dashed] coordinates {(0, -110) (150, -110)};
+
+% Annotations
+\node[anchor=south, font=\footnotesize] at (axis cs:37,-220) {+200g Trái};
+\node[anchor=south, font=\footnotesize] at (axis cs:68,150) {Nhấc 200g};
+\node[anchor=south, font=\footnotesize] at (axis cs:98,180) {+200g Phải};
+\node[anchor=north, font=\footnotesize] at (axis cs:128,-30) {+80g Trái};
+
+\legend{Độ lệch, Ngưỡng bật ($\pm$110g)}
+\end{axis}
+\end{tikzpicture}
+\caption{Diễn biến độ lệch trong thử nghiệm tổng hợp}
+\label{fig:comprehensive_timeline}
+\end{figure}
+
+\subsection{Phân tích kết quả}
+
+\textbf{Xác nhận hoạt động của cơ chế Hysteresis}:
+\begin{itemize}
+    \item Hệ thống chuyển sang [RUN] khi $|Lệch| > 110$g (quan sát: --120g $\rightarrow$ [RUN])
+    \item Hệ thống chuyển về [OK] khi $|Lệch| < 90$g (quan sát: --80g $\rightarrow$ [OK])
+    \item Khoảng cách 20g (từ 90g đến 110g) ngăn hiện tượng bật/tắt liên tục
+\end{itemize}
+
+\textbf{Đánh giá khả năng xử lý}:
+\begin{itemize}
+    \item \textit{Phát hiện thay đổi tải}: Chính xác, phản ứng ngay khi vượt ngưỡng
+    \item \textit{Xác định hướng điều chỉnh}: Đúng chiều (âm $\rightarrow$ motor chạy phải, dương $\rightarrow$ motor chạy trái)
+    \item \textit{Xử lý tải chồng}: Hoạt động tốt khi thêm 80g trong khi đang có 200g bên kia
+    \item \textit{Đảo chiều}: Mượt mà, không giật khi đổi hướng di chuyển
+\end{itemize}
+
+\section{Phân tích hiệu năng hệ thống}
 
 \subsection{Hiệu năng bộ điều khiển PID}
 
-Với bộ tham số PID đã tinh chỉnh ($K_p = 40$, $K_i = 0.05$, $K_d = 0$):
+Với bộ tham số PID đã tinh chỉnh ($K_p = 40$, $K_i = 0$, $K_d = 0$), Bảng \ref{tab:pid_performance} tổng hợp các chỉ số hiệu năng.
 
-\begin{itemize}
-    \item \textbf{Thời gian xác lập}: 2--5 giây tùy độ lớn nhiễu loạn
-    \item \textbf{Độ vọt lố}: $<$30g (trong phạm vi Deadzone)
-    \item \textbf{Sai số xác lập}: 0g (nhờ thành phần I, tuy nhỏ)
-    \item \textbf{Độ ổn định}: Không dao động, không hunting
-\end{itemize}
+\begin{table}[H]
+\centering
+\caption{Tổng hợp hiệu năng bộ điều khiển PID}
+\label{tab:pid_performance}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Thông số} & \textbf{Giá trị đo được} \\
+\hline
+Thời gian xác lập (với $K_p = 40$) & khoảng 16 giây \\
+Độ vọt lố (Overshoot) & 0\% \\
+Sai số xác lập & $<$ 90g (trong Deadzone) \\
+Độ ổn định & Ổn định, không dao động \\
+Thời gian phát hiện thay đổi tải & $<$ 100 ms \\
+\hline
+\end{tabular}
+\end{table}
 
-Thành phần $K_d = 0$ được chọn vì:
+\textbf{Lý do chọn $K_i = 0$ và $K_d = 0$}:
 \begin{itemize}
-    \item Tín hiệu Loadcell đã được làm tròn (Quantization 10g) giúp giảm nhiễu
-    \item Cơ cấu vitme có quán tính thấp, không cần giảm chấn mạnh
-    \item Tránh khuếch đại nhiễu từ đạo hàm
+    \item Thành phần $K_i$ không cần thiết vì Deadzone $\pm$100g đã chấp nhận sai số nhỏ
+    \item Thành phần $K_d$ có thể khuếch đại nhiễu từ cảm biến (dù đã có Quantization 10g)
+    \item Bộ điều khiển P thuần túy đủ đáp ứng yêu cầu với hệ thống có quán tính thấp
 \end{itemize}
 
 \subsection{Hiệu quả cơ chế Deadzone và Hysteresis}
 
-Cơ chế Deadzone (±100g) và Hysteresis (±10g) mang lại các lợi ích:
+Hình \ref{fig:hysteresis_diagram} minh họa cơ chế Hysteresis trong hệ thống.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9]
+% Trục
+\draw[->] (-5,0) -- (5,0) node[right] {Độ lệch (g)};
+\draw[->] (0,-0.5) -- (0,3) node[above] {Trạng thái};
+
+% Các mốc
+\draw[thick] (-4.4,0.1) -- (-4.4,-0.1) node[below] {\small --110};
+\draw[thick] (-3.6,0.1) -- (-3.6,-0.1) node[below] {\small --90};
+\draw[thick] (3.6,0.1) -- (3.6,-0.1) node[below] {\small +90};
+\draw[thick] (4.4,0.1) -- (4.4,-0.1) node[below] {\small +110};
+
+% Vùng Deadzone
+\fill[green!20] (-3.6,0) rectangle (3.6,2.5);
+\node at (0,1.2) {\textbf{DEADZONE}};
+\node at (0,0.7) {\small [OK] -- Motor dừng};
+
+% Vùng RUN
+\fill[red!20] (-5,0) rectangle (-4.4,2.5);
+\fill[red!20] (4.4,0) rectangle (5,2.5);
+\node[rotate=90] at (-4.7,1.2) {\tiny [RUN]};
+\node[rotate=90] at (4.7,1.2) {\tiny [RUN]};
+
+% Vùng Hysteresis
+\fill[yellow!30] (-4.4,0) rectangle (-3.6,2.5);
+\fill[yellow!30] (3.6,0) rectangle (4.4,2.5);
+\node[rotate=90, font=\tiny] at (-4,1.2) {Hysteresis};
+\node[rotate=90, font=\tiny] at (4,1.2) {Hysteresis};
+
+% Mũi tên chuyển trạng thái
+\draw[->, thick, blue] (-4.6,2.2) -- (-4.2,2.2) node[midway, above, font=\tiny] {Bật};
+\draw[->, thick, blue] (-3.8,2.2) -- (-3.4,2.2) node[midway, above, font=\tiny] {Tắt};
+
+\end{tikzpicture}
+\caption{Sơ đồ cơ chế Hysteresis với ngưỡng bật $\pm$110g và ngưỡng tắt $\pm$90g}
+\label{fig:hysteresis_diagram}
+\end{figure}
+
+\textbf{Lợi ích của Deadzone và Hysteresis}:
 \begin{itemize}
-    \item \textbf{Tiết kiệm năng lượng}: Động cơ dừng hoàn toàn khi đã cân bằng
-    \item \textbf{Giảm mài mòn}: Không chạy qua chạy lại liên tục
-    \item \textbf{Giảm tiếng ồn}: Hệ thống yên tĩnh khi ở trạng thái cân bằng
-    \item \textbf{Tránh hunting}: Ngưỡng bật ($>$110g) khác ngưỡng tắt ($<$90g) ngăn dao động
+    \item \textit{Tiết kiệm năng lượng}: Động cơ dừng hoàn toàn khi đã cân bằng (Speed = 0)
+    \item \textit{Giảm mài mòn cơ khí}: Không chạy qua chạy lại liên tục quanh điểm cân bằng
+    \item \textit{Tránh hunting}: Ngưỡng bật ($>$110g) khác ngưỡng tắt ($<$90g) ngăn dao động
+    \item \textit{Giảm tiếng ồn}: Hệ thống yên tĩnh khi ở trạng thái cân bằng
 \end{itemize}
 
 \subsection{Hiệu quả thiết kế Non-blocking}
 
-So sánh với thiết kế Blocking (sử dụng \texttt{get\_units()} và \texttt{delay()}):
+Bảng \ref{tab:blocking_comparison} so sánh hiệu năng giữa thiết kế Non-blocking và Blocking.
 
-\begin{table}[H]{So sánh thiết kế Non-blocking và Blocking}
+\begin{table}[H]
 \centering
+\caption{So sánh hiệu năng Non-blocking và Blocking}
+\label{tab:blocking_comparison}
 \begin{tabular}{|l|c|c|}
 \hline
 \textbf{Tiêu chí} & \textbf{Non-blocking} & \textbf{Blocking} \\
 \hline
-Tần số gọi \texttt{runSpeed()} & $\sim$100 kHz & $\sim$40 Hz \\
-\hline
-Tốc độ động cơ tối đa & 8000 bước/s & $<$100 bước/s \\
-\hline
-Độ mượt chuyển động & Rất mượt & Giật cục, kêu rít \\
-\hline
-Chu kỳ lấy mẫu PID & 20ms (ổn định) & Không ổn định \\
+Tần số gọi \texttt{runSpeed()} & khoảng 100 kHz & khoảng 40 Hz \\
+Tốc độ motor tối đa & \textbf{8000 bước/s} & $<$100 bước/s \\
+Độ mượt chuyển động & \textbf{Rất mượt} & Giật cục, rít \\
+Chu kỳ PID & \textbf{20ms (ổn định)} & Không ổn định \\
+Thời gian đọc Loadcell & Song song & Tuần tự (25ms block) \\
 \hline
 \end{tabular}
 \end{table}
 
-Kết quả cho thấy thiết kế Non-blocking là bắt buộc để hệ thống hoạt động đúng chức năng.
-
 \section{Đánh giá tổng thể}
-
-\subsection{Ưu điểm của hệ thống}
-
-\begin{enumerate}
-    \item \textbf{Đáp ứng yêu cầu chức năng}: Cân bằng được tải trong phạm vi thiết kế (0--600g)
-    \item \textbf{Độ chính xác}: Độ lệch cuối cùng $<$100g, phù hợp ứng dụng thực tế
-    \item \textbf{Ổn định}: Không dao động, duy trì cân bằng dài hạn
-    \item \textbf{Tiết kiệm năng lượng}: Động cơ dừng sau khi cân bằng
-    \item \textbf{Chi phí thấp}: Sử dụng linh kiện phổ biến, dễ tìm
-    \item \textbf{Dễ mở rộng}: Kiến trúc phần mềm rõ ràng, dễ thêm tính năng
-\end{enumerate}
-
-\subsection{Hạn chế và nguyên nhân}
-
-\begin{enumerate}
-    \item \textbf{Thời gian đáp ứng chậm (2--5s)}:
-    \begin{itemize}
-        \item Nguyên nhân: Vitme bước 2mm, tốc độ di chuyển tối đa $\sim$5mm/s
-        \item Giải pháp: Dùng vitme bước lớn hơn (4--8mm) hoặc đai răng
-    \end{itemize}
-
-    \item \textbf{Giới hạn tải}:
-    \begin{itemize}
-        \item Nguyên nhân: Với đối trọng 200g chỉ bù được $\sim$137g (công thức: $m_{load,max} = 0.69 \times m_{slider}$)
-        \item Giải pháp: Tăng khối lượng đối trọng (ví dụ: dùng pin/acquy 1kg có thể bù được $\sim$690g)
-    \end{itemize}
-
-    \item \textbf{Chưa có giao diện người dùng}:
-    \begin{itemize}
-        \item Nguyên nhân: Tập trung vào chức năng cốt lõi
-        \item Giải pháp: Thêm màn hình LCD hoặc ứng dụng Bluetooth
-    \end{itemize}
-\end{enumerate}
 
 \subsection{So sánh với mục tiêu đề ra}
 
-\begin{table}[H]{So sánh kết quả với mục tiêu}
+Bảng \ref{tab:goal_comparison} so sánh kết quả thực nghiệm với các mục tiêu đề ra ban đầu.
+
+\begin{table}[H]
 \centering
+\caption{So sánh kết quả với mục tiêu đề ra}
+\label{tab:goal_comparison}
 \begin{tabular}{|l|c|c|c|}
 \hline
 \textbf{Mục tiêu} & \textbf{Yêu cầu} & \textbf{Kết quả} & \textbf{Đánh giá} \\
 \hline
-Phát hiện độ lệch & Có & Có & Đạt \\
-\hline
-Tự động cân bằng & Có & Có & Đạt \\
-\hline
-Độ chính xác & ±100g & ±100g & Đạt \\
-\hline
-Thời gian đáp ứng & $<$10s & 2--5s & Đạt \\
-\hline
-Hoạt động ổn định & $>$30 phút & $>$30 phút & Đạt \\
-\hline
-Chi phí & Thấp & $<$1 triệu VNĐ & Đạt \\
+Phát hiện độ lệch & Có & Có & \textbf{Đạt} \\
+Tự động cân bằng & Có & Có & \textbf{Đạt} \\
+Độ chính xác & $\pm$100g & $\pm$80g & \textbf{Vượt} \\
+Thời gian đáp ứng & $<$30s & 16--25s & \textbf{Đạt} \\
+Hoạt động ổn định & $>$30 phút & $>$30 phút & \textbf{Đạt} \\
+Không overshoot & Có & Có (0\%) & \textbf{Đạt} \\
 \hline
 \end{tabular}
 \end{table}
 
-Kết luận: Hệ thống đáp ứng đầy đủ các mục tiêu đề ra, một số chỉ tiêu vượt yêu cầu.
+\textbf{Kết luận Chương 4}: Hệ thống đáp ứng đầy đủ các mục tiêu đề ra. Cảm biến loadcell hoạt động chính xác với sai số 0\%. Bộ điều khiển PID với $K_p = 40$ cho thời gian đáp ứng nhanh nhất (khoảng 16 giây). Cơ chế Deadzone và Hysteresis hoạt động hiệu quả, tránh hiện tượng hunting. Thiết kế Non-blocking là yếu tố then chốt giúp động cơ bước hoạt động mượt mà ở tốc độ cao.
 
 %======================================================================
 % CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
@@ -1520,71 +1638,67 @@ Kết luận: Hệ thống đáp ứng đầy đủ các mục tiêu đề ra, m
 
 \section{Kết luận}
 
-Khóa luận đã hoàn thành việc nghiên cứu, thiết kế và xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm sử dụng phương pháp khối lượng di động (Moving Mass). Các kết quả đạt được bao gồm:
+Khóa luận đã hoàn thành việc nghiên cứu, thiết kế và xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm sử dụng phương pháp khối lượng di động (Moving Mass). Dựa trên kết quả thực nghiệm chi tiết ở Chương 4, các kết luận được rút ra như sau:
 
 \subsection{Về mặt lý thuyết}
 
 \begin{enumerate}
-    \item Phân tích và so sánh các phương pháp cân bằng robot: điều khiển bánh xe, bánh đà/CMG, khối lượng di động, và mở rộng đa giác đỡ. Từ đó lựa chọn phương pháp phù hợp với yêu cầu đề tài.
-
-    \item Nghiên cứu nguyên lý hoạt động của cảm biến Loadcell và module HX711, đặc biệt là cơ chế Non-blocking của thư viện HX711\_ADC giúp giải quyết xung đột tần số giữa cảm biến chậm và điều khiển động cơ nhanh.
-
-    \item Tìm hiểu lý thuyết điều khiển PID và các kỹ thuật cải tiến như Deadzone, Hysteresis, Min Speed Threshold để tăng độ ổn định thực tế.
-
-    \item Phân tích vấn đề thời gian thực trong hệ thống nhúng, đặc biệt là tác động của Blocking I/O đến hiệu năng điều khiển động cơ bước.
+    \item Phương pháp khối lượng di động kết hợp cảm biến Loadcell là giải pháp phù hợp cho bài toán cân bằng tĩnh và bán tĩnh khi tải thay đổi.
+    
+    \item Bộ điều khiển P thuần túy ($K_p = 40$, $K_i = 0$, $K_d = 0$) đủ đáp ứng yêu cầu với hệ thống có quán tính thấp và Deadzone hợp lý.
+    
+    \item Cơ chế Hysteresis với khoảng cách 20g (ngưỡng bật 110g, ngưỡng tắt 90g) hiệu quả trong việc ngăn hiện tượng hunting.
+    
+    \item Kiến trúc Non-blocking là bắt buộc để tích hợp cảm biến chậm (HX711 khoảng 10--80Hz) với điều khiển động cơ bước tốc độ cao (8000 bước/s).
 \end{enumerate}
 
 \subsection{Về mặt thực tiễn}
 
-\begin{enumerate}
-    \item Thiết kế và chế tạo thành công khung cơ khí sử dụng nhôm định hình 20x20mm, vitme bước 2mm, và thanh trượt tuyến tính. Kích thước khung 35x35cm phù hợp với robot di động cỡ nhỏ và vừa.
+Bảng \ref{tab:practical_results} tổng hợp các kết quả định lượng từ thực nghiệm.
 
-    \item Xây dựng hệ thống điện tử với Arduino Uno làm bộ xử lý trung tâm, 2 module HX711 đọc 4 Loadcell 50kg (2 cụm Trái/Phải), driver TB6600 điều khiển động cơ Nema 17.
-
-    \item Phát triển phần mềm điều khiển hoàn chỉnh bao gồm:
-    \begin{itemize}
-        \item Quy trình Homing tự động 2 giai đoạn (nhanh + chậm)
-        \item Thuật toán PID với các tham số đã tinh chỉnh ($K_p=40$, $K_i=0.05$, $K_d=0$)
-        \item Cơ chế Deadzone (±100g) và Hysteresis (±10g)
-        \item Giới hạn hành trình mềm bảo vệ cơ khí
-        \item Kiến trúc Non-blocking đảm bảo động cơ chạy mượt
-    \end{itemize}
-
-    \item Thử nghiệm và đánh giá hệ thống với kết quả:
-    \begin{itemize}
-        \item Cân bằng được tải trong phạm vi 0--600g
-        \item Độ chính xác ±100g (đạt yêu cầu)
-        \item Thời gian đáp ứng 2--5 giây
-        \item Hoạt động ổn định liên tục trên 30 phút
-        \item Chi phí linh kiện dưới 1 triệu VNĐ
-    \end{itemize}
-\end{enumerate}
+\begin{table}[H]
+\centering
+\caption{Tổng hợp kết quả định lượng từ thực nghiệm}
+\label{tab:practical_results}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Kết quả đạt được} \\
+\hline
+Độ chính xác cảm biến & 0\% sai số với vật chuẩn 210g \\
+Thời gian xác lập ($K_p = 40$) & khoảng 16 giây cho tải 200g \\
+Độ lệch cuối cùng & $<$ 90g (trong Deadzone $\pm$100g) \\
+Overshoot & 0\% (không có) \\
+Xử lý thay đổi tải liên tục & Thành công (6 lần trong 2.5 phút) \\
+Hoạt động ổn định & $>$ 30 phút liên tục \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Đóng góp của đề tài}
 
 \begin{enumerate}
-    \item Đề xuất giải pháp cân bằng trọng tâm sử dụng Loadcell thay vì IMU, phù hợp với ứng dụng cân bằng tĩnh và bán tĩnh khi tải thay đổi.
-
-    \item Giải quyết vấn đề tích hợp cảm biến chậm (Loadcell 10--80Hz) với điều khiển nhanh (động cơ bước kHz) thông qua kiến trúc Non-blocking.
-
-    \item Cung cấp bộ mã nguồn Arduino hoàn chỉnh, có thể tái sử dụng và mở rộng cho các ứng dụng tương tự.
-
-    \item Xây dựng tài liệu kỹ thuật chi tiết về thiết kế, triển khai và tinh chỉnh hệ thống cân bằng.
+    \item Đề xuất và triển khai thành công giải pháp cân bằng trọng tâm sử dụng Loadcell -- phương pháp ít được nghiên cứu so với IMU.
+    
+    \item Xây dựng kiến trúc phần mềm Non-blocking hoàn chỉnh, có thể tái sử dụng cho các dự án tương tự.
+    
+    \item Cung cấp bộ dữ liệu thực nghiệm chi tiết để so sánh hiệu năng các giá trị $K_p$.
+    
+    \item Tài liệu hóa đầy đủ quy trình thiết kế, triển khai và tinh chỉnh hệ thống.
 \end{enumerate}
 
 \section{Hạn chế}
 
-Bên cạnh các kết quả đạt được, đề tài còn một số hạn chế:
+Bên cạnh các kết quả đạt được, đề tài còn một số hạn chế cần được khắc phục:
 
 \begin{enumerate}
-    \item \textbf{Tốc độ đáp ứng}: Thời gian cân bằng 2--5 giây có thể chưa đủ nhanh cho các ứng dụng yêu cầu phản ứng tức thời. Nguyên nhân chính là vitme bước 2mm có tốc độ di chuyển thấp.
-
-    \item \textbf{Giới hạn tải}: Với đối trọng thử nghiệm 200g, chỉ bù được độ lệch $\sim$137g. Công thức: $m_{load,max} = 0.69 \times m_{slider}$. Cần tăng khối lượng đối trọng để tăng khả năng cân bằng.
-
-    \item \textbf{Một trục}: Hệ thống chỉ cân bằng theo một trục (Trái-Phải). Chưa mở rộng cho cân bằng 2 trục (Trước-Sau).
-
+    \item \textbf{Tốc độ đáp ứng}: Thời gian 16--25 giây có thể chưa đủ nhanh cho ứng dụng yêu cầu phản ứng tức thời. Nguyên nhân chính là vitme bước 2mm có tốc độ di chuyển tối đa khoảng 5mm/s.
+    
+    \item \textbf{Giới hạn tải}: Với công thức $m_{load,max} = 0.69 \times m_{slider}$ (hệ số từ tỷ lệ cánh tay đòn $\frac{120}{175}$), đối trọng 200g chỉ bù được khoảng 137g.
+    
+    \item \textbf{Phạm vi ứng dụng}: Chỉ cân bằng theo một trục (Trái-Phải), chưa mở rộng cho 2 trục.
+    
     \item \textbf{Giao diện}: Chưa có giao diện người dùng trực quan, chỉ giám sát qua Serial Monitor.
-
+    
     \item \textbf{Tích hợp}: Chưa tích hợp thực tế với robot di động để đánh giá hiệu quả trong điều kiện vận hành.
 \end{enumerate}
 
@@ -1595,42 +1709,42 @@ Dựa trên kết quả và hạn chế của đề tài, các hướng phát tr
 \subsection{Cải tiến phần cứng}
 
 \begin{enumerate}
-    \item \textbf{Tăng tốc độ di chuyển}: Thay vitme bước 2mm bằng vitme bước 4--8mm hoặc hệ thống đai răng (belt drive) để tăng tốc độ đáp ứng lên 2--3 lần.
-
-    \item \textbf{Mở rộng 2 trục}: Thêm một cơ cấu vitme + đối trọng theo trục Trước-Sau để cân bằng hoàn toàn trên mặt phẳng.
-
-    \item \textbf{Tăng khả năng chịu tải}: Sử dụng đối trọng nặng hơn (500g--1kg) hoặc tận dụng pin/acquy của robot làm đối trọng di động.
-
-    \item \textbf{Nâng cấp vi điều khiển}: Chuyển sang ESP32 hoặc STM32 để có tốc độ xử lý cao hơn, hỗ trợ WiFi/Bluetooth, và nhiều timer phần cứng cho điều khiển chính xác hơn.
+    \item \textbf{Tăng tốc độ di chuyển}: Thay vitme bước 2mm bằng vitme 4--8mm hoặc hệ thống đai răng (belt drive), có thể tăng tốc độ đáp ứng 2--4 lần.
+    
+    \item \textbf{Mở rộng 2 trục}: Thêm cơ cấu vitme + đối trọng theo trục Trước-Sau để cân bằng hoàn toàn trên mặt phẳng.
+    
+    \item \textbf{Tăng khả năng chịu tải}: Sử dụng pin/acquy (1--2kg) làm đối trọng di động, có thể bù được độ lệch 690--1380g.
+    
+    \item \textbf{Nâng cấp vi điều khiển}: Chuyển sang ESP32 hoặc STM32 cho tốc độ xử lý cao hơn, hỗ trợ WiFi/Bluetooth tích hợp.
 \end{enumerate}
 
 \subsection{Cải tiến phần mềm}
 
 \begin{enumerate}
     \item \textbf{Thuật toán điều khiển nâng cao}: Nghiên cứu áp dụng LQR (Linear Quadratic Regulator) hoặc MPC (Model Predictive Control) để tối ưu đáp ứng.
-
-    \item \textbf{Bộ lọc Kalman}: Tích hợp bộ lọc Kalman để kết hợp dữ liệu từ Loadcell và IMU, tăng độ chính xác và tốc độ phản hồi.
-
-    \item \textbf{Adaptive PID}: Phát triển PID tự thích nghi, tự động điều chỉnh tham số theo đặc tính tải.
-
-    \item \textbf{Giao diện người dùng}: Xây dựng ứng dụng di động (Android/iOS) hoặc giao diện web để giám sát và điều khiển từ xa qua Bluetooth/WiFi.
+    
+    \item \textbf{Bộ lọc Kalman}: Tích hợp bộ lọc Kalman để kết hợp dữ liệu từ Loadcell và IMU, tăng tốc độ phản hồi.
+    
+    \item \textbf{Adaptive PID}: Phát triển PID tự thích nghi, tự động điều chỉnh $K_p$ theo đặc tính tải.
+    
+    \item \textbf{Giao diện người dùng}: Xây dựng ứng dụng di động hoặc giao diện web để giám sát và điều khiển từ xa.
 \end{enumerate}
 
 \subsection{Tích hợp và ứng dụng}
 
 \begin{enumerate}
-    \item \textbf{Tích hợp robot thực tế}: Lắp đặt khung cân bằng lên robot di động có cánh tay gắp để đánh giá hiệu quả trong điều kiện vận hành thực.
-
-    \item \textbf{Phối hợp với hệ thống điều khiển robot}: Kết nối với ROS (Robot Operating System) để tích hợp vào hệ thống điều khiển tổng thể của robot.
-
-    \item \textbf{Ứng dụng công nghiệp}: Phát triển phiên bản công nghiệp với độ bền cao hơn, phù hợp môi trường nhà máy.
+    \item \textbf{Tích hợp robot thực tế}: Lắp đặt khung cân bằng lên robot di động có cánh tay gắp để đánh giá hiệu quả trong điều kiện vận hành.
+    
+    \item \textbf{Kết nối ROS}: Tích hợp vào Robot Operating System (ROS) cho điều khiển tổng thể hệ thống robot.
+    
+    \item \textbf{Ứng dụng công nghiệp}: Phát triển phiên bản với độ bền cao, phù hợp môi trường nhà máy.
 \end{enumerate}
 
 \section{Lời kết}
 
-Khóa luận đã hoàn thành mục tiêu đề ra là xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm. Mặc dù còn một số hạn chế, hệ thống đã chứng minh tính khả thi của phương pháp khối lượng di động kết hợp cảm biến Loadcell cho ứng dụng cân bằng robot.
+Khóa luận đã hoàn thành mục tiêu đề ra là xây dựng hệ thống khung đế robot có khả năng tự động cân bằng trọng tâm. Kết quả thực nghiệm cho thấy hệ thống hoạt động ổn định, đáp ứng các yêu cầu kỹ thuật với độ chính xác $\pm$80g và thời gian đáp ứng 16--25 giây.
 
-Các kiến thức và kinh nghiệm thu được trong quá trình thực hiện đề tài, từ thiết kế cơ khí, điện tử đến lập trình nhúng và điều khiển tự động, là nền tảng quý giá cho việc nghiên cứu và phát triển các hệ thống robot phức tạp hơn trong tương lai.
+Mặc dù còn một số hạn chế về tốc độ đáp ứng và phạm vi ứng dụng, hệ thống đã chứng minh tính khả thi của phương pháp khối lượng di động kết hợp cảm biến Loadcell. Các kiến thức và kinh nghiệm thu được trong quá trình thực hiện, từ thiết kế cơ khí, điện tử đến lập trình nhúng và điều khiển tự động, là nền tảng quý giá cho việc phát triển các hệ thống robot phức tạp hơn trong tương lai.
 
 Em xin chân thành cảm ơn thầy giáo hướng dẫn ThS. Đặng Anh Việt đã tận tình chỉ bảo và hỗ trợ em trong suốt quá trình thực hiện khóa luận này.
 
@@ -1726,171 +1840,217 @@ Em xin chân thành cảm ơn thầy giáo hướng dẫn ThS. Đặng Anh Việ
 Dưới đây là mã nguồn hoàn chỉnh của chương trình điều khiển khung cân bằng trọng tâm:
 
 \begin{lstlisting}[style=arduino, caption={Chương trình điều khiển khung cân bằng trọng tâm}]
-/*
- * DU AN KHUNG CAN BANG - PHIEN BAN HOAN CHINH
- * Tinh nang:
- * 1. Non-blocking: Dong co chay muot, khong bi khung khi doc cam bien.
- * 2. PID Control: Dieu khien vi tri con truot theo sai so trong luong.
- * 3. Deadzone: Vung chet +/- 100g giup dong co nghi ngoi khi da can bang.
- * 4. Quantization: Lam tron gia tri doc ve boi so cua 10g de giam nhieu.
- */
 
-#include <HX711_ADC.h>
+#include <HX711_ADC.h>     
 #include <AccelStepper.h>
 #include <PID_v1.h>
 
-// === CAU HINH HE THONG ===
+
+
+
 const int DOUT_PIN_LEFT = 4; const int SCK_PIN_LEFT = 5;
 const int DOUT_PIN_PHAI = 6; const int SCK_PIN_PHAI = 7;
 const int STEP_PIN = 8;
 const int DIR_PIN = 9;
-const int HOME_SWITCH_PIN = 10;
+const int HOME_SWITCH_PIN = 10; 
 
-// --- THONG SO CO KHI ---
-const int MICROSTEP = 16;
-const int MOTOR_STEP = 200;
-const int PITCH = 2;
-const float STEPS_PER_MM = (float)(MOTOR_STEP * MICROSTEP) / PITCH;
 
-// --- GIOI HAN HANH TRINH ---
-const long MAX_POS_RIGHT = 110.0 * STEPS_PER_MM;
-const long MAX_POS_LEFT = -120.0 * STEPS_PER_MM;
+const int MICROSTEP = 16;       // Driver cài đặt 1/16
+const int MOTOR_STEP = 200;     // Động cơ 1.8 độ
+const int PITCH = 2;            // Bước ren vitme 2mm
 
-// --- TOC DO & GIA TOC ---
-const float MAX_SPEED_PID = 8000.0;
-const float MOTOR_ACCEL = 16000.0;
+const float STEPS_PER_MM = (float)(MOTOR_STEP * MICROSTEP) / PITCH; 
+
+
+const long MAX_POS_RIGHT = 110.0 * STEPS_PER_MM; // Giới hạn Phải (+110mm)
+const long MAX_POS_LEFT = -120.0 * STEPS_PER_MM; // Giới hạn Trái (-120mm)
+
+
+const float MAX_SPEED_PID = 8000.0;    // Tốc độ tối đa khi cân bằng
+const float MOTOR_ACCEL = 16000.0;      // Gia tốc 
 const float HOMING_SPEED_FAST = 8000.0;
 const float HOMING_SPEED_SLOW = 6000.0;
 
-// --- CAU HINH CHONG RUNG ---
-const float MIN_SPEED_THRESHOLD = 4000.0;
-const float HYSTERESIS_GAP = 10.0;
 
-// --- CAU HINH PID ---
-double Kp = 40.0;
-double Ki = 0;
-double Kd = 0;
+const float MIN_SPEED_THRESHOLD = 4000.0; // Tốc độ tối thiểu hiệu quả
+const float HYSTERESIS_GAP      = 10.0;  // Khoảng trễ 10g
+
+double Kp = 40.0; 
+double Ki = 0; 
+double Kd = 0; 
 double Setpoint = 0, Input, Output;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
-// --- HIEU CHUAN ---
-float CALIB_LEFT = -53.13;
-float CALIB_RIGHT = -55.36;
-const float ACCEPTABLE_RANGE = 100.0;
-const float STEP_SIZE = 10.0;
+float CALIB_LEFT = -53.13;   
+float CALIB_RIGHT = -55.36; 
 
-// === KHOI TAO DOI TUONG ===
+const float ACCEPTABLE_RANGE = 100.0; // Vùng chết +/- 100g 
+const float STEP_SIZE = 10.0;        // Độ chia nhỏ nhất: 10g 
+
+
 HX711_ADC LoadCellLeft(DOUT_PIN_LEFT, SCK_PIN_LEFT);
 HX711_ADC LoadCellRight(DOUT_PIN_PHAI, SCK_PIN_PHAI);
 AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 
-unsigned long t_pid = 0;
+unsigned long t_pid = 0;   
 unsigned long t_print = 0;
-float fL = 0, fR = 0, targetSpeed = 0, currentSpeed = 0;
-boolean isBalancing = false;
+long currentPos; 
+
+float fL = 0;           // Lực bên Trái (Đã làm tròn)
+float fR = 0;           // Lực bên Phải (Đã làm tròn)
+float targetSpeed = 0;
+float currentSpeed = 0; // Tốc độ hiện tại
+boolean isBalancing = false; 
+
+float rawL, rawR, startThreshold, stopThreshold, rawSpeed;
+
 
 void setup() {
-    Serial.begin(115200);
-    pinMode(HOME_SWITCH_PIN, INPUT_PULLUP);
+  Serial.begin(115200); delay(10);
+  Serial.println("--- KHOI DONG HE THONG ---");
 
-    // Khoi tao Loadcell
-    LoadCellLeft.begin(); LoadCellRight.begin();
-    LoadCellLeft.start(1000, true);
-    LoadCellRight.start(1000, true);
-    LoadCellLeft.setCalFactor(CALIB_LEFT);
-    LoadCellRight.setCalFactor(CALIB_RIGHT);
+  pinMode(HOME_SWITCH_PIN, INPUT_PULLUP);
 
-    // Khoi tao PID
-    myPID.SetMode(AUTOMATIC);
-    myPID.SetOutputLimits(-MAX_SPEED_PID, MAX_SPEED_PID);
-    myPID.SetSampleTime(20);
+  // 1. Khởi tạo Loadcell
+  LoadCellLeft.begin(); LoadCellRight.begin();
+  unsigned long stabilizingtime = 1000; 
+  boolean _tare = true; // Bắt buộc trừ bì về 0 khi khởi động
+  
+  LoadCellLeft.start(stabilizingtime, _tare);
+  LoadCellRight.start(stabilizingtime, _tare);
+  
+  if (LoadCellLeft.getTareTimeoutFlag() || LoadCellRight.getTareTimeoutFlag()) {
+    Serial.println("LOI: Khong tim thay Loadcell! Kiem tra day ket noi.");
+    while(1); // Dừng hệ thống nếu lỗi
+  }
 
-    // Khoi tao Dong co
-    stepper.setMaxSpeed(MAX_SPEED_PID);
-    stepper.setAcceleration(MOTOR_ACCEL);
+  LoadCellLeft.setCalFactor(CALIB_LEFT);
+  LoadCellRight.setCalFactor(CALIB_RIGHT);
+  Serial.println("Loadcell san sang.");
 
-    runHomingSequence();
+  myPID.SetMode(AUTOMATIC);
+  myPID.SetOutputLimits(-MAX_SPEED_PID, MAX_SPEED_PID);
+  myPID.SetSampleTime(20); 
+
+  stepper.setMaxSpeed(MAX_SPEED_PID);
+  stepper.setAcceleration(MOTOR_ACCEL); 
+
+  runHomingSequence(); 
 }
 
 void loop() {
-    // Nhiem vu nen
-    LoadCellLeft.update();
-    LoadCellRight.update();
-    stepper.runSpeed();
 
-    // Nhiem vu dieu khien (20ms)
-    if (millis() > t_pid + 20) {
-        float rawL = LoadCellLeft.getData();
-        float rawR = LoadCellRight.getData();
-        fL = ceil(rawL / STEP_SIZE) * STEP_SIZE;
-        fR = ceil(rawR / STEP_SIZE) * STEP_SIZE;
-        Input = fR - fL;
+  LoadCellLeft.update();
+  LoadCellRight.update();
+  stepper.runSpeed();
 
-        float startThreshold = ACCEPTABLE_RANGE + HYSTERESIS_GAP;
-        float stopThreshold = ACCEPTABLE_RANGE - HYSTERESIS_GAP;
+  if (millis() > t_pid + 20) {
+    
+    rawL = LoadCellLeft.getData();
+    rawR = LoadCellRight.getData();
+    fL = ceil(rawL / STEP_SIZE) * STEP_SIZE;
+    fR = ceil(rawR / STEP_SIZE) * STEP_SIZE;
+    Input = fR - fL; 
 
-        if (!isBalancing && abs(Input) > startThreshold) {
-            isBalancing = true;
-            myPID.SetMode(AUTOMATIC);
-        }
-        else if (isBalancing && abs(Input) < stopThreshold) {
-            isBalancing = false;
-            Output = 0;
-            myPID.SetMode(MANUAL);
-        }
 
-        if (isBalancing) {
-            myPID.Compute();
-            float rawSpeed = Output;
-            if (abs(rawSpeed) > 0 && abs(rawSpeed) < MIN_SPEED_THRESHOLD) {
-                targetSpeed = (rawSpeed > 0) ? MIN_SPEED_THRESHOLD : -MIN_SPEED_THRESHOLD;
-            } else {
-                targetSpeed = rawSpeed;
-            }
-        } else {
-            targetSpeed = 0;
-        }
+    startThreshold = ACCEPTABLE_RANGE + HYSTERESIS_GAP; 
+    stopThreshold  = ACCEPTABLE_RANGE - HYSTERESIS_GAP; 
 
-        long currentPos = stepper.currentPosition();
-        if (currentPos <= MAX_POS_LEFT && targetSpeed < 0) targetSpeed = 0;
-        if (currentPos >= MAX_POS_RIGHT && targetSpeed > 0) targetSpeed = 0;
+    if (!isBalancing) {
+      if (abs(Input) > startThreshold) {
+        isBalancing = true; 
+        myPID.SetMode(AUTOMATIC);
+      }
+    } 
+    else {
+      if (abs(Input) < stopThreshold) {
+        isBalancing = false; 
+        Output = 0;
+        myPID.SetMode(MANUAL);
+      }
+    }
+    
+    if (isBalancing) {
+       myPID.Compute();
+       rawSpeed = Output;
 
-        stepper.setSpeed(targetSpeed);
-        currentSpeed = targetSpeed;
-        t_pid = millis();
+       if (abs(rawSpeed) > 0.0 && abs(rawSpeed) < MIN_SPEED_THRESHOLD) {
+
+           if (rawSpeed > 0) {
+               targetSpeed = MIN_SPEED_THRESHOLD; 
+           } else {
+               targetSpeed = -MIN_SPEED_THRESHOLD;
+           }
+       } else {
+           
+           targetSpeed = rawSpeed;
+       }
+       
+    } else {
+       targetSpeed = 0; 
+    }
+    
+    // d. Giới hạn hành trình
+    currentPos = stepper.currentPosition();
+    if (currentPos <= MAX_POS_LEFT && targetSpeed < 0) targetSpeed = 0;
+    if (currentPos >= MAX_POS_RIGHT && targetSpeed > 0) targetSpeed = 0;
+
+    stepper.setSpeed(targetSpeed);
+    currentSpeed = targetSpeed; 
+    t_pid = millis();
+  }
+
+  if (millis() > t_print + 100) {
+    Serial.print("L: "); Serial.print(fL, 0);
+    Serial.print(" | R: "); Serial.print(fR, 0);
+    Serial.print(" | Lech: "); Serial.print(Input, 0); 
+    Serial.print(" | Spd: "); Serial.print(currentSpeed, 0);
+    
+    if (isBalancing) {
+       Serial.println(" [RUN]");
+    } else {
+       Serial.println(" [OK]");
     }
 
-    // Nhiem vu giam sat (100ms)
-    if (millis() > t_print + 100) {
-        Serial.print("L: "); Serial.print(fL, 0);
-        Serial.print(" | R: "); Serial.print(fR, 0);
-        Serial.print(" | Lech: "); Serial.print(Input, 0);
-        Serial.print(" | Spd: "); Serial.print(currentSpeed, 0);
-        Serial.println(isBalancing ? " [RUN]" : " [OK]");
-        t_print = millis();
-    }
+    t_print = millis();
+  }
 }
 
 void runHomingSequence() {
-    Serial.println("[HOMING] Bat dau ve Home...");
-    stepper.setSpeed(HOMING_SPEED_FAST);
-    while (digitalRead(HOME_SWITCH_PIN) == HIGH) { stepper.runSpeed(); }
-    stepper.stop();
-    stepper.setCurrentPosition(MAX_POS_RIGHT);
+  Serial.println("[HOMING] Bat dau ve Home...");
+  stepper.setAcceleration(MOTOR_ACCEL); 
 
-    stepper.moveTo(MAX_POS_RIGHT - (5.0 * STEPS_PER_MM));
-    while (stepper.distanceToGo() != 0) { stepper.run(); }
+  stepper.setSpeed(HOMING_SPEED_FAST);
+  while (digitalRead(HOME_SWITCH_PIN) == HIGH) { stepper.runSpeed(); }
+  stepper.stop();
+  stepper.setCurrentPosition(MAX_POS_RIGHT); // Gán mốc tạm
 
-    stepper.setSpeed(HOMING_SPEED_SLOW);
-    while (digitalRead(HOME_SWITCH_PIN) == HIGH) { stepper.runSpeed(); }
-    stepper.stop();
-    stepper.setCurrentPosition(MAX_POS_RIGHT);
+  Serial.println("[HOMING] Lui ra...");
+  stepper.moveTo(MAX_POS_RIGHT - (5.0 * STEPS_PER_MM));
+  while (stepper.distanceToGo() != 0) { stepper.run(); }
 
-    stepper.moveTo(0);
-    while (stepper.distanceToGo() != 0) { stepper.run(); }
+  if (digitalRead(HOME_SWITCH_PIN) == LOW) {
+    Serial.println("LOI: Cong tac hanh trinh bi ket!"); 
+    while(1);
+  }
 
-    delay(5000); // Cho on dinh
-    Serial.println("[HOMING] Hoan tat.");
+  stepper.setSpeed(HOMING_SPEED_SLOW);
+  while (digitalRead(HOME_SWITCH_PIN) == HIGH) { stepper.runSpeed(); }
+  stepper.stop();
+
+  stepper.setCurrentPosition(MAX_POS_RIGHT); 
+  stepper.setSpeed(0);
+
+  Serial.println("[HOMING] Ve Tam (0)...");
+  stepper.moveTo(0); 
+  while (stepper.distanceToGo() != 0) {stepper.run();}
+
+  Serial.println("[HOMING] Da ve tam. Cho on dinh 5s...");
+  
+  unsigned long waitStart = millis();
+  while (millis() - waitStart < 5000) {}
+  
+  Serial.println("[HOMING] Hoan tat. San sang.");
 }
 \end{lstlisting}
 

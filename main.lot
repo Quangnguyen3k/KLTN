@@ -7,9 +7,19 @@
 \contentsline {a@table}{\numberline {3.4.}{\ignorespaces Kết nối Arduino với các module HX711}}{28}{}%
 \contentsline {a@table}{\numberline {3.5.}{\ignorespaces Kết nối Arduino với driver TB6600}}{28}{}%
 \contentsline {a@table}{\numberline {3.6.}{\ignorespaces Bảng tổng hợp các tham số cấu hình phần mềm}}{34}{}%
-\contentsline {a@table}{\numberline {4.1.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải tĩnh}}{37}{}%
-\contentsline {a@table}{\numberline {4.2.}{\ignorespaces Kết quả thử nghiệm đáp ứng với tải thay đổi đột ngột}}{38}{}%
-\contentsline {a@table}{\numberline {4.3.}{\ignorespaces Kết quả thử nghiệm độ ổn định dài hạn}}{39}{}%
-\contentsline {a@table}{\numberline {4.4.}{\ignorespaces \centering }}{40}{}%
-\contentsline {a@table}{\numberline {4.5.}{\ignorespaces So sánh thiết kế Non-blocking và Blocking}}{41}{}%
-\contentsline {a@table}{\numberline {4.6.}{\ignorespaces So sánh kết quả với mục tiêu}}{42}{}%
+\contentsline {a@table}{\numberline {4.1.}{\ignorespaces \centering }}{36}{}%
+\contentsline {a@table}{\numberline {4.2}{\ignorespaces Tham số cấu hình hệ thống trong thử nghiệm}}{36}{}%
+\contentsline {a@table}{\numberline {4.3.}{\ignorespaces \centering }}{37}{}%
+\contentsline {a@table}{\numberline {4.4}{\ignorespaces Kết quả kiểm tra độ chính xác cảm biến với vật chuẩn 210g}}{37}{}%
+\contentsline {a@table}{\numberline {4.5.}{\ignorespaces \centering }}{38}{}%
+\contentsline {a@table}{\numberline {4.6}{\ignorespaces So sánh hiệu năng với các giá trị $K_p$ khác nhau}}{38}{}%
+\contentsline {a@table}{\numberline {4.7.}{\ignorespaces \centering }}{40}{}%
+\contentsline {a@table}{\numberline {4.8}{\ignorespaces Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}}{40}{}%
+\contentsline {a@table}{\numberline {4.9.}{\ignorespaces \centering }}{42}{}%
+\contentsline {a@table}{\numberline {4.10}{\ignorespaces Tổng hợp hiệu năng bộ điều khiển PID}}{42}{}%
+\contentsline {a@table}{\numberline {4.11.}{\ignorespaces \centering }}{43}{}%
+\contentsline {a@table}{\numberline {4.12}{\ignorespaces So sánh hiệu năng Non-blocking và Blocking}}{43}{}%
+\contentsline {a@table}{\numberline {4.13.}{\ignorespaces \centering }}{43}{}%
+\contentsline {a@table}{\numberline {4.14}{\ignorespaces So sánh kết quả với mục tiêu đề ra}}{43}{}%
+\contentsline {a@table}{\numberline {5.1.}{\ignorespaces \centering }}{44}{}%
+\contentsline {a@table}{\numberline {5.2}{\ignorespaces Tổng hợp kết quả định lượng từ thực nghiệm}}{44}{}%

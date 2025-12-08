@@ -1768,7 +1768,7 @@ const float HYSTERESIS_GAP = 10.0;
 
 // --- CAU HINH PID ---
 double Kp = 40.0;
-double Ki = 0.05;
+double Ki = 0;
 double Kd = 0;
 double Setpoint = 0, Input, Output;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);

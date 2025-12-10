@@ -1220,9 +1220,8 @@ Hệ thống được triển khai và thử nghiệm trong điều kiện phòn
 
 Bảng \ref{tab:test_params} tổng hợp các tham số cấu hình được sử dụng trong toàn bộ quá trình thử nghiệm.
 
-\begin{table}[H]
+\begin{table}[H]{Tham số cấu hình hệ thống trong thử nghiệm}
 \centering
-\caption{Tham số cấu hình hệ thống trong thử nghiệm}
 \label{tab:test_params}
 \begin{tabular}{|l|c|l|}
 \hline
@@ -1259,9 +1258,8 @@ Trước khi tiến hành các thử nghiệm chính, cần đảm bảo hai c�
 
 Bảng \ref{tab:sensor_accuracy} trình bày kết quả kiểm tra độ chính xác cảm biến.
 
-\begin{table}[H]
+\begin{table}[H]{Kết quả kiểm tra độ chính xác cảm biến với vật chuẩn 210g}
 \centering
-\caption{Kết quả kiểm tra độ chính xác cảm biến với vật chuẩn 210g}
 \label{tab:sensor_accuracy}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1316,9 +1314,8 @@ Dữ liệu thu thập từ Serial Monitor:
 
 Bảng \ref{tab:kp_comparison} so sánh hiệu năng hệ thống với các giá trị $K_p$ khác nhau.
 
-\begin{table}[H]
+\begin{table}[H]{So sánh hiệu năng với các giá trị $K_p$ khác nhau}
 \centering
-\caption{So sánh hiệu năng với các giá trị $K_p$ khác nhau}
 \label{tab:kp_comparison}
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -1337,7 +1334,7 @@ Overshoot & Không & Không & Không \\
 
 Hình \ref{fig:kp_settling_time} minh họa mối quan hệ giữa giá trị $K_p$ và thời gian xác lập.
 
-\begin{figure}[H]
+\begin{figure}[H]{So sánh thời gian xác lập với các giá trị $K_p$ khác nhau}
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -1357,7 +1354,6 @@ Hình \ref{fig:kp_settling_time} minh họa mối quan hệ giữa giá trị $K
 \addplot[fill=blue!60] coordinates {(Kp=20, 25) (Kp=30, 21) (Kp=40, 16)};
 \end{axis}
 \end{tikzpicture}
-\caption{So sánh thời gian xác lập với các giá trị $K_p$ khác nhau}
 \label{fig:kp_settling_time}
 \end{figure}
 
@@ -1365,7 +1361,7 @@ Hình \ref{fig:kp_settling_time} minh họa mối quan hệ giữa giá trị $K
 
 Hình \ref{fig:response_curves} minh họa đường cong đáp ứng của hệ thống với ba giá trị $K_p$.
 
-\begin{figure}[H]
+\begin{figure}[H]{Đường cong đáp ứng -- Diễn biến độ lệch theo thời gian với các giá trị $K_p$}
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -1404,7 +1400,6 @@ Hình \ref{fig:response_curves} minh họa đường cong đáp ứng của hệ
 \legend{$K_p = 20$, $K_p = 30$, $K_p = 40$}
 \end{axis}
 \end{tikzpicture}
-\caption{Đường cong đáp ứng -- Diễn biến độ lệch theo thời gian với các giá trị $K_p$}
 \label{fig:response_curves}
 \end{figure}
 
@@ -1418,9 +1413,8 @@ Thử nghiệm này đánh giá khả năng đáp ứng của hệ thống với
 
 Bảng \ref{tab:comprehensive_test} trình bày timeline của thử nghiệm tổng hợp.
 
-\begin{table}[H]
+\begin{table}[H]{Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}
 \centering
-\caption{Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}
 \label{tab:comprehensive_test}
 \begin{tabular}{|c|l|c|c|}
 \hline
@@ -1441,7 +1435,7 @@ khoảng 13:41:05 & Nhấc 80g khỏi TRÁI & --110 $\rightarrow$ --80 & [RUN]$\
 
 Hình \ref{fig:comprehensive_timeline} minh họa diễn biến độ lệch và trạng thái hệ thống trong thử nghiệm tổng hợp.
 
-\begin{figure}[H]
+\begin{figure}[H]{Diễn biến độ lệch trong thử nghiệm tổng hợp}
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -1481,7 +1475,6 @@ Hình \ref{fig:comprehensive_timeline} minh họa diễn biến độ lệch và
 \legend{Độ lệch, Ngưỡng bật ($\pm$110g)}
 \end{axis}
 \end{tikzpicture}
-\caption{Diễn biến độ lệch trong thử nghiệm tổng hợp}
 \label{fig:comprehensive_timeline}
 \end{figure}
 
@@ -1508,9 +1501,8 @@ Hình \ref{fig:comprehensive_timeline} minh họa diễn biến độ lệch và
 
 Với bộ tham số PID đã tinh chỉnh ($K_p = 40$, $K_i = 0$, $K_d = 0$), Bảng \ref{tab:pid_performance} tổng hợp các chỉ số hiệu năng.
 
-\begin{table}[H]
+\begin{table}[H]{Tổng hợp hiệu năng bộ điều khiển PID}
 \centering
-\caption{Tổng hợp hiệu năng bộ điều khiển PID}
 \label{tab:pid_performance}
 \begin{tabular}{|l|c|}
 \hline
@@ -1536,7 +1528,7 @@ Thời gian phát hiện thay đổi tải & $<$ 100 ms \\
 
 Hình \ref{fig:hysteresis_diagram} minh họa cơ chế Hysteresis trong hệ thống.
 
-\begin{figure}[H]
+\begin{figure}[H]{Sơ đồ cơ chế Hysteresis với ngưỡng bật $\pm$110g và ngưỡng tắt $\pm$90g}
 \centering
 \begin{tikzpicture}[scale=0.9]
 % Trục
@@ -1571,7 +1563,6 @@ Hình \ref{fig:hysteresis_diagram} minh họa cơ chế Hysteresis trong hệ th
 \draw[->, thick, blue] (-3.8,2.2) -- (-3.4,2.2) node[midway, above, font=\tiny] {Tắt};
 
 \end{tikzpicture}
-\caption{Sơ đồ cơ chế Hysteresis với ngưỡng bật $\pm$110g và ngưỡng tắt $\pm$90g}
 \label{fig:hysteresis_diagram}
 \end{figure}
 
@@ -1587,9 +1578,8 @@ Hình \ref{fig:hysteresis_diagram} minh họa cơ chế Hysteresis trong hệ th
 
 Bảng \ref{tab:blocking_comparison} so sánh hiệu năng giữa thiết kế Non-blocking và Blocking.
 
-\begin{table}[H]
+\begin{table}[H]{So sánh hiệu năng Non-blocking và Blocking}
 \centering
-\caption{So sánh hiệu năng Non-blocking và Blocking}
 \label{tab:blocking_comparison}
 \begin{tabular}{|l|c|c|}
 \hline
@@ -1610,9 +1600,8 @@ Thời gian đọc Loadcell & Song song & Tuần tự (25ms block) \\
 
 Bảng \ref{tab:goal_comparison} so sánh kết quả thực nghiệm với các mục tiêu đề ra ban đầu.
 
-\begin{table}[H]
+\begin{table}[H]{So sánh kết quả với mục tiêu đề ra}
 \centering
-\caption{So sánh kết quả với mục tiêu đề ra}
 \label{tab:goal_comparison}
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -1656,9 +1645,8 @@ Khóa luận đã hoàn thành việc nghiên cứu, thiết kế và xây dựn
 
 Bảng \ref{tab:practical_results} tổng hợp các kết quả định lượng từ thực nghiệm.
 
-\begin{table}[H]
+\begin{table}[H]{Tổng hợp kết quả định lượng từ thực nghiệm}
 \centering
-\caption{Tổng hợp kết quả định lượng từ thực nghiệm}
 \label{tab:practical_results}
 \begin{tabular}{|l|c|}
 \hline

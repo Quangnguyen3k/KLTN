@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  9 DEC 2025 03:01
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  10 DEC 2025 19:57
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/DATN/KLTN/uet-graduation-latex-main/main
@@ -1560,39 +1560,39 @@ Package luatex.def Info: hinh/luu-do-pid.png  used on input line 1144.
 
 ]
 LaTeX Font Info:    Calculating math sizes for size <18.20004> on input line 12
-78.
+76.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1278.
+(Font)              size <17.28> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1278.
+(Font)              size <12> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1278.
+(Font)              size <17.28> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1278.
+(Font)              size <12> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1278.
+(Font)              size <17.28> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1278.
+(Font)              size <12> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1278.
+(Font)              size <17.28> substituted on input line 1276.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1278.
+(Font)              size <12> substituted on input line 1276.
 
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
@@ -1601,40 +1601,41 @@ Package mathfont Info: Adjusting font Times New Roman-6.
 Package mathfont Info: Adjusting font Times New Roman-6.
 Package mathfont Info: Adjusting font Times New Roman-6.
 LaTeX Font Info:    Calculating math sizes for size <15.60004> on input line 12
-82.
+80.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1282.
+(Font)              size <14.4> substituted on input line 1280.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1282.
+(Font)              size <14.4> substituted on input line 1280.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1282.
+(Font)              size <14.4> substituted on input line 1280.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1282.
+(Font)              size <14.4> substituted on input line 1280.
 
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman-6.
 Package mathfont Info: Adjusting font Times New Roman-6.
-Package mathfont Info: Adjusting font Times New Roman-6. [37]
+Package mathfont Info: Adjusting font Times New Roman-6.
 Missing character: There is no ệ (U+1EC7) in font cmmi12!
-Package pgfplots info on input line 1356: Using 'lua backend=false' for axis: x
+[37]
+Package pgfplots info on input line 1353: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
-[38] [39]
-Overfull \hbox (21.5013pt too wide) in paragraph at lines 1425--1438
-[][] 
+ [38] [39]
+Overfull \hbox (21.5013pt too wide) in paragraph at lines 1419--1432
+ [][] 
  []
 
 
-Overfull \hbox (4.71432pt too wide) in paragraph at lines 1483--1484
-[][] 
+Overfull \hbox (4.71432pt too wide) in paragraph at lines 1477--1479
+ [][] 
  []
 
 [40]
@@ -1643,19 +1644,19 @@ Missing character: There is no ệ (U+1EC7) in font cmmi12!
 [41] [42] [43] [44
 
 ] [45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1783--1787
+Underfull \hbox (badness 10000) in paragraph at lines 1771--1775
 []\TU/TimesNewRoman(0)/m/n/13.00003 M. McCauley, ``AccelStepper: Arduino library
  for stepper motors with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1783--1787
+Underfull \hbox (badness 10000) in paragraph at lines 1771--1775
 \TU/TimesNewRoman(0)/m/n/13.00003 acceleration/deceleration'', AirSpayce Documen
 tation, 2023. Truy cập:
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 1796--1799
+Underfull \hbox (badness 1028) in paragraph at lines 1784--1787
 []\TU/TimesNewRoman(0)/m/n/13.00003 Avia Semiconductor, ``HX711: 24-Bit Analog-t
 o-Digital Converter (ADC) for
  []
@@ -1677,16 +1678,16 @@ LaTeX Font Warning: Size substitutions with differences
 )
 
 Here is how much of LuaTeX's memory you used:
- 33919 strings out of 476497
- 477761,1977958 words of node,token memory allocated
+ 33917 strings out of 476497
+ 477755,1977958 words of node,token memory allocated
  655 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 48 attribute, 52 glue_spec
 , 48 attribute_list, 2 write nodes
-   avail lists: 2:5745,3:1684,4:8402,5:7711,6:143,7:14436,8:45,9:23295,10:33,11:
-1191
- 55205 multiletter control sequences out of 65536+600000
- 143 fonts using 65367023 bytes
- 99i,19n,116p,1019b,2328s stack positions out of 10000i,1000n,20000p,200000b,200000s
+   avail lists: 1:1,2:5745,3:1686,4:8402,5:7711,6:143,7:14436,8:44,9:23295,10:33
+,11:1191
+ 55203 multiletter control sequences out of 65536+600000
+ 143 fonts using 65367935 bytes
+ 99i,19n,116p,1019b,2332s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmon
 o10-regular.otf><//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype
 /public/lm/lmmonolt10-bold.otf><//?/c:/users/admin/appdata/local/programs/miktex
@@ -1700,7 +1701,7 @@ pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr9.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (64 pages, 885820 bytes).
+Output written on main.pdf (64 pages, 885318 bytes).
 
 PDF statistics: 297 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)

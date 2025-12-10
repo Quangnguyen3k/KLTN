@@ -95,10 +95,10 @@
 \contentsline {subsection}{\numberline {4.4.3.}{Phân tích kết quả}}{41}{}%
 \contentsline {section}{\numberline {4.5.}{Phân tích hiệu năng hệ thống}}{41}{}%
 \contentsline {subsection}{\numberline {4.5.1.}{Hiệu năng bộ điều khiển PID}}{41}{}%
-\contentsline {subsection}{\numberline {4.5.2.}{Hiệu quả cơ chế Deadzone và Hysteresis}}{42}{}%
+\contentsline {subsection}{\numberline {4.5.2.}{Hiệu quả cơ chế Deadzone và Hysteresis}}{41}{}%
 \contentsline {subsection}{\numberline {4.5.3.}{Hiệu quả thiết kế Non-blocking}}{42}{}%
-\contentsline {section}{\numberline {4.6.}{Đánh giá tổng thể}}{43}{}%
-\contentsline {subsection}{\numberline {4.6.1.}{So sánh với mục tiêu đề ra}}{43}{}%
+\contentsline {section}{\numberline {4.6.}{Đánh giá tổng thể}}{42}{}%
+\contentsline {subsection}{\numberline {4.6.1.}{So sánh với mục tiêu đề ra}}{42}{}%
 \contentsline {chapter}{\numberline {Chương\ 5.}{Kết luận và hướng phát triển}}{44}{}%
 \contentsline {section}{\numberline {5.1.}{Kết luận}}{44}{}%
 \contentsline {subsection}{\numberline {5.1.1.}{Về mặt lý thuyết}}{44}{}%

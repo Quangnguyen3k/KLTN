@@ -44,26 +44,22 @@
 \makecovers
 
 %======================================================================
-% LỜI CAM ĐOAN
+% TÓM TẮT
 %======================================================================
-\begin{preamble}{Lời cam đoan}
-Tôi xin cam đoan đây là công trình nghiên cứu của riêng tôi dưới sự hướng dẫn của ThS. Đặng Anh Việt. Các số liệu, kết quả nêu trong khóa luận là trung thực và chưa từng được ai công bố trong bất kỳ công trình nào khác.
+\begin{preamble}{TÓM TẮT}
+\textbf{Tóm tắt:} Khóa luận trình bày quá trình nghiên cứu, thiết kế và chế tạo khung đế robot di động có khả năng tự động cân bằng trọng tâm. Hệ thống sử dụng cảm biến lực (Loadcell) kết hợp với module HX711 để đo chênh lệch trọng lượng giữa hai bên khung. Thuật toán điều khiển PID được áp dụng để điều khiển động cơ bước di chuyển khối đối trọng trên cơ cấu vitme, từ đó bù đắp sự mất cân bằng khi tải thay đổi.
 
-Tôi xin cam đoan rằng mọi sự giúp đỡ cho việc thực hiện khóa luận này đã được cảm ơn và các thông tin trích dẫn trong khóa luận đã được chỉ rõ nguồn gốc.
+Kết quả thực nghiệm cho thấy hệ thống có khả năng phát hiện và bù đắp độ lệch trọng tâm trong phạm vi $\pm$100g với thời gian đáp ứng nhanh. Chương trình điều khiển được viết theo kiến trúc Non-blocking, đảm bảo động cơ bước hoạt động mượt mà ở tốc độ cao mà không bị ảnh hưởng bởi các tác vụ đọc cảm biến hay giao tiếp Serial.
 
-\vspace{2cm}
-\hfill Hà Nội, ngày \hspace{1cm} tháng \hspace{1cm} năm 2025
+Khóa luận cũng đề xuất các hướng phát triển mở rộng như điều khiển vị trí, tốc độ chuyển dịch và tích hợp vào robot di động thực tế.
 
-\hfill \textbf{Sinh viên thực hiện}
-
-\vspace{1.5cm}
-\hfill \textbf{Nguyễn Vũ Quang}
+\textit{\textbf{Từ khóa:} Cân bằng trọng tâm, Loadcell, PID, Động cơ bước, Arduino, Non-blocking, Robot di động.}
 \end{preamble}
 
 %======================================================================
 % LỜI CẢM ƠN
 %======================================================================
-\begin{preamble}{Lời cảm ơn}
+\begin{preamble}{LỜI CẢM ƠN}
 Để hoàn thành khóa luận tốt nghiệp này, tôi đã nhận được rất nhiều sự giúp đỡ và hỗ trợ từ thầy cô, gia đình và bạn bè.
 
 Trước hết, tôi xin gửi lời cảm ơn chân thành và sâu sắc nhất đến ThS. Đặng Anh Việt -- người đã trực tiếp hướng dẫn, chỉ bảo tận tình và tạo mọi điều kiện thuận lợi cho tôi trong suốt quá trình thực hiện khóa luận.
@@ -82,16 +78,20 @@ Cuối cùng, tôi xin gửi lời cảm ơn đến gia đình, bạn bè đã l
 \end{preamble}
 
 %======================================================================
-% TÓM TẮT
+% LỜI CAM ĐOAN
 %======================================================================
-\begin{preamble}{Tóm tắt}
-\textbf{Tóm tắt:} Khóa luận trình bày quá trình nghiên cứu, thiết kế và chế tạo khung đế robot di động có khả năng tự động cân bằng trọng tâm. Hệ thống sử dụng cảm biến lực (Loadcell) kết hợp với module HX711 để đo chênh lệch trọng lượng giữa hai bên khung. Thuật toán điều khiển PID được áp dụng để điều khiển động cơ bước di chuyển khối đối trọng trên cơ cấu vitme, từ đó bù đắp sự mất cân bằng khi tải thay đổi.
+\begin{preamble}{LỜI CAM ĐOAN}
+Tôi xin cam đoan đây là công trình nghiên cứu của riêng tôi dưới sự hướng dẫn của ThS. Đặng Anh Việt. Các số liệu, kết quả nêu trong khóa luận là trung thực và chưa từng được ai công bố trong bất kỳ công trình nào khác.
 
-Kết quả thực nghiệm cho thấy hệ thống có khả năng phát hiện và bù đắp độ lệch trọng tâm trong phạm vi $\pm$100g với thời gian đáp ứng nhanh. Chương trình điều khiển được viết theo kiến trúc Non-blocking, đảm bảo động cơ bước hoạt động mượt mà ở tốc độ cao mà không bị ảnh hưởng bởi các tác vụ đọc cảm biến hay giao tiếp Serial.
+Tôi xin cam đoan rằng mọi sự giúp đỡ cho việc thực hiện khóa luận này đã được cảm ơn và các thông tin trích dẫn trong khóa luận đã được chỉ rõ nguồn gốc.
 
-Khóa luận cũng đề xuất các hướng phát triển mở rộng như điều khiển vị trí, tốc độ chuyển dịch và tích hợp vào robot di động thực tế.
+\vspace{2cm}
+\hfill Hà Nội, ngày \hspace{1cm} tháng \hspace{1cm} năm 2025
 
-\textit{\textbf{Từ khóa:} Cân bằng trọng tâm, Loadcell, PID, Động cơ bước, Arduino, Non-blocking, Robot di động.}
+\hfill \textbf{Sinh viên thực hiện}
+
+\vspace{1.5cm}
+\hfill \textbf{Nguyễn Vũ Quang}
 \end{preamble}
 
 %======================================================================
@@ -125,6 +125,16 @@ Khóa luận cũng đề xuất các hướng phát triển mở rộng như đi
 
 \end{contentlisting}
 
+\begin{preamble}{MỞ ĐẦU}
+Trong bối cảnh cuộc Cách mạng Công nghiệp 4.0, robot di động và các xe tự hành đang ngày càng đóng vai trò quan trọng trong các lĩnh vực từ logistics, vận chuyển hàng hóa trong nhà máy đến các ứng dụng quân sự và y tế. Một trong những thách thức kỹ thuật lớn nhất đối với các hệ thống này là khả năng duy trì sự ổn định khi vận hành, đặc biệt là khi phải mang vác các tải trọng có khối lượng và kích thước thay đổi liên tục, hoặc khi di chuyển trên các địa hình không bằng phẳng.
+
+Việc trọng tâm của robot bị lệch khỏi trục đối xứng do phân bố tải trọng không đều sẽ dẫn đến nhiều hệ quả nghiêm trọng: gây mòn cơ khí không đều, làm giảm hiệu suất của động cơ truyền động, gây trượt bánh xe, sai lệch quỹ đạo di chuyển và trong trường hợp xấu nhất là gây lật robot, hư hỏng hàng hóa.
+
+Tuy nhiên, các giải pháp cân bằng truyền thống hiện nay chủ yếu dựa vào thiết kế cơ khí tĩnh (như mở rộng chân đế, hạ thấp trọng tâm cố định) hoặc sử dụng hệ thống treo thụ động. Các phương pháp này bộc lộ nhược điểm lớn là thiếu tính linh hoạt, không thể thích nghi khi robot phải vận chuyển các loại hàng hóa có khối lượng và kích thước đa dạng. Do đó, việc nghiên cứu và phát triển hệ thống "Cân bằng chủ động" với khả năng tự động thu thập dữ liệu độ lệch và điều khiển cơ cấu chấp hành để tái lập trạng thái cân bằng trong thời gian thực là một yêu cầu cấp thiết, mang tính quyết định đến độ an toàn và hiệu quả vận hành của robot.
+
+Xuất phát từ nhu cầu thực tiễn và tính ứng dụng cao của vấn đề, đề tài \textit{``Xây dựng khung đế robot có khả năng cân bằng trọng tâm''} được lựa chọn làm khóa luận tốt nghiệp. Đề tài hướng đến việc nghiên cứu, thiết kế và chế tạo một khung đế có khả năng tự động phát hiện và bù đắp độ lệch trọng tâm, tạo nền tảng cho việc phát triển các robot di động ổn định hơn trong tương lai.
+\end{preamble}
+
 %======================================================================
 % CHƯƠNG 1: TỔNG QUAN
 %======================================================================
@@ -146,8 +156,6 @@ Một thách thức kỹ thuật quan trọng trong thiết kế robot di độn
 Giải pháp truyền thống cho vấn đề này thường là thiết kế đế robot với trọng tâm thấp và phân bố tải đối xứng. Tuy nhiên, cách tiếp cận này không linh hoạt khi tải trọng thay đổi trong quá trình vận hành. Một giải pháp tiên tiến hơn là sử dụng \textbf{hệ thống cân bằng trọng tâm chủ động} (Active Center of Gravity Balancing System), trong đó một cơ cấu chấp hành sẽ tự động di chuyển khối đối trọng để bù đắp sự thay đổi trọng tâm.
 
 Hệ thống cân bằng trọng tâm chủ động đòi hỏi sự kết hợp của nhiều thành phần: cảm biến đo lường độ lệch, cơ cấu chấp hành di chuyển đối trọng, và thuật toán điều khiển để xác định vị trí đối trọng tối ưu. Đây là một bài toán điều khiển vòng kín điển hình, phù hợp để áp dụng các kiến thức về \textbf{lý thuyết điều khiển tự động}, \textbf{cảm biến và đo lường}, cũng như \textbf{hệ thống nhúng thời gian thực}.
-
-Xuất phát từ nhu cầu thực tiễn và tính ứng dụng cao của vấn đề, đề tài \textit{``Xây dựng khung đế robot có khả năng cân bằng trọng tâm''} được lựa chọn làm khóa luận tốt nghiệp. Đề tài hướng đến việc nghiên cứu, thiết kế và chế tạo một khung đế có khả năng tự động phát hiện và bù đắp độ lệch trọng tâm, tạo nền tảng cho việc phát triển các robot di động ổn định hơn trong tương lai.
 
 \section{Mục tiêu nghiên cứu}
 

@@ -1,6 +1,5 @@
 \contentsline {a@table}{\numberline {2.1.}{\ignorespaces So sánh các phương pháp cân bằng robot}}{8}{}%
-\contentsline {a@table}{\numberline {2.2.}{\ignorespaces \centering }}{11}{}%
-\contentsline {a@table}{\numberline {2.3}{\ignorespaces Khả năng cân bằng theo khối lượng đối trọng}}{11}{}%
+\contentsline {a@table}{\numberline {2.2.}{\ignorespaces Khả năng cân bằng theo khối lượng đối trọng}}{11}{}%
 \contentsline {a@table}{\numberline {3.1.}{\ignorespaces Thông số khung nhôm định hình}}{25}{}%
 \contentsline {a@table}{\numberline {3.2.}{\ignorespaces Thông số vitme}}{25}{}%
 \contentsline {a@table}{\numberline {3.3.}{\ignorespaces Danh sách linh kiện điện tử}}{27}{}%
@@ -9,9 +8,9 @@
 \contentsline {a@table}{\numberline {3.6.}{\ignorespaces Bảng tổng hợp các tham số cấu hình phần mềm}}{34}{}%
 \contentsline {a@table}{\numberline {4.1.}{\ignorespaces Tham số cấu hình hệ thống trong thử nghiệm}}{37}{}%
 \contentsline {a@table}{\numberline {4.2.}{\ignorespaces Kết quả kiểm tra độ chính xác cảm biến với vật chuẩn 210g}}{39}{}%
-\contentsline {a@table}{\numberline {4.3.}{\ignorespaces So sánh hiệu năng với các giá trị $K_p$ khác nhau}}{43}{}%
-\contentsline {a@table}{\numberline {4.4.}{\ignorespaces Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}}{45}{}%
-\contentsline {a@table}{\numberline {4.5.}{\ignorespaces Tổng hợp hiệu năng bộ điều khiển PID}}{47}{}%
-\contentsline {a@table}{\numberline {4.6.}{\ignorespaces So sánh hiệu năng Non-blocking và Blocking}}{48}{}%
-\contentsline {a@table}{\numberline {4.7.}{\ignorespaces So sánh kết quả với mục tiêu đề ra}}{48}{}%
-\contentsline {a@table}{\numberline {5.1.}{\ignorespaces Tổng hợp kết quả định lượng từ thực nghiệm}}{49}{}%
+\contentsline {a@table}{\numberline {4.3.}{\ignorespaces So sánh hiệu năng với các giá trị $K_p$ khác nhau}}{41}{}%
+\contentsline {a@table}{\numberline {4.4.}{\ignorespaces Timeline thử nghiệm tổng hợp với nhiều kịch bản tải}}{44}{}%
+\contentsline {a@table}{\numberline {4.5.}{\ignorespaces Tổng hợp hiệu năng bộ điều khiển PID}}{45}{}%
+\contentsline {a@table}{\numberline {4.6.}{\ignorespaces So sánh hiệu năng Non-blocking và Blocking}}{46}{}%
+\contentsline {a@table}{\numberline {4.7.}{\ignorespaces So sánh kết quả với mục tiêu đề ra}}{47}{}%
+\contentsline {a@table}{\numberline {5.1.}{\ignorespaces Tổng hợp kết quả định lượng từ thực nghiệm}}{48}{}%

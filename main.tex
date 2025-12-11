@@ -1211,6 +1211,11 @@ Trong dự án này, hệ số hiệu chuẩn đã xác định là CALIB\_LEFT 
 
 Chương này trình bày chi tiết các kết quả thực nghiệm thu được từ hệ thống khung cân bằng trọng tâm. Dữ liệu được thu thập trực tiếp từ Serial Monitor trong quá trình vận hành thực tế, bao gồm: kiểm tra độ chính xác cảm biến, so sánh hiệu năng với các giá trị $K_p$ khác nhau, và thử nghiệm tổng hợp với nhiều kịch bản tải trọng.
 
+\begin{figure}[H]{Mô hình hệ thống khung đế cân bằng trọng tâm}
+\centering
+\includegraphics[width=\textwidth]{hinh/sp.jpg}
+\end{figure}
+
 \section{Triển khai hệ thống}
 
 \subsection{Môi trường thử nghiệm}
@@ -1262,6 +1267,16 @@ Trước khi tiến hành các thử nghiệm chính, cần đảm bảo hai c�
     \item \textbf{Tiêu chí đánh giá}: Sai số $<$ 5\%, không có hiện tượng crosstalk (đọc chéo)
 \end{itemize}
 
+\begin{figure}[H]{Kiểm tra cụm loadcell bên TRÁI}
+\centering
+\includegraphics[width=0.9\textwidth]{hinh/trai.jpg}
+\end{figure}
+
+\begin{figure}[H]{Kiểm tra cụm loadcell bên PHẢI}
+\centering
+\includegraphics[width=\textwidth]{hinh/phai.jpg}
+\end{figure}
+
 \subsection{Kết quả đo}
 
 Bảng \ref{tab:sensor_accuracy} trình bày kết quả kiểm tra độ chính xác cảm biến.
@@ -1284,6 +1299,11 @@ Bên PHẢI & 0 & 210 & 0\% & \textbf{Đạt} \\
 \section{Thử nghiệm so sánh các giá trị hệ số $K_p$}
 
 Mục đích của thử nghiệm này là xác định giá trị $K_p$ tối ưu cho bộ điều khiển PID. Ba giá trị $K_p$ được thử nghiệm là 20, 30 và 40, với cùng điều kiện: đặt vật nặng khoảng 200g lên bên TRÁI, theo dõi quá trình cân bằng từ khi bắt đầu cho đến khi đạt trạng thái [OK].
+
+\begin{figure}[H]{Thực nghiệm cân bằng với vật nặng bên TRÁI}
+\centering
+\includegraphics[width=\textwidth]{hinh/canbang.jpg}
+\end{figure}
 
 \subsection{Kết quả chi tiết từng giá trị $K_p$}
 
@@ -1417,6 +1437,10 @@ Hình \ref{fig:response_curves} minh họa đường cong đáp ứng của hệ
 
 Thử nghiệm này đánh giá khả năng đáp ứng của hệ thống với nhiều thay đổi tải liên tiếp, mô phỏng điều kiện vận hành thực tế của robot khi gắp/thả vật. Sử dụng $K_p = 40$ (giá trị tối ưu từ thử nghiệm trước).
 
+\begin{figure}[H]{Mô hình thử nghiệm tổng hợp với nhiều kịch bản tải}
+\centering
+\includegraphics[width=\textwidth]{hinh/canbang2.jpg}
+\end{figure}
 \subsection{Kịch bản thử nghiệm}
 
 Bảng \ref{tab:comprehensive_test} trình bày timeline của thử nghiệm tổng hợp.
@@ -1851,25 +1875,25 @@ const int DIR_PIN = 9;
 const int HOME_SWITCH_PIN = 10; 
 
 
-const int MICROSTEP = 16;       // Driver cài đặt 1/16
-const int MOTOR_STEP = 200;     // Động cơ 1.8 độ
-const int PITCH = 2;            // Bước ren vitme 2mm
+const int MICROSTEP = 16;    
+const int MOTOR_STEP = 200;     
+const int PITCH = 2;           
 
 const float STEPS_PER_MM = (float)(MOTOR_STEP * MICROSTEP) / PITCH; 
 
 
-const long MAX_POS_RIGHT = 110.0 * STEPS_PER_MM; // Giới hạn Phải (+110mm)
-const long MAX_POS_LEFT = -120.0 * STEPS_PER_MM; // Giới hạn Trái (-120mm)
+const long MAX_POS_RIGHT = 110.0 * STEPS_PER_MM; 
+const long MAX_POS_LEFT = -120.0 * STEPS_PER_MM; 
 
 
-const float MAX_SPEED_PID = 8000.0;    // Tốc độ tối đa khi cân bằng
-const float MOTOR_ACCEL = 16000.0;      // Gia tốc 
+const float MAX_SPEED_PID = 8000.0; 
+const float MOTOR_ACCEL = 16000.0;    
 const float HOMING_SPEED_FAST = 8000.0;
 const float HOMING_SPEED_SLOW = 6000.0;
 
 
-const float MIN_SPEED_THRESHOLD = 4000.0; // Tốc độ tối thiểu hiệu quả
-const float HYSTERESIS_GAP      = 10.0;  // Khoảng trễ 10g
+const float MIN_SPEED_THRESHOLD = 4000.0;
+const float HYSTERESIS_GAP      = 10.0;  
 
 double Kp = 40.0; 
 double Ki = 0; 
@@ -1880,8 +1904,8 @@ PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 float CALIB_LEFT = -53.13;   
 float CALIB_RIGHT = -55.36; 
 
-const float ACCEPTABLE_RANGE = 100.0; // Vùng chết +/- 100g 
-const float STEP_SIZE = 10.0;        // Độ chia nhỏ nhất: 10g 
+const float ACCEPTABLE_RANGE = 100.0; 
+const float STEP_SIZE = 10.0;       
 
 
 HX711_ADC LoadCellLeft(DOUT_PIN_LEFT, SCK_PIN_LEFT);
@@ -1892,10 +1916,10 @@ unsigned long t_pid = 0;
 unsigned long t_print = 0;
 long currentPos; 
 
-float fL = 0;           // Lực bên Trái (Đã làm tròn)
-float fR = 0;           // Lực bên Phải (Đã làm tròn)
+float fL = 0;          
+float fR = 0;          
 float targetSpeed = 0;
-float currentSpeed = 0; // Tốc độ hiện tại
+float currentSpeed = 0;
 boolean isBalancing = false; 
 
 float rawL, rawR, startThreshold, stopThreshold, rawSpeed;
@@ -1910,14 +1934,14 @@ void setup() {
   // 1. Khởi tạo Loadcell
   LoadCellLeft.begin(); LoadCellRight.begin();
   unsigned long stabilizingtime = 1000; 
-  boolean _tare = true; // Bắt buộc trừ bì về 0 khi khởi động
+  boolean _tare = true; 
   
   LoadCellLeft.start(stabilizingtime, _tare);
   LoadCellRight.start(stabilizingtime, _tare);
   
   if (LoadCellLeft.getTareTimeoutFlag() || LoadCellRight.getTareTimeoutFlag()) {
     Serial.println("LOI: Khong tim thay Loadcell! Kiem tra day ket noi.");
-    while(1); // Dừng hệ thống nếu lỗi
+    while(1);
   }
 
   LoadCellLeft.setCalFactor(CALIB_LEFT);
@@ -1986,7 +2010,7 @@ void loop() {
        targetSpeed = 0; 
     }
     
-    // d. Giới hạn hành trình
+
     currentPos = stepper.currentPosition();
     if (currentPos <= MAX_POS_LEFT && targetSpeed < 0) targetSpeed = 0;
     if (currentPos >= MAX_POS_RIGHT && targetSpeed > 0) targetSpeed = 0;

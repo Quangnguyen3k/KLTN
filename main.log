@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  10 DEC 2025 21:56
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.11.28)  11 DEC 2025 10:26
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/DATN/KLTN/uet-graduation-latex-main/main
@@ -1557,117 +1557,148 @@ File: hinh/luu-do-pid.png Graphic file (type png)
 Package luatex.def Info: hinh/luu-do-pid.png  used on input line 1152.
 (luatex.def)             Requested size: 341.43307pt x 605.4851pt.
  [32] [33<./hinh/luu-do-pid.png>] [34]
-[35] [36
+[35]
+<hinh/sp.jpg, id=173, 2569.6pt x 1927.2pt>
+File: hinh/sp.jpg Graphic file (type jpg)
+<use hinh/sp.jpg>
+Package luatex.def Info: hinh/sp.jpg  used on input line 1216.
+(luatex.def)             Requested size: 455.24411pt x 341.41139pt.
+ [36
 
-]
+<./hinh/sp.jpg>] [37]
+<hinh/trai.jpg, id=180, 1445.4pt x 1927.2pt>
+File: hinh/trai.jpg Graphic file (type jpg)
+<use hinh/trai.jpg>
+Package luatex.def Info: hinh/trai.jpg  used on input line 1272.
+(luatex.def)             Requested size: 409.71692pt x 546.28764pt.
+<hinh/phai.jpg, id=181, 2569.6pt x 1927.2pt>
+File: hinh/phai.jpg Graphic file (type jpg)
+<use hinh/phai.jpg>
+Package luatex.def Info: hinh/phai.jpg  used on input line 1277.
+(luatex.def)             Requested size: 455.24411pt x 341.41139pt.
+ [38<./hinh/trai.jpg>]
 LaTeX Font Info:    Calculating math sizes for size <18.20004> on input line 12
-84.
+99.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1284.
+(Font)              size <17.28> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1284.
+(Font)              size <12> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1284.
+(Font)              size <17.28> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1284.
+(Font)              size <12> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1284.
+(Font)              size <17.28> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1284.
+(Font)              size <12> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <18.20004> not available
-(Font)              size <17.28> substituted on input line 1284.
+(Font)              size <17.28> substituted on input line 1299.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <12.73996> not available
-(Font)              size <12> substituted on input line 1284.
+(Font)              size <12> substituted on input line 1299.
 
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman-6.
 Package mathfont Info: Adjusting font Times New Roman-6.
-Package mathfont Info: Adjusting font Times New Roman-6.
-LaTeX Font Info:    Calculating math sizes for size <15.60004> on input line 12
-88.
+Package mathfont Info: Adjusting font Times New Roman-6. [39<./hinh/phai.jpg>]
+<hinh/canbang.jpg, id=189, 1927.2pt x 2569.6pt>
+File: hinh/canbang.jpg Graphic file (type jpg)
+<use hinh/canbang.jpg>
+Package luatex.def Info: hinh/canbang.jpg  used on input line 1305.
+(luatex.def)             Requested size: 455.24411pt x 606.99281pt.
+ [40]
+LaTeX Font Info:    Calculating math sizes for size <15.60004> on input line 13
+08.
+
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1288.
+(Font)              size <14.4> substituted on input line 1308.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1288.
+(Font)              size <14.4> substituted on input line 1308.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1288.
+(Font)              size <14.4> substituted on input line 1308.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <15.60004> not available
-(Font)              size <14.4> substituted on input line 1288.
+(Font)              size <14.4> substituted on input line 1308.
 
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman Italic-5.
 Package mathfont Info: Adjusting font Times New Roman-6.
 Package mathfont Info: Adjusting font Times New Roman-6.
-Package mathfont Info: Adjusting font Times New Roman-6.
+Package mathfont Info: Adjusting font Times New Roman-6. [41<./hinh/canbang.jpg>
+]
 Missing character: There is no ệ (U+1EC7) in font cmmi12!
-[37]
-Package pgfplots info on input line 1361: Using 'lua backend=false' for axis: x
+[42]
+Package pgfplots info on input line 1381: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
- [38] [39]
-Overfull \hbox (21.5013pt too wide) in paragraph at lines 1427--1440
+ [43]
+<hinh/canbang2.jpg, id=202, 2569.6pt x 1927.2pt>
+File: hinh/canbang2.jpg Graphic file (type jpg)
+<use hinh/canbang2.jpg>
+Package luatex.def Info: hinh/canbang2.jpg  used on input line 1442.
+(luatex.def)             Requested size: 455.24411pt x 341.41139pt.
+ [44]
+Overfull \hbox (21.5013pt too wide) in paragraph at lines 1451--1464
  [][] 
  []
 
 
-Overfull \hbox (4.71432pt too wide) in paragraph at lines 1485--1487
+Overfull \hbox (4.71432pt too wide) in paragraph at lines 1509--1511
  [][] 
  []
 
-[40]
+[45<./hinh/canbang2.jpg>]
 Missing character: There is no ệ (U+1EC7) in font cmmi12!
 Missing character: There is no ệ (U+1EC7) in font cmmi12!
-Package mathfont Info: Adjusting font Times New Roman Italic. [41] [42] [43] [4
-4
+Package mathfont Info: Adjusting font Times New Roman Italic. [46] [47] [48] [4
+9
 
-] [45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1779--1783
+] [50] [51]
+Underfull \hbox (badness 10000) in paragraph at lines 1803--1807
 []\TU/TimesNewRoman(0)/m/n/13.00003 M. McCauley, ``AccelStepper: Arduino library
  for stepper motors with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1779--1783
+Underfull \hbox (badness 10000) in paragraph at lines 1803--1807
 \TU/TimesNewRoman(0)/m/n/13.00003 acceleration/deceleration'', AirSpayce Documen
 tation, 2023. Truy cập:
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 1792--1795
+Underfull \hbox (badness 1028) in paragraph at lines 1816--1819
 []\TU/TimesNewRoman(0)/m/n/13.00003 Avia Semiconductor, ``HX711: 24-Bit Analog-t
 o-Digital Converter (ADC) for
  []
 
-[47
+[52
 
-] [48
+] [53
 
-] [49] [50] [51] [52] (./main.aux)
+] [54] [55] [56] [57] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -1680,15 +1711,15 @@ LaTeX Font Warning: Size substitutions with differences
 )
 
 Here is how much of LuaTeX's memory you used:
- 33917 strings out of 476497
- 477755,1977958 words of node,token memory allocated
+ 33967 strings out of 476497
+ 477761,1977958 words of node,token memory allocated
  655 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 48 attribute, 52 glue_spec
 , 48 attribute_list, 2 write nodes
-   avail lists: 1:1,2:5745,3:1686,4:8402,5:7711,6:143,7:14436,8:44,9:23295,10:33
-,11:1191
- 55203 multiletter control sequences out of 65536+600000
- 143 fonts using 65366719 bytes
+   avail lists: 2:5429,3:1343,4:7956,5:7309,6:144,7:13441,8:44,9:22089,10:30,11:
+1124
+ 55238 multiletter control sequences out of 65536+600000
+ 143 fonts using 65368543 bytes
  99i,19n,116p,1019b,2332s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmon
 o10-regular.otf><//?/c:/users/admin/appdata/local/programs/miktex/fonts/opentype
@@ -1703,9 +1734,9 @@ pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmr12.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr9.pfb><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (65 pages, 887582 bytes).
+Output written on main.pdf (70 pages, 3824541 bytes).
 
-PDF statistics: 300 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 320 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 100000000)
 
